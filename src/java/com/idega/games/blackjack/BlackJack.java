@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 
 import com.golden.gamedev.Game;
 import com.golden.gamedev.GameLoader;
@@ -38,6 +39,7 @@ public class BlackJack extends Game {
 	Timer moveTimer; // to set enemy behaviour
 	// for moving left to right, right to left
 	ProjectileEnemyCollision2 collision;
+	HashMap cardValues;
 	GameFont font;
 	
 	int nextCardCounter = 0;
@@ -75,10 +77,9 @@ public class BlackJack extends Game {
 		
 		PLAYER_CARDS = new SpriteGroup("Player");
 		playfield.addGroup(PLAYER_CARDS);
-		Sprite firstCard = new Sprite(getNextCard(), 100, 240);
-		PLAYER_CARDS.add(firstCard);
-		Sprite secondCard = new Sprite(getNextCard(), 180, 240);
-		PLAYER_CARDS.add(secondCard);
+
+		addCard(getNextCard());
+		addCard(getNextCard());
 		
 		
 		// ///// create the sprite group ///////
@@ -120,26 +121,61 @@ public class BlackJack extends Game {
 		if (nextCardCounter == cards.length) {
 			nextCardCounter = 0;
 		}
-		return cards[nextCardCounter++];
+		BufferedImage img =  cards[nextCardCounter++];
+		Integer value = (Integer) cardValues.get(img);
+		if (value == null) {
+			System.out.println("Card has no value");
+		} else {
+			System.out.println("Card value = "+value.toString());
+		}
+		return img;
 	}
 	/**
 	 * 
 	 */
 	protected void loadCardImages() {
-		cards = getImages("resources/cards/svg-cards-2.0-1024.png",13,5);
-		
+		cards = getImages("resources/cards/svg-cards-2.0-1024.png",13,5, 0, 51);
+		cardValues = new HashMap();
 		int counter = 0;
 		for (int i = 0; i < cards.length; i++) {
 			if(i>=0 && i<=12){
+				if (i == 0) {  // ACE
+					cardValues.put(cards[i], new Integer(-1));
+				} else if ( i>=9){ // TEN or more
+					cardValues.put(cards[i], new Integer(10));
+				} else {
+					cardValues.put(cards[i], new Integer(i+1));
+				}
 				leafs[counter] = cards[i];
 			}
-			else if(i>=13 && i<=26){
+			else if(i>=13 && i<=25){
+				if (i == 13) {  // ACE
+					cardValues.put(cards[i], new Integer(-1));
+				} else if ( i>=23){ // TEN or more
+					cardValues.put(cards[i], new Integer(10));
+				} else {
+					cardValues.put(cards[i], new Integer((i%13)+1));
+				}
 				diamonds[counter] = cards[i];
 			}
-			else if(i>=27 && i<=40){
+			else if(i>=26 && i<=38){
+				if (i == 26) {  // ACE
+					cardValues.put(cards[i], new Integer(-1));
+				} else if ( i>=35){ // TEN or more
+					cardValues.put(cards[i], new Integer(10));
+				} else {
+					cardValues.put(cards[i], new Integer((i%13)+1));
+				}
 				hearts[counter] = cards[i];
 			}
-			else if(i>=41 && i<=52){
+			else if(i>=39 && i<=51){
+				if (i == 39) {  // ACE
+					cardValues.put(cards[i], new Integer(-1));
+				} else if ( i>=48){ // TEN or more
+					cardValues.put(cards[i], new Integer(10));
+				} else {
+					cardValues.put(cards[i], new Integer((i%13)+1));
+				}
 				spades[counter] = cards[i];
 			}
 //			else{
@@ -150,6 +186,7 @@ public class BlackJack extends Game {
 			if(counter==13){
 				counter = 0;
 			}
+			
 		}
 		
 	}
@@ -234,12 +271,15 @@ public class BlackJack extends Game {
 		}
 		if (keyPressed(KeyEvent.VK_H)) {
 			// HIT
-			System.out.println("HIT ME");
-			int size = PLAYER_CARDS.getSize();
-			Sprite nextCard = new Sprite(getNextCard(), 100+(size*80), 240);
-			PLAYER_CARDS.add(nextCard);
+			addCard(getNextCard());
 		}
 //		background.setToCenter(plane);
+	}
+	
+	private void addCard(BufferedImage nextCard) {
+		int size = PLAYER_CARDS.getSize();
+		Sprite sNextCard = new Sprite(nextCard, 100+( ((size%5)) *80), 240);
+		PLAYER_CARDS.add(sNextCard);
 	}
 
 	public void render(Graphics2D g) {
