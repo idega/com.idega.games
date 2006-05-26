@@ -11,13 +11,11 @@ import java.util.HashMap;
 
 import com.golden.gamedev.Game;
 import com.golden.gamedev.GameLoader;
-import com.golden.gamedev.object.AnimatedSprite;
 import com.golden.gamedev.object.Background;
 import com.golden.gamedev.object.GameFont;
 import com.golden.gamedev.object.PlayField;
 import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.SpriteGroup;
-import com.golden.gamedev.object.Timer;
 import com.golden.gamedev.object.background.ImageBackground;
 import com.golden.gamedev.object.collision.BasicCollisionGroup;
 
@@ -35,12 +33,14 @@ public class BlackJack extends Game {
 //	SpriteGroup ENEMY_GROUP;
 	
 	SpriteGroup PLAYER_CARDS;
-	AnimatedSprite plane;
-	Timer moveTimer; // to set enemy behaviour
-	// for moving left to right, right to left
-	ProjectileEnemyCollision2 collision;
+//	AnimatedSprite plane;
+//	Timer moveTimer; // to set enemy behaviour
+//	// for moving left to right, right to left
+//	ProjectileEnemyCollision2 collision;
 	HashMap cardValues;
 	GameFont font;
+	boolean correctTotal = false;
+	int total;
 	
 	int nextCardCounter = 0;
 	
@@ -64,19 +64,22 @@ public class BlackJack extends Game {
 		playfield.setBackground(background);
 		// create our plane sprite
 //		loadModernCardImages();
+
+		PLAYER_CARDS = new SpriteGroup("Player");
+		playfield.addGroup(PLAYER_CARDS);
+
 		loadCardImages();
-		Collections.shuffle(Arrays.asList(cards));
+		newGame(true);
+//		Collections.shuffle(Arrays.asList(cards));
 		
-		plane = new AnimatedSprite(cards, getWidth()/2, getHeight()/2);
+//		plane = new AnimatedSprite(cards, getWidth()/2, getHeight()/2);
 //		plane.setSpeed(30, 0);
 //		plane.setSpeed(3,0);
-		plane.setAnimate(true);
-		plane.setLoopAnim(true);
+//		plane.setAnimate(true);
+//		plane.setLoopAnim(true);
 		
 //		playfield.add(plane);
 		
-		PLAYER_CARDS = new SpriteGroup("Player");
-		playfield.addGroup(PLAYER_CARDS);
 
 		addCard(getNextCard());
 		addCard(getNextCard());
@@ -107,10 +110,10 @@ public class BlackJack extends Game {
 //		}
 		// init the timer to control enemy sprite behaviour
 		// (moving left-to-right, right-to-left)
-		moveTimer = new Timer(2000); // every 2 secs the enemies reverse its
+//		moveTimer = new Timer(2000); // every 2 secs the enemies reverse its
 										// speed
 		// ///// register collision ///////
-		collision = new ProjectileEnemyCollision2(this);
+//		collision = new ProjectileEnemyCollision2(this);
 		// register collision to playfield
 //		playfield.addCollisionGroup(PROJECTILE_GROUP, ENEMY_GROUP, collision);
 		font = fontManager.getFont(getImages("resources/font.png", 20, 3), " !            .,0123"
@@ -236,7 +239,7 @@ public class BlackJack extends Game {
 		// playfield update all things and check for collision
 		playfield.update(elapsedTime);
 		// enemy sprite movement timer
-		if (moveTimer.action(elapsedTime)) {
+//		if (moveTimer.action(elapsedTime)) {
 			// reverse all enemies' speed
 //			System.out.println("Timer YEAH");
 //			Sprite[] sprites = ENEMY_GROUP.getSprites();
@@ -246,7 +249,7 @@ public class BlackJack extends Game {
 //				// reverse sprite velocity
 //				sprites[i].setHorizontalSpeed(-sprites[i].getHorizontalSpeed());
 //			}
-		}
+//		}
 		// control the sprite with arrow key
 //		double speedX = 0;
 //		if (keyDown(KeyEvent.VK_LEFT))
@@ -267,19 +270,76 @@ public class BlackJack extends Game {
 		}
 		// toggle ppc
 		if (keyPressed(KeyEvent.VK_ENTER)) {
-			collision.pixelPerfectCollision = !collision.pixelPerfectCollision;
+//			collision.pixelPerfectCollision = !collision.pixelPerfectCollision;
 		}
 		if (keyPressed(KeyEvent.VK_H)) {
+			// TEMP hack
+			if (total > 21) {
+				newGame(false);
+				addCard(getNextCard());
+			}
+			
 			// HIT
 			addCard(getNextCard());
 		}
+		if (keyPressed(KeyEvent.VK_R)) {
+			// HIT
+			newGame(true);
+			addCard(getNextCard());
+			addCard(getNextCard());
+		}
 //		background.setToCenter(plane);
+	}
+	
+	private int getTotalValue() {
+		if (!correctTotal) {
+			Sprite[] sprites = PLAYER_CARDS.getSprites();
+			int size = PLAYER_CARDS.getSize();
+			total = 0;
+			int numOfAces = 0;
+			for (int i = 0; i < size; i++) {
+				BufferedImage img = sprites[i].getImage();
+				int val = ((Integer )cardValues.get(img)).intValue();
+				if (val == -1) {
+					++numOfAces;
+				} else {
+					total += val;
+				}
+			}
+			
+			if (numOfAces > 0) {
+				for (int i = 0; i < numOfAces; i++) {
+					if ( (total+11) > 21) {
+						total += 1;
+						System.out.println("Using ACE as 1");
+					} else {
+						total += 11;
+						System.out.println("Using ACE as 11");
+					}
+				}
+			}
+			correctTotal = true;
+			System.out.println("Counter the total ... to be "+total);
+		}
+		return total;
+	}
+	private void newGame(boolean shuffle) {
+		total = 0;
+		if (shuffle) {
+			System.out.println("Shuffling Cards");
+			Collections.shuffle(Arrays.asList(cards));
+			nextCardCounter = 0;
+		} else {
+			System.out.println("New Game");
+		}
+		PLAYER_CARDS.reset();
 	}
 	
 	private void addCard(BufferedImage nextCard) {
 		int size = PLAYER_CARDS.getSize();
 		Sprite sNextCard = new Sprite(nextCard, 100+( ((size%5)) *80), 240);
 		PLAYER_CARDS.add(sNextCard);
+		correctTotal = false;
 	}
 
 	public void render(Graphics2D g) {
@@ -293,6 +353,13 @@ public class BlackJack extends Game {
 		playfield.render(g);
 		// draw info text
 		font.drawString(g, "H KEY : HIT ME !!", 10, 10);
+		int total = getTotalValue();
+		font.drawString(g, "TOTAL : "+total+"", 10, 30);
+		if (total > 21) {
+			font.drawString(g, "BUSTED", 10, 70);
+		} else if (total == 21 && PLAYER_CARDS.getSize() == 2) {
+			font.drawString(g, "BLACKJACK", 10, 70);
+		}
 //		font.drawString(g, "CONTROL   : FIRE", 10, 30);
 //		font.drawString(g, "ENTER     : TOGGLE PPC", 10, 50);
 //		if (collision.pixelPerfectCollision) {
