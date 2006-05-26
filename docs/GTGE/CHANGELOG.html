@@ -1,0 +1,732 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Golden T Studios - GTGE Change Log</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, game, GTGE, game tutorial, sprite library" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="changelog/changelog.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+<style type="text/css">
+<!--
+li { margin-top: 4px; }
+.added ul, .updated ul, .removed ul, .renamed ul, .bugfix ul, .general ul { margin: 5px 10px 12px 10px; }
+.added   { list-style-image: url('changelog/added.gif'); }
+.updated { list-style-image: url('changelog/updated.gif'); }
+.removed { list-style-image: url('changelog/removed.gif'); }
+.renamed { list-style-image: url('changelog/renamed.gif'); }
+.bugfix  { list-style-image: url('changelog/bugfix.gif'); }
+.general { list-style-image: url('changelog/general.gif'); }
+a:link, a:visited {
+	color: navy;
+	text-decoration: none;
+}
+a:hover {
+	color: blue;
+	text-decoration: underline;
+}
+//-->
+</style>
+</head>
+
+<body bgcolor="#ffcccc">
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="changelog/top_left.gif" width="20" height="18"></td><td
+background="changelog/top.gif" height="18"></td><td
+background="changelog/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="changelog/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+<!-- CONTENTS -->
+<div class="body">
+
+<h1><a name="toptitle">GOLDEN T GAME ENGINE</a></h1>
+<h2 style="margin-top: 0px">Game Programming for Java Programmer</h2>
+
+<hr width="385px" align="left" />
+
+<h4>Golden T Game Engine Change Log</h4>
+
+<p>GTGE change log :
+<ul type="square" style="margin-top: 10px;">
+	<li style="margin-bottom: 3px"><a class="indexlog" href="#0.2.3" target="_self">GTGE ver. 0.2.3</a><br />
+	<span class="date">07/03/05</span></li>
+	<li style="margin-bottom: 3px"><a class="indexlog" href="#0.2.2" target="_self">GTGE ver. 0.2.2</a><br />
+	<span class="date">03/20/05</span></li>
+	<li style="margin-bottom: 3px"><a class="indexlog" href="#0.2.1" target="_self">GTGE ver. 0.2.1</a><br />
+	<span class="date">02/23/05</span></li>
+	<li style="margin-bottom: 3px"><a class="indexlog" href="#0.2.0" target="_self">GTGE ver. 0.2.0</a><br />
+	<span class="date">01/15/05</span></li>
+	<li style="margin-bottom: 3px"><a class="indexlog" href="#0.1.4" target="_self">GTGE ver. 0.1.4</a><br />
+	<span class="date">08/30/04</span></li>
+	<li style="margin-bottom: 3px"><a class="indexlog" href="#0.1.3" target="_self">GTGE ver. 0.1.3</a><br />
+	<span class="date">07/16/04</span></li>
+	<li style="margin-bottom: 3px"><a class="indexlog" href="#0.1.2" target="_self">GTGE ver. 0.1.2</a><br />
+	<span class="date">04/19/04</span></li>
+	<li style="margin-bottom: 3px"><a class="indexlog" href="#0.1.1" target="_self">GTGE ver. 0.1.1</a><br />
+	<span class="date">04/01/04</span></li>
+	<li style="margin-bottom: 3px"><a class="indexlog" href="#0.1.0" target="_self">GTGE ver. 0.1.0</a><br />
+	<span class="date">03/19/04</span></li>
+</ul></p>
+
+<p><u><i>Change log legends</i></u> :</p>
+
+<p style="margin-left: 20px"><tt>
+<img src="changelog/added.gif" alt="+" /> Added<br />
+<img src="changelog/updated.gif" alt="+" /> Updated<br />
+<img src="changelog/removed.gif" alt="+" /> Removed<br />
+<img src="changelog/renamed.gif" alt="+" /> Renamed / Repackage<br />
+<img src="changelog/bugfix.gif" alt="+" /> Bug Fix<br />
+<img src="changelog/general.gif" alt="+" /> General Comment
+</tt></p>
+
+<p>&nbsp;</p>
+
+<hr />
+
+<h3><a name="upgrade">Upgrade Procedure</a></h3>
+
+<p>The following procedure should upgrade your game source code from your previously used GTGE library to the current library :
+<ol>
+<li>Compile your source code againts the new library<br />
+It will generates a few to many compile errors</li>
+
+<li>Write down the classes that generates the errors</li>
+
+<li>Update the classes that generates the error in CHANGELOG.html (this page) for removed (-) or renamed (r) methods<br />
+Start from the version that the game currently used to the current library version</li>
+
+<li>After your game source code has been successfully compiled<br />
+Check again CHANGELOG.html (this page) for any changes for every classes that the game used</li>
+
+<li>Run the game! now it should be run same like the old one (or better)</li>
+</ol>
+
+If the game is still not working properly, ask for help in GTGE message board with explanation of :
+<ul>
+	<li>What that isn't working or behave differently from the old one</li>
+	<li>Write down the GTGE library version the game used before and the exception thrown by the game (if any)</li>
+</ul>
+The message board is located at : <a href="http://www.goldenstudios.or.id/forum/">http://www.goldenstudios.or.id/forum/</a>
+</p>
+
+<p>&nbsp;</p>
+
+<p style="font-size: 10px"><u>Note</u>: hover mouse pointer on any links on this page to pop its tooltip</p>
+
+<p>&nbsp;</p>
+
+<hr />
+
+<!--
+change log documentation standard :
+- start with 'lowercase'
+- end with 'dot'
+- sorting type: general, added, updated, renamed, removed
+- class:        add/removeClass("");
+- function:     add/removeFunction("");
+- package:      add/removePackage("");
+- external packaging: <code title="package java.awt">java.awt.Font</code>
+-->
+
+<h1 style="text-align: center">GTGE CHANGE LOG</h1>
+
+<table class="default" align="center" cellpadding="5" cellspacing="1" border="1">
+<th class="default" width="150">Game Version</th>
+<th class="default">Changes</th>
+
+<tr>
+	<td valign="top">
+		<a name="0.2.3"><span style="color: darkblue">Version 0.2.3</span></a><br />
+		<span class="date">07/03/05</span><br /><br />
+		<a href="#upgrade"><span style="font-size:11px">@ upgrade procedure</span></a>
+	</td>
+	<td>
+<ul>
+<li class="general"><b>major changes summary</b> :
+	<ul>
+		<li class="general">support isometric background, thanks to Arkkimaagi.</li>
+		<li class="general">new splash screen - submitted by Arkkimaagi (thanks!).</li>
+		<li class="general">changing the game window title and icon is now supported.</li>
+		<li class="general">smart resource locater.</li>
+		<li class="general">improved library security.</li>
+		<li class="general">improved API documentations - generated by JavaDoc 1.5.</li>
+	</ul>
+</li>
+
+<li class="added"><b><code><a target="apidoc" href="docs/com/golden/gamedev/object/background/abstraction/package-summary.html">com.golden.gamedev.object.background.abstraction</a></code></b> package :
+	<ul>
+		<li class="general">new package for background abstraction.</li>
+	</ul>
+</li>
+
+<li class="added"><b><code title="package com.golden.gamedev.object.background"><a target="apidoc" href="docs/com/golden/gamedev/object/background/IsometricBackground.html">IsometricBackground</a></code></b>, <b><code title="package com.golden.gamedev.object.background.abstraction"><a target="apidoc" href="docs/com/golden/gamedev/object/background/abstraction/AbstractIsometricBackground.html">AbstractIsometricBackground</a></code></b> class :
+	<ul>
+		<li class="general">new background type created, isometric background.</li>
+	</ul>
+</li>
+
+<li class="added"><b><code title="package com.golden.gamedev.funbox"><a target="apidoc" href="docs/com/golden/gamedev/funbox/LibInfo.html">LibInfo</a></code></b> class :
+	<ul>
+		<li class="general">class to inform GTGE users that GTGE is a library, thus can't be run like a normal application.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/Game.html">Game</a></code></b>, <b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/GameObject.html">GameObject</a></code></b> class :
+	<ul>
+		<li class="updated">updated <code><a target="apidoc" href="docs/com/golden/gamedev/GameObject.html#checkPosMouse(com.golden.gamedev.object.Sprite, boolean)">checkPosMouse(com.golden.gamedev.object.Sprite, boolean)</a></code> to support for pixel check.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.engine"><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseGraphics.html">BaseGraphics</a></code></b>, <b><code title="package com.golden.gamedev.engine.graphics"><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/AppletMode.html">AppletMode</a></code></b>, <b><code title="package com.golden.gamedev.engine.graphics"><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/FullScreenMode.html">FullScreenMode</a></code></b>, <b><code title="package com.golden.gamedev.engine.graphics"><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/WindowedMode.html">WindowedMode</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/WindowedMode.html#setWindowTitle(java.lang.String)">setWindowTitle(java.lang.String)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/WindowedMode.html#getWindowTitle()">getWindowTitle()</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/WindowedMode.html#setWindowIcon(java.awt.Image)">setWindowIcon(java.awt.Image)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/WindowedMode.html#getWindowIcon()">getWindowIcon()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.engine"><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseIO.html">BaseIO</a></code></b> class :
+	<ul>
+		<li class="general">added smart resource locater, BaseIO now always use the right IO mode for finding the game resources.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseIO.html#SYSTEM_LOADER">SYSTEM_LOADER</a></code>, a new IO mode locater.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.engine"><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html">BaseAudio</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#setAudioPolicy(int)">setAudioPolicy(int)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#getAudioPolicy()">getAudioPolicy()</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#setMaxSimultaneous(int)">setMaxSimultaneous(int)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#getMaxSimultaneous()">getMaxSimultaneous()</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#createRenderer()">createRenderer()</a></code>.</li>
+		<li class="renamed">renamed <code><del>setSampleRenderer(com.golden.gamedev.engine.BaseAudioRenderer)</del></code> / <code><del>getSampleRenderer()</del></code> to <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#setBaseRenderer(com.golden.gamedev.engine.BaseAudioRenderer)">setBaseRenderer(com.golden.gamedev.engine.BaseAudioRenderer)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#getBaseRenderer()">getBaseRenderer()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html">Sprite</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html#setImmutable(boolean)">setImmutable(boolean)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html#isImmutable()">isImmutable()</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html#getDistance(com.golden.gamedev.object.Sprite)">getDistance(com.golden.gamedev.object.Sprite)</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/SpriteGroup.html">SpriteGroup</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/SpriteGroup.html#removeImmutableSprites()">removeImmutableSprites()</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/SpriteGroup.html#getInactiveSprite()">getInactiveSprite()</a></code>.</li>
+		<li class="renamed">renamed <code><del>getActiveMember()</del></code> to <code><a target="apidoc" href="docs/com/golden/gamedev/object/SpriteGroup.html#getActiveSprite()">getActiveSprite()</a></code>.</li>
+		<li class="renamed">renamed <code><del>removeSprites()</del></code> to <code><a target="apidoc" href="docs/com/golden/gamedev/object/SpriteGroup.html#removeInactiveSprites()">removeInactiveSprites()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/Background.html">Background</a></code></b> class :
+	<ul>
+		<li class="updated">updated <code><a target="apidoc" href="docs/com/golden/gamedev/object/Background.html#x">x</a></code>, <code><a target="apidoc" href="docs/com/golden/gamedev/object/Background.html#y">y</a></code> variables as protected variables.</li>
+		<li class="removed">removed <code><del>setAbsoluteLocation(double, double)</del></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object.background"><a target="apidoc" href="docs/com/golden/gamedev/object/background/TileBackground.html">TileBackground</a></code></b> class :
+	<ul>
+		<li class="updated">updated <code><a target="apidoc" href="docs/com/golden/gamedev/object/background/TileBackground.html#setSize(int, int)">setSize(int, int)</a></code> to accept background size in tiles.</li>
+	</ul>
+</li>
+
+<li class="renamed">repackage <b><code title="package com.golden.gamedev.object.background.abstraction"><a target="apidoc" href="docs/com/golden/gamedev/object/background/abstraction/AbstractTileBackground.html">AbstractTileBackground</a></code></b> class from <b><code><a target="apidoc" href="docs/com/golden/gamedev/object/background/package-summary.html">com.golden.gamedev.object.background</a></code></b> package to <b><code><a target="apidoc" href="docs/com/golden/gamedev/object/background/abstraction/package-summary.html">com.golden.gamedev.object.background.abstraction</a></code></b> package :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/background/abstraction/AbstractTileBackground.html#getTileAt(double, double)">getTileAt(double, double)</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/background/abstraction/AbstractTileBackground.html#getTotalHorizontalTiles()">getTotalHorizontalTiles()</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/background/abstraction/AbstractTileBackground.html#getTotalVerticalTiles()">getTotalVerticalTiles()</a></code>.</li>
+		<li class="updated">updated <code><a target="apidoc" href="docs/com/golden/gamedev/object/background/abstraction/AbstractTileBackground.html#setSize(int, int)">setSize(int, int)</a></code> to accept background size in tiles.</li>
+	</ul>
+</li>
+
+</ul>
+<br />
+<a class="totop" href="#toptitle" target="_self">(back to top)</a>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<a name="0.2.2"><span style="color: darkblue">Version 0.2.2</span></a><br />
+		<span class="date">03/20/05</span><br /><br />
+		<a href="#upgrade"><span style="font-size:11px">@ upgrade procedure</span></a>
+	</td>
+	<td>
+<ul>
+<li class="general"><b>major changes summary</b> :
+	<ul>
+		<li class="general">skippable splash screen.</li>
+		<li class="general">improved game font.</li>
+		<li class="general">wave audio playback workaround for Java 1.5.</li>
+		<li class="general">updated naming convention.</li>
+		<li class="bugfix">fixed bugs in basic collision check.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object.collision"><a target="apidoc" href="docs/com/golden/gamedev/object/collision/BasicCollisionGroup.html">BasicCollisionGroup</a></code></b> class :
+	<ul>
+		<li class="bugfix">fixed bugs that causing NullPointerException when collided sprite is removed from its group in collision event.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object.font"><a target="apidoc" href="docs/com/golden/gamedev/object/font/BitmapFont.html">BitmapFont</a></code></b>, <b><code title="package com.golden.gamedev.object.font"><a target="apidoc" href="docs/com/golden/gamedev/object/font/AdvanceBitmapFont.html">AdvanceBitmapFont</a></code></b> class :
+	<ul>
+		<li class="added">added more constructor for flexible image font creation.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.engine.audio"><a target="apidoc" href="docs/com/golden/gamedev/engine/audio/WaveRenderer.html">WaveRenderer</a></code></b> class :
+	<ul>
+		<li class="bugfix">added workaround for Java 1.5 to able to play short wave sound.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.funbox"><a target="apidoc" href="docs/com/golden/gamedev/funbox/GameSettings.html">GameSettings</a></code></b> class :
+	<ul>
+		<li class="general">GameSettings now extending JDialog instead of JFrame.</li>
+		<li class="added">added more constructor to add game splash image.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/funbox/GameSettings.html#initSettings()">initSettings()</a></code>, changing (add/remove) game options is done within this method, break out from initGUI() method.</li>
+		<li class="renamed">renamed <code><del>initGUI(javax.swing.JPanel)</del></code> to <code><a target="apidoc" href="docs/com/golden/gamedev/funbox/GameSettings.html#initGUI()">initGUI()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.funbox"><a target="apidoc" href="docs/com/golden/gamedev/funbox/ErrorNotificationDialog.html">ErrorNotificationDialog</a></code></b> class :
+	<ul>
+		<li class="general">ErrorNotificationDialog now extending JDialog instead of JFrame.</li>
+		<li class="renamed">renamed <code><del>closeFrame()</del></code> to <code><a target="apidoc" href="docs/com/golden/gamedev/funbox/ErrorNotificationDialog.html#closeDialog()">closeDialog()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/GameFont.html">GameFont</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/GameFont.html#isAvailable(char)">isAvailable(char)</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/GameFontManager.html">GameFontManager</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/GameFontManager.html#getFont(java.awt.image.BufferedImage, java.lang.String)">getFont(java.awt.image.BufferedImage, java.lang.String)</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/GameFontManager.html#getFont(java.awt.image.BufferedImage[], java.lang.String)">getFont(java.awt.image.BufferedImage[], java.lang.String)</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/PlayField.html">PlayField</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/PlayField.html#clearPlayField()">clearPlayField()</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/PlayField.html#getExtraGroup()">getExtraGroup()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html">Sprite</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html#setDataID(java.lang.Object)">setDataID(java.lang.Object)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html#getDataID()">getDataID()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object.sprite"><a target="apidoc" href="docs/com/golden/gamedev/object/sprite/VolatileSprite.html">VolatileSprite</a></code></b> class :
+	<ul>
+		<li class="general">VolatileSprite now extending AdvanceSprite instead of AnimatedSprite.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/Timer.html">Timer</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/Timer.html#setCurrentTick(long)">setCurrentTick(long)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/object/Timer.html#getCurrentTick()">getCurrentTick()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><code class="obsolete" title="(obsolete) package com.golden.gamedev.object.background">AbstractTileBackground</code> class :
+	<ul>
+		<li class="added">added <code class="obsolete" title="obsolete">setTileSize(int, int)</code>.</li>
+	</ul>
+</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.funbox"><del>ErrorNotificationFrame</del></code> class to <b><code title="package com.golden.gamedev.funbox"><a target="apidoc" href="docs/com/golden/gamedev/funbox/ErrorNotificationDialog.html">ErrorNotificationDialog</a></code></b> class.</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.object.collision"><del>CollisionGroupBasic</del></code> class to <b><code title="package com.golden.gamedev.object.collision"><a target="apidoc" href="docs/com/golden/gamedev/object/collision/BasicCollisionGroup.html">BasicCollisionGroup</a></code></b> class.</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.object.collision"><del>CollisionGroupPrecise</del></code> class to <b><code title="package com.golden.gamedev.object.collision"><a target="apidoc" href="docs/com/golden/gamedev/object/collision/PreciseCollisionGroup.html">PreciseCollisionGroup</a></code></b> class.</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.object.collision"><del>CollisionGroupAdvance</del></code> class to <b><code title="package com.golden.gamedev.object.collision"><a target="apidoc" href="docs/com/golden/gamedev/object/collision/AdvanceCollisionGroup.html">AdvanceCollisionGroup</a></code></b> class.</li>
+
+<li class="removed"><code title="package com.golden.gamedev.object.font"><del>MultipleGameFont</del></code> class.</li>
+</ul>
+<br />
+<a class="totop" href="#toptitle" target="_self">(back to top)</a>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<a name="0.2.1"><span style="color: darkblue">Version 0.2.1</span></a><br />
+		<span class="date">02/23/05</span><br /><br />
+		<a href="#upgrade"><span style="font-size:11px">@ upgrade procedure</span></a>
+	</td>
+	<td>
+<ul>
+<li class="general"><b>major changes summary</b> :
+	<ul>
+		<li class="general">support OpenGL as the render target (available as <a target="_blank" href="http://www.goldenstudios.or.id/products/utilities/addons/">add-ons/plugins</a>).</li>
+		<li class="general">working flawlessly with Java 1.5.</li>
+		<li class="general">default fps is changed to 100 fps.</li>
+		<li class="general">enhanced sprite class.</li>
+		<li class="general">more stable game loading.</li>
+		<li class="general">changed how to load applet game.</li>
+		<li class="bugfix">fixed bugs in pixel perfect collision.</li>
+	</ul>
+</li>
+
+<li class="added"><b><code title="package com.golden.gamedev.object.sprite"><a target="apidoc" href="docs/com/golden/gamedev/object/sprite/AdvanceSprite.html">AdvanceSprite</a></code></b> class :
+	<ul>
+		<li class="general">new sprite class for handling sprite that support animation changed based on status and direction.</li>
+		<li class="general">enhanced sprite, replacing <code title="package com.golden.gamedev.genre.platform"><del>PlatformSprite</del></code> functionality.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html">Sprite</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html#moveTo(long, double, double, double)">moveTo(long, double, double, double)</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/AnimatedSprite.html">AnimatedSprite</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/AnimatedSprite.html#setAnimationFrame(int, int)">setAnimationFrame(int, int)</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/AnimatedSprite.html#getStartAnimationFrame()">getStartAnimationFrame()</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/object/AnimatedSprite.html#getFinishAnimationFrame()">getFinishAnimationFrame()</a></code>.</li>
+		<li class="removed">removed <code><del>getTotalFrame()</del></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/CollisionManager.html">CollisionManager</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/CollisionManager.html#isPixelCollide(double, double, java.awt.image.BufferedImage, double, double, java.awt.image.BufferedImage)">isPixelCollide(double, double, java.awt.image.BufferedImage, double, double, java.awt.image.BufferedImage)</a></code>, moved from <code title="package com.golden.gamedev.object.collision"><del>CollisionUtil</del></code> class.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/CollisionManager.html#getIntersectionRect(double, double, int, int, double, double, int, int)">getIntersectionRect(double, double, int, int, double, double, int, int)</a></code>, moved from <code title="package com.golden.gamedev.object.collision"><del>CollisionUtil</del></code> class.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.engine"><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseInput.html">BaseInput</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseInput.html#setMouseVisible(boolean)">setMouseVisible(boolean)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseInput.html#isMouseVisible()">isMouseVisible()</a></code>.</li>
+		<li class="removed">removed <code><del>getMouseDown()</del></code>.</li>
+		<li class="removed">removed <code><del>getKeyDown()</del></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.engine.input"><a target="apidoc" href="docs/com/golden/gamedev/engine/input/AWTInput.html">AWTInput</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/input/AWTInput.html#setMouseVisible(boolean)">setMouseVisible(boolean)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/engine/input/AWTInput.html#isMouseVisible()">isMouseVisible()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><code class="obsolete" title="(obsolete) package com.golden.gamedev.object.background">AbstractTileBackground</code> class :
+	<ul>
+		<li class="renamed">renamed <code><del>getModX()</del></code> to <code class="obsolete" title="obsolete">getOffsetX()</code>.</li>
+		<li class="renamed">renamed <code><del>getModY()</del></code> to <code class="obsolete" title="obsolete">getOffsetY()</code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object.background"><a target="apidoc" href="docs/com/golden/gamedev/object/background/ParallaxBackground.html">ParallaxBackground</a></code></b> class :
+	<ul>
+		<li class="bugfix">fixed bugs that cause the stacked background not updated.</li>
+	</ul>
+</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.object.genre.platform"><del>PlatformGroup</del></code> class to <b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/AdvanceSpriteGroup.html">AdvanceSpriteGroup</a></code></b> class and moved from <code class="obsolete" title="(obsolete)">com.golden.gamedev.genre.platform</code> package to <b><code><a target="apidoc" href="docs/com/golden/gamedev/object/package-summary.html">com.golden.gamedev.object</a></code></b> package.</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.engine.timer"><del>FrameCounter</del></code> class to <b><code title="package com.golden.gamedev.engine.timer"><a target="apidoc" href="docs/com/golden/gamedev/engine/timer/FPSCounter.html">FPSCounter</a></code></b> class.</li>
+
+<li class="removed"><code title="package com.golden.gamedev.object.genre.platform"><del>PlatformSprite</del></code> class, replaced by <b><code title="package com.golden.gamedev.object.sprite"><a target="apidoc" href="docs/com/golden/gamedev/object/sprite/AdvanceSprite.html">AdvanceSprite</a></code></b> class.</li>
+
+<li class="removed"><code title="package com.golden.gamedev.object.collision"><del>CollisionUtil</del></code> class.</li>
+
+<li class="removed"><code><del>com.golden.gamedev.object.genre.platform</del></code> package.</li>
+</ul>
+<br />
+<a class="totop" href="#toptitle" target="_self">(back to top)</a>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<a name="0.2.0"><span style="color: darkblue">Version 0.2.0</span></a><br />
+		<span class="date">01/15/05</span><br /><br />
+		<a href="#upgrade"><span style="font-size:11px">@ upgrade procedure</span></a>
+	</td>
+	<td>
+<ul>
+<li class="general"><b>major changes summary</b> :
+	<ul>
+		<li class="general">many fundamental changes in this version.<br />
+		see <a target="_blank" href="http://goldenstudios.or.id/forum/index.php?showtopic=75">this article</a> for how-to-convert your game source code from previous version to this version.</li>
+		<li class="general">complete documentation.</li>
+		<li class="general">complete new tutorial.</li>
+	</ul>
+</li>
+</ul>
+<br />
+<a class="totop" href="#toptitle" target="_self">(back to top)</a>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<a name="0.1.4"><span style="color: darkblue">Version 0.1.4</span></a><br />
+		<span class="date">08/30/04</span><br /><br />
+		<a href="#upgrade"><span style="font-size:11px">@ upgrade procedure</span></a>
+	</td>
+	<td>
+<ul>
+<li class="general"><b>major changes summary</b> :
+	<ul>
+		<li class="general">fully working of <b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/GameEngine.html">GameEngine</a></code></b> and <b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/GameObject.html">GameObject</a></code></b> class.</li>
+		<li class="general">improved documentation.</li>
+		<li class="bugfix">fixed bugs in graphics engine that cause the game sometimes can not enter fullscreen mode.</li>
+		<li class="bugfix">fixed bugs in midi and wave audio renderer.</li>
+		<li class="bugfix">fixed numerous small bugs.</li>
+	</ul>
+</li>
+
+<li class="removed"><code title="package com.golden.gamedev.object"><del>GameCursor</del></code> class.</li>
+
+<li class="removed"><code title="package com.golden.gamedev.object.sprite"><del>SpriteAnimation</del></code> class.</li>
+
+<li class="removed"><code title="package com.golden.gamedev.object.sprite"><del>AnimationSprite</del></code> class.</li>
+</ul>
+<br />
+<a class="totop" href="#toptitle" target="_self">(back to top)</a>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<a name="0.1.3"><span style="color: darkblue">Version 0.1.3</span></a><br />
+		<span class="date">07/16/04</span><br /><br />
+		<a href="#upgrade"><span style="font-size:11px">@ upgrade procedure</span></a>
+	</td>
+	<td>
+<ul>
+<li class="general"><b>major changes summary</b> :
+	<ul>
+		<li class="general">enhanced and optimized game input.</li>
+		<li class="general">enhanced and optimized image loader.</li>
+		<li class="added"><b><code><a target="apidoc" href="docs/com/golden/gamedev/engine/input/package-summary.html">com.golden.gamedev.engine.input</a></code></b> package.</li>
+		<li class="removed"><code title="package com.golden.gamedev.object"><del>SpriteAction</del></code> class replaced by <b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/Timer.html">Timer</a></code></b> class.</li>
+	</ul>
+</li>
+
+<li class="added"><b><code title="package com.golden.gamedev.engine.input"><a target="apidoc" href="docs/com/golden/gamedev/engine/input/AWTInput.html">AWTInput</a></code></b> class :
+	<ul>
+		<li class="general">new game input.</li>
+		<li class="general">breaking from <b><code title="package com.golden.gamedev.engine"><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseInput.html">BaseInput</a></code></b> class.</li>
+	</ul>
+</li>
+
+<li class="added"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/Timer.html">Timer</a></code></b> class :
+	<ul>
+		<li class="general">new action timer, a general purpose timer, receive an event after some ticks passed.</li>
+		<li class="general">replacing <code title="package com.golden.gamedev.object"><del>SpriteAction</del></code> class.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/Game.html">Game</a></code></b>, <b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/GameEngine.html">GameEngine</a></code></b>, <b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/GameObject.html">GameObject</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/GameObject.html#hideCursor()">hideCursor()</a></code> and <code><a target="apidoc" href="docs/com/golden/gamedev/GameObject.html#showCursor()">showCursor()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/SpriteGroup.html">SpriteGroup</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/SpriteGroup.html#add(int, com.golden.gamedev.object.Sprite)">add(int, com.golden.gamedev.object.Sprite)</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/SpriteGroup.html#remove(int)">remove(int)</a></code> and <code><a target="apidoc" href="docs/com/golden/gamedev/object/SpriteGroup.html#remove(com.golden.gamedev.object.Sprite)">remove(com.golden.gamedev.object.Sprite)</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html">Sprite</a></code></b> class :
+	<ul>
+		<li class="general">all functions related to <code title="package com.golden.gamedev.object"><del>SpriteAction</del></code> are removed.</li>
+		<li class="general">movement SpriteAction is replaced by Timer.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html#setMovementTimer(com.golden.gamedev.object.Timer)">setMovementTimer(com.golden.gamedev.object.Timer)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/object/Sprite.html#getMovementTimer()">getMovementTimer()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.object"><a target="apidoc" href="docs/com/golden/gamedev/object/AnimatedSprite.html">AnimatedSprite</a></code></b> class :
+	<ul>
+		<li class="general">animation SpriteAction is replaced by Timer.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/object/AnimatedSprite.html#setAnimationTimer(com.golden.gamedev.object.Timer)">setAnimationTimer(com.golden.gamedev.object.Timer)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/object/AnimatedSprite.html#getAnimationTimer()">getAnimationTimer()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.engine"><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseLoader.html">BaseLoader</a></code></b> class :
+	<ul>
+		<li class="general">base loader now also behave as storage of the loaded image.</li>
+		<li class="general">preloaded images will return immediately from the cache.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.util"><a target="apidoc" href="docs/com/golden/gamedev/util/ImageUtil.html">ImageUtil</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/util/ImageUtil.html#rotate(java.awt.image.BufferedImage, int)">rotate(java.awt.image.BufferedImage, int)</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/util/ImageUtil.html#resize(java.awt.image.BufferedImage, double, double)">resize(java.awt.image.BufferedImage, double, double)</a></code>.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/Game.html">Game</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/Game.html#drawFPS(java.awt.Graphics2D, int, int)">drawFPS(java.awt.Graphics2D, int, int)</a></code>.</li>
+	</ul>
+</li>
+
+<li class="removed"><code title="package com.golden.gamedev.object"><del>SpriteAction</del></code> class.</li>
+
+<li class="removed"><code title="package com.golden.gamedev.object"><del>SpriteActionListener</del></code> interface.</li>
+</ul>
+<br />
+<a class="totop" href="#toptitle" target="_self">(back to top)</a>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<a name="0.1.2"><span style="color: darkblue">Version 0.1.2</span></a><br />
+		<span class="date">04/19/04</span><br /><br />
+		<a href="#upgrade"><span style="font-size:11px">@ upgrade procedure</span></a>
+	</td>
+	<td>
+<ul>
+<li class="general"><b>major changes summary</b> :
+	<ul>
+		<li class="general">enhanced game font.</li>
+		<li class="removed">no need to set <code title="com.golden.gamedev.util package"><del>ImageUtil.init(java.awt.MediaTracker)</del></code> anymore.</li>
+		<li class="added"><b><code><a target="apidoc" href="docs/com/golden/gamedev/object/background/package-summary.html">com.golden.gamedev.object.background</a></code></b> package.</li>
+	</ul>
+</li>
+
+<li class="added"><code class="obsolete" title="(obsolete) package com.golden.gamedev.object">CollisionBounds</code> class :
+	<ul>
+		<li class="general">new collision check, checking collision between Sprite and its Background.</li>
+	</ul>
+</li>
+
+<li class="added"><code class="obsolete" title="(obsolete) package com.golden.gamedev.object.background">AbstractTileBackground</code> class :
+	<ul>
+		<li class="general">new background (abstract).</li>
+		<li class="general">breaking from <b><code title="package com.golden.gamedev.object.background"><a target="apidoc" href="docs/com/golden/gamedev/object/background/TileBackground.html">TileBackground</a></code></b> class.</li>
+	</ul>
+</li>
+
+<li class="added"><b><code title="package com.golden.gamedev.util"><a target="apidoc" href="docs/com/golden/gamedev/util/FontUtil.html">FontUtil</a></code></b> class :
+	<ul>
+		<li class="general">new font utility.</li>
+		<li class="general">ability to create bitmap font from <code title="package java.awt">java.awt.Font</code>.</li>
+		<li class="general">ability to create true type font (*.ttf).</li>
+	</ul>
+</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.object"><del>BackgroundColor</del></code> class to <b><code title="package com.golden.gamedev.object.background"><a target="apidoc" href="docs/com/golden/gamedev/object/background/ColorBackground.html">ColorBackground</a></code></b> class.</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.object"><del>BackgroundImage</del></code> class to <b><code title="package com.golden.gamedev.object.background"><a target="apidoc" href="docs/com/golden/gamedev/object/background/ImageBackground.html">ImageBackground</a></code></b> class.</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.object"><del>BackgroundTile</del></code> class to <b><code title="package com.golden.gamedev.object.background"><a target="apidoc" href="docs/com/golden/gamedev/object/background/TileBackground.html">TileBackground</a></code></b> class.</li>
+
+<li class="renamed"><code title="package com.golden.gamedev.util"><del>IOFile</del></code> class to <b><code title="package com.golden.gamedev.util"><a target="apidoc" href="docs/com/golden/gamedev/util/FileUtil.html">FileUtil</a></code></b> class.</li>
+</ul>
+<br />
+<a class="totop" href="#toptitle" target="_self">(back to top)</a>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<a name="0.1.1"><span style="color: darkblue">Version 0.1.1</span></a><br />
+		<span class="date">04/01/04</span><br /><br />
+		<a href="#upgrade"><span style="font-size:11px">@ upgrade procedure</span></a>
+	</td>
+	<td>
+<ul>
+<li class="general"><b>major changes summary</b> :
+	<ul>
+		<li class="general">audio sound now fully supported.</li>
+		<li class="general">game runs about 15% faster.</li>
+		<li class="added"><b><code><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/package-summary.html">com.golden.gamedev.engine.graphics</a></code></b> package.</li>
+	</ul>
+</li>
+
+<li class="added"><b><code title="package com.golden.gamedev.engine.audio"><a target="apidoc" href="docs/com/golden/gamedev/engine/audio/MidiRenderer.html">MidiRenderer</a></code></b> class :
+	<ul>
+		<li class="general">new audio renderer created, supports midi playback.</li>
+	</ul>
+</li>
+
+<li class="added"><code class="obsolete" title="(obsolete) package com.golden.gamedev.engine.graphics">HybridMode</code> class :
+	<ul>
+		<li class="general">new graphics engine created, supports Applet, Window, and FullScreen Environment.</li>
+		<li class="general">breaking from <b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/Game.html">Game</a></code></b> class.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/Game.html">Game</a></code></b> class :
+	<ul>
+		<li class="general">separated graphics engine, now <b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/Game.html">Game</a></code></b> inherit <code class="obsolete" title="(obsolete) package com.golden.gamedev.engine.graphics">HybridMode</code> class.</li>
+		<li class="general">default fps is set to 50, instead 40.</li>
+		<li class="general">engine now reside in class, instead polling from <code class="obsolete" title="(obsolete) package com.golden.gamedev">GameCore</code> class.</li>
+		<li class="general">optimized, game now runs about 15% faster.</li>
+		<li class="added">added <code class="obsolete" title="obsolete">bsMusic</code> and <code class="obsolete" title="obsolete">bsSound</code> (audio engine), now there're total 7 engine in the class.</li>
+		<li class="added">added <code class="obsolete" title="obsolete">playMusic(java.lang.String)</code> and <code class="obsolete" title="obsolete">playSound(java.lang.String)</code>.</li>
+		<li class="added">added <code class="obsolete" title="obsolete">initEngine()</code>, replacing the default engine should be done within this method.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/GameEngine.html">GameEngine</a></code></b> class, <b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/GameObject.html">GameObject</a></code></b> class :
+	<ul>
+		<li class="general">restructured to be similar like <b><code title="package com.golden.gamedev"><a target="apidoc" href="docs/com/golden/gamedev/Game.html">Game</a></code></b> class.</li>
+	</ul>
+</li>
+
+<li class="updated"><b><code title="package com.golden.gamedev.engine"><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html">BaseAudio</a></code></b> class :
+	<ul>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#setLoop(boolean)">setLoop(boolean)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#isLoop()">isLoop()</a></code>.</li>
+		<li class="added">added <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#setVolume(float)">setVolume(float)</a></code> / <code><a target="apidoc" href="docs/com/golden/gamedev/engine/BaseAudio.html#getVolume()">getVolume()</a></code>.</li>
+	</ul>
+</li>
+
+<li class="renamed">repackage <b><code title="package com.golden.gamedev.engine.graphics"><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/AppletMode.html">AppletMode</a></code></b>, <code class="obsolete" title="(obsolete) package com.golden.gamedev.engine.graphics">WindowMode</code>, <b><code title="package com.golden.gamedev.engine.graphics"><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/FullScreenMode.html">FullScreenMode</a></code></b> class from <b><code><a target="apidoc" href="docs/com/golden/gamedev/package-summary.html">com.golden.gamedev</a></code></b> package to <b><code><a target="apidoc" href="docs/com/golden/gamedev/engine/graphics/package-summary.html">com.golden.gamedev.engine.graphics</a></code></b> package.</li>
+
+<li class="renamed"><code><del>com.golden.gamedev.timer</del></code> package to <b><code><a target="apidoc" href="docs/com/golden/gamedev/engine/timer/package-summary.html">com.golden.gamedev.engine.timer</a></code></b> package.</li>
+
+<li class="removed"><code title="package com.golden.gamedev"><del>GameCore</del></code> class.</li>
+
+<li class="removed"><code title="package com.golden.gamedev.engine"><del>BaseAudioManager</del></code> class.</li>
+</ul>
+<br />
+<a class="totop" href="#toptitle" target="_self">(back to top)</a>
+	</td>
+</tr>
+<tr>
+	<td valign="top">
+		<a name="0.1.0"><span style="color: darkblue">Version 0.1.0</span></a><br />
+		<span class="date">03/19/04</span><br /><br />
+		<a href="#upgrade"><span style="font-size:11px">@ upgrade procedure</span></a>
+	</td>
+	<td>
+<ul>
+<li class="general">Initial released.</li>
+</ul>
+<br />
+<a class="totop" href="#toptitle" target="_self">(back to top)</a>
+	</td>
+</tr>
+</table>
+<!-- end change log -->
+
+</div>
+<!-- END-OF-CONTENTS -->
+
+
+<!-- FOOTER -->
+</td><td
+background="changelog/right.gif" width="20"></td></tr><tr><td
+background="changelog/bottom_left.gif" width="20" height="20"></td><td
+background="changelog/bottom.gif" height="20"></td><td
+background="changelog/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<div class="copyright">
+<small>Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+<a target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small></div>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

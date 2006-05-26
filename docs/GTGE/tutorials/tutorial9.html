@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 9</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<h3>Tutorial 9</h3>
+<h1 style="margin-top: 0px">GROUPING YOUR SPRITES</h1>
+	<a class="source" href="src/GTGE/SpriteGroup.java">SpriteGroup.java</a> [<a class="source" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/GTGE/SpriteGroup.java">view online</a>]
+
+<blockquote>This chapter will explain why sprites need to be group, what the benefit of grouping sprites, and how to group sprites correctly.<br />
+Objective : Understand what is, the objective, and how to group sprites.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<p>In previous chapter (the first approach of sprite management in GTGE) has been explained that every sprites need to be updated, rendered, and attached to a background one by one. This will became troubles and perhaps will be impossible to organize anymore as the number of sprites is increasing greatly.</p>
+
+<p>For example <b>managing nine sprites</b> :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+<span class="keyword">import</span> com.golden.gamedev.object.background.*;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+    Background  background;
+    Sprite      s1, s2, s3, s4, s5,
+                s6, s7, s8, s9;
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        background = <span class="keyword">new</span><span class="method"> ColorBackground</span>(Color.BLUE, 1024, 768);
+
+        s1 = <span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>"));
+        s2 = <span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>"));
+        s3 = <span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>"));
+        s4 = <span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>"));
+        s5 = <span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>"));
+        s6 = <span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>"));
+        s7 = <span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>"));
+        s8 = <span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>"));
+        s9 = <span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>"));
+
+        s1.<span class="method">setBackground</span>(background);
+        s2.<span class="method">setBackground</span>(background);
+        s3.<span class="method">setBackground</span>(background);
+        s4.<span class="method">setBackground</span>(background);
+        s5.<span class="method">setBackground</span>(background);
+        s6.<span class="method">setBackground</span>(background);
+        s7.<span class="method">setBackground</span>(background);
+        s8.<span class="method">setBackground</span>(background);
+        s9.<span class="method">setBackground</span>(background);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        background.<span class="method">update</span>(elapsedTime);
+
+        s1.<span class="method">update</span>(elapsedTime);
+        s2.<span class="method">update</span>(elapsedTime);
+        s3.<span class="method">update</span>(elapsedTime);
+        s4.<span class="method">update</span>(elapsedTime);
+        s5.<span class="method">update</span>(elapsedTime);
+        s6.<span class="method">update</span>(elapsedTime);
+        s7.<span class="method">update</span>(elapsedTime);
+        s8.<span class="method">update</span>(elapsedTime);
+        s9.<span class="method">update</span>(elapsedTime);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        background.<span class="method">render</span>(g);
+
+        s1.<span class="method">render</span>(g);
+        s2.<span class="method">render</span>(g);
+        s3.<span class="method">render</span>(g);
+        s4.<span class="method">render</span>(g);
+        s5.<span class="method">render</span>(g);
+        s6.<span class="method">render</span>(g);
+        s7.<span class="method">render</span>(g);
+        s8.<span class="method">render</span>(g);
+        s9.<span class="method">render</span>(g);
+    }
+
+
+    <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+</pre>
+</p>
+
+<p><b>For nine sprites</b> that can be categorized as a very small amount of sprites for a game, <b>the management is quite difficult</b>. You probably think why not just use array in there, it's possible, but how if the sprites need to be removed or if there is a new sprite to be added? Adding and removing array elements is a difficult task, beside that there is also the problem of determining the sprite location within the array.</p>
+
+<p>Because of that, GTGE offers the next sprite management : <b>grouping all sprites into groups</b>, and those groups that will automatically attach all its sprite member to a background, updating, and rendering all sprites in the group.</p>
+
+<p>This group in GTGE is represented by <b><code><a target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html">SpriteGroup</a></code> class</b>, which in essence is actually <b>a dynamic resizeable array</b>.<br />
+<img src="webstyle/tutorial9.gif" alt="sprite group diagram" /></p>
+
+<h3>SpriteGroup Initialization</h3>
+
+<p><b>SpriteGroup initialization</b> is similar like in sprite, the group need to be <b>attached to a background</b>, <b>updated</b> and <b>rendered</b> to the screen :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html" title="com.golden.gamedev.object.SpriteGroup">SpriteGroup</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public SpriteGroup(String name);
+   public void setBackground(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Background.html" title="com.golden.gamedev.object.Background">Background</a> backgr);
+   public void update(long elapsedTime);
+   public void render(<a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/Graphics2D.html" title="java.awt.Graphics2D">Graphics2D</a> g);</span>
+
+<span class="whereas">whereas :
+name        = the name of the group, only for group identifier
+backgr      = the background where all the sprites in the group will be attached on
+elapsedTime = time elapsed since last updated
+              this value is taken from Game class
+g           = graphics object where the game is rendered</span>
+</pre>
+</p>
+
+<h3>Adding Sprite Into a Group</h3>
+
+<p>Newly created <code>SpriteGroup</code> is always empty. To <b>add new sprite to the group</b> use <b><code>SpriteGroup.add(Sprite)</code></b> :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html" title="com.golden.gamedev.object.SpriteGroup">SpriteGroup</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void add(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a> member);</span>
+
+<span class="whereas">whereas :
+member = sprite to be added into the group</span>
+</pre>
+</p>
+
+<p>Above example (managing nine sprites) when changed to use <code>SpriteGroup</code> class will became :<br />
+	<a class="example" href="src/Tutorial9_1.java">Tutorial9_1.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial9_1.java">view online</a>]
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+<span class="keyword">import</span> com.golden.gamedev.object.background.*;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+    Background   background;
+    SpriteGroup  PLAYER_GROUP; <span class="comment">// we use sprite group's variable name
+                               // in UPPERCASE</span>
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        background = <span class="keyword">new</span><span class="method"> ColorBackground</span>(Color.BLUE, 1024, 768);
+
+        PLAYER_GROUP = new SpriteGroup("<span class="literal">Player Group</span>");
+        PLAYER_GROUP.<span class="method">setBackground</span>(background);
+
+        PLAYER_GROUP.add(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+        PLAYER_GROUP.add(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+        PLAYER_GROUP.add(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+        PLAYER_GROUP.add(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+        PLAYER_GROUP.add(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+        PLAYER_GROUP.add(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+        PLAYER_GROUP.add(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+        PLAYER_GROUP.add(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+        PLAYER_GROUP.add(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        background.<span class="method">update</span>(elapsedTime);
+
+        PLAYER_GROUP.<span class="method">update</span>(elapsedTime);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        background.<span class="method">render</span>(g);
+
+        PLAYER_GROUP.<span class="method">render</span>(g);
+    }
+
+
+    <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+</pre>
+By using <code>SpriteGroup</code>, <b>managing many sprites</b> can be done <b>easily</b>. No need for holding <b>sprite object reference</b> anymore, <b>attaching the sprite to a background</b> one by one, <b>updating</b>, and <b>rendering</b> each sprite.</p>
+
+<h3>Removing Sprite From A Group</h3>
+	<a class="example" href="src/Tutorial9_2.java">Tutorial9_2.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial9_2.java">view online</a>]
+
+<p>To <b>remove a sprite</b> from its group simply set sprite <b>active state</b> to <b>false</b> by using <b><code>Sprite.setActive(false)</code></b>.
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setActive(boolean b);</span>
+
+<span class="whereas">whereas :
+b = active state of the sprite, false makes the sprite inactive (dead)
+    inactive sprite will be removed from its group</span>
+</pre>
+<img src="webstyle/tutorial9_1.gif" alt="adding/removing sprite to/from a sprite group" />
+</p>
+
+<h3>How To Group Sprites Correctly</h3>
+
+<p>There is one important thing that requires attention when <b>grouping sprites</b>, sprite group is also <b>be used in GTGE collision detection</b>. Collision system in GTGE is checking collision between sprites in two groups. Therefore before grouping sprites, you need to see which sprites that need to be in separate groups so the collision detection can be used efficiently.</p>
+
+<p>For example in shooter game, you could make 6 groups as followed : player, player shot, enemy, enemy shot, asteroid, and bonus. Then you can make collision system easily like this : player &lt;-&gt; enemy, enemy shot, asteroid, and bonus; while enemy &lt;-&gt; player and player shot; etc.</p>
+
+<h3>Other Important Notice</h3>
+
+<p>What you need to pay attention in this second approach of GTGE sprite management is <b>each group still need to be attached with the desired background, updated, and rendered one by one</b>.
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+<span class="keyword">import</span> com.golden.gamedev.object.background.*;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+    Background   background;
+    SpriteGroup  PLAYER_GROUP, PLAYER_SHOT_GROUP,
+                 ENEMY_GROUP, ENEMY_SHOT_GROUP,
+                 ASTEROID_GROUP, BONUS_GROUP;
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        background = <span class="keyword">new</span><span class="method"> ColorBackground</span>(Color.BLUE, 1024, 768);
+
+        PLAYER_GROUP      = new SpriteGroup("<span class="literal">Player Group</span>");
+        PLAYER_SHOT_GROUP = new SpriteGroup("<span class="literal">Player Shot Group</span>");
+        ENEMY_GROUP       = new SpriteGroup("<span class="literal">Enemy Group</span>");
+        ENEMY_SHOT_GROUP  = new SpriteGroup("<span class="literal">Enemy Shot Group</span>");
+        ASTEROID_GROUP    = new SpriteGroup("<span class="literal">Asteroid Group</span>");
+        BONUS_GROUP       = new SpriteGroup("<span class="literal">Bonus Group</span>");
+
+        PLAYER_GROUP.<span class="method">setBackground</span>(background);
+        PLAYER_SHOT_GROUP.<span class="method">setBackground</span>(background);
+        ENEMY_GROUP.<span class="method">setBackground</span>(background);
+        ENEMY_SHOT_GROUP.<span class="method">setBackground</span>(background);
+        ASTEROID_GROUP.<span class="method">setBackground</span>(background);
+        BONUS_GROUP.<span class="method">setBackground</span>(background);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        background.<span class="method">update</span>(elapsedTime);
+
+        PLAYER_GROUP.<span class="method">update</span>(elapsedTime);
+        PLAYER_SHOT_GROUP.<span class="method">update</span>(elapsedTime);
+        ENEMY_GROUP.<span class="method">update</span>(elapsedTime);
+        ENEMY_SHOT_GROUP.<span class="method">update</span>(elapsedTime);
+        ASTEROID_GROUP.<span class="method">update</span>(elapsedTime);
+        BONUS_GROUP.<span class="method">update</span>(elapsedTime);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        background.<span class="method">render</span>(g);
+
+        PLAYER_GROUP.<span class="method">render</span>(g);
+        PLAYER_SHOT_GROUP.<span class="method">render</span>(g);
+        ENEMY_GROUP.<span class="method">render</span>(g);
+        ENEMY_SHOT_GROUP.<span class="method">render</span>(g);
+        ASTEROID_GROUP.<span class="method">render</span>(g);
+        BONUS_GROUP.<span class="method">render</span>(g);
+    }
+
+
+    <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+</pre>
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li>To <b>grouping sprites</b> use <b><code>SpriteGroup</code> class</b>.</li>
+
+	<li><b>The purpose</b> of grouping sprites is for easier managing many sprites by <b>automate sprite attachment to a background, updating, and rendering each sprite</b>.</li>
+
+	<li>To <b>add a sprite into a group</b> use <b><code>SpriteGroup.add(Sprite)</code></b>.</li>
+	<li>To <b>remove a sprite</b> from its group, set the active state of the sprite to <code>false</code>, <b><code>Sprite.setActive(false)</code></b>.</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html">SpriteGroup class</a>,
+			   <a target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html">Sprite class</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td><a class="nextpage" href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">« Previous Page</a></td>
+	<td align="right"><a class="nextpage" href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">Next Page »</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 9 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

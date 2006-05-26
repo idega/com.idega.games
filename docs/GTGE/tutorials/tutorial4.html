@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 4</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<h3>Tutorial 4</h3>
+<h1 style="margin-top: 0px">STARTING THE GAME</h1>
+
+<blockquote>Time to write some code, better prepare yourself.... :-)<br />
+This chapter will explain how to start making a new game (in source code), what class to use, code to type, etc.<br />
+Objective : Understand what code to type to start a new game.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<p>The start point of making game with GTGE is by subclassing <code>Game</code> class that reside in <code>com.golden.gamedev</code> package, or in other words <b>every game</b> is <b>subclass of <code>Game</code> class</b>.</p>
+
+<p><img src="webstyle/tutorial4.gif" alt="Every game is a subclass of Game class" /></p>
+
+<p>There are <b>3 tasks</b> that must to do of every subclass of <code>Game</code> class :<br />
+<ul>
+	<li><b>Game Variables Initialization</b><br />
+	In this first task, subclass of <code>Game</code> class need to <b>initialize game variables</b>.<br />
+	For example: initialize sprite, background, etc.<br />
+	<u>Note</u>: <code>Game</code> class is <b>prohibited</b> to have <b>overloading constructor</b>, therefore put all that <b>usually belong in constructor</b> in this method.</li>
+
+	<li><b>Game Update</b><br />
+	<b>Updating the game variables</b>.<br />
+	For example: updating sprite location, animate the game, etc.</li>
+
+	<li><b>Game Render</b><br />
+	<b>Render the game to the screen</b>.<br />
+	For example: render game objects, sprite, background, etc.</li>
+</ul>
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public abstract void initResources();
+   public abstract update(long elapsedTime);
+   public abstract render(<a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/Graphics2D.html" title="java.awt.Graphics2D">Graphics2D</a> g);</span>
+
+<span class="whereas">whereas :
+elapsedTime = time elapsed since last update
+g           = graphics object to render the game</span>
+</pre>
+</p>
+
+<p>Those 3 abstract methods are passed in this sequence :<br />
+<img src="webstyle/tutorial4_1.gif" alt="Game sequence" /></p>
+
+<p>Now let we see the <b>proper way to subclass <code>Game</code> class</b> :<br />
+(as has been explain before, to use a class in a package use <code>import</code> keyword).<br />
+	<a class="example" href="src/Tutorial4.java">Tutorial4.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial4.java">view online</a>]
+<pre>
+file :: YourGame.java
+
+<span class="comment">// GTGE API</span>
+<span class="keyword">import</span> com.golden.gamedev.Game;
+
+<span class="comment">// Java Foundation Classes (JFC)</span>
+<span class="keyword">import</span> java.awt.Graphics2D;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        <span class="comment">// initialization of game variables</span>
+    }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        <span class="comment">// updating the game variables</span>
+    }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        <span class="comment">// rendering to the screen</span>
+    }
+
+
+}
+</pre>
+This is <b>the blue prints or the skeleton of *every* game</b>.</p>
+
+<p>Now as we have know how to code the game skeleton, let's try to run it.<br />
+In <a href="tutorial2.html">chapter 2</a> we know the first thing to do to run Java application is compile the source code :<br />
+Compiling YourGame.java.... Success! YourGame.java is converted to YourGame.class bytecode.<br />
+Next step is run the bytecode : Running YourGame.class.... Failed!!! What's wrong??</p>
+
+<p>Every Java application starts from this function :
+<pre>
+   <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+
+      <span class="comment">// application start point</span>
+
+   }
+</pre>
+And because this function is not exists in the game skeleton we code above, Java could not run the game.<br />
+On next chapter will be explained how to run the game skeleton.</p>
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li><b>Every game is subclass of <code>Game</code> class</b>.</li>
+	<li>Subclass of <code>Game</code> class <b>need to do 3 tasks</b>, <b>game variables initialization</b>, <b>game update</b>, and <b>game render</b>.</li>
+	<li>In <b>variables initialization</b>, put all that <b>usually belong to constructor</b>.</li>
+	<li>In <b>game update</b>, <b>update the game variables</b> to animate the game.</li>
+	<li>In <b>game render</b>, <b>render the game objects</b> to the screen.</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="../docs/com/golden/gamedev/Game.html">Game class</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td><a class="nextpage" href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">« Previous Page</a></td>
+	<td align="right"><a class="nextpage" href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">Next Page »</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 4 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

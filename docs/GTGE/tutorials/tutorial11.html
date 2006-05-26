@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 11</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<h3>Tutorial 11</h3>
+<h1 style="margin-top: 0px">ITS PLAY TIME!</h1>
+	<a class="source" href="src/GTGE/PlayField.java">PlayField.java</a> [<a class="source" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/GTGE/PlayField.java">view online</a>]
+
+<blockquote>This chapter explains how sprites, background, collision system are collected into a playfield and automate all things.<br />
+Objective : Understand the use and how to use playfield.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<p><b><code><a target="_blank" href="../docs/com/golden/gamedev/object/PlayField.html">PlayField</a></code></b> can be imagine as a <b>game arena</b> where <b>everything</b>, from sprites, background, and other stuff are put, and all activities in this play field are <b>running automatically</b>.</p>
+
+<p>The reason <code>PlayField</code> class is created is same with the reason why <code>SpriteGroup</code> class is created, that is to <b>manage/organize/automate many things easily</b>, where the <code>SpriteGroup</code> is to organize many sprites, the <code>PlayField</code> is exists to <b>organize <code>SpriteGroup</code>, <code>Background</code>, and <code>CollisionManager</code> easily</b>.</p>
+
+<p>The <code>PlayField</code> class is automating :
+<ul>
+	<li><b><code>Background</code></b> : updating, and rendering background.</li>
+	<li><b><code>SpriteGroup</code></b> : updating, rendering, and placing SpriteGroup into a background.</li>
+	<li><b><code>CollisionManager</code></b> : registering collision group, and checking for collision.</li>
+</ul></p>
+
+<p>This <code>PlayField</code> class is the third or the last approach of GTGE sprite management.</p>
+
+
+<h3>PlayField Initialization</h3>
+
+<p><b><code>PlayField</code> initialization</b> is same like <code>SpriteGroup</code> and <code>Sprite</code> class initialization :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/PlayField.html" title="com.golden.gamedev.object.PlayField">PlayField</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public PlayField();
+   public void update(long elapsedTime);
+   public void render(<a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/Graphics2D.html" title="java.awt.Graphics2D">Graphics2D</a> g);</span>
+
+<span class="whereas">whereas :
+elapsedTime = time elapsed since last update
+g           = graphics object where the game is rendered</span>
+</pre>
+</p>
+
+
+<h3>Associating Background with a PlayField</h3>
+
+<p>To associate playfield with a background is also same like in <code>SpriteGroup</code> class by using <b><code>PlayField.setBackground(Background)</code></b> :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/PlayField.html" title="com.golden.gamedev.object.PlayField">PlayField</a>
+
+<b>Syntax:</b>
+   public void setBackground(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Background.html" title="com.golden.gamedev.object.Background">Background</a> backgr);
+
+<span class="whereas">whereas :
+backgr = the game arena background
+</pre></p>
+
+
+<h3>Adding SpriteGroup into a PlayField</h3>
+
+<p>To <b>add</b> <code>SpriteGroup</code> into playfield use <b><code>PlayField.addGroup(SpriteGroup)</code></b> :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/PlayField.html" title="com.golden.gamedev.object.PlayField">PlayField</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html" title="com.golden.gamedev.object.SpriteGroup">SpriteGroup</a> addGroup(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html" title="com.golden.gamedev.object.SpriteGroup">SpriteGroup</a> group);</span>
+
+<span class="whereas">whereas :
+group       = SpriteGroup to be add to the game arena
+SpriteGroup = the added SpriteGroup reference</span>
+
+
+<b>For example:</b>
+<span class="example">adding player group into playfield</span>
+
+   SpriteGroup  PLAYER_GROUP;
+   PlayField    playfield;
+
+   PLAYER_GROUP = <span class="keyword">new</span><span class="method"> SpriteGroup</span>("<span class="literal">Player Group</span>");
+   playfield.<span class="method">addGroup</span>(PLAYER_GROUP);
+
+
+   <u>or in a single step</u> :
+
+   SpriteGroup  PLAYER_GROUP;
+   PlayField    playfield;
+
+   PLAYER_GROUP = playfield.<span class="method">addGroup</span>(<span class="keyword">new</span><span class="method"> SpriteGroup</span>("<span class="literal">Player Group</span>"));
+</pre>
+</p>
+
+
+<h3>Registering Collision Detection</h3>
+
+<p><code>PlayField</code> also handles the collision detection, simply register any collision types and the collision groups by using <b><code>PlayField.addCollisionGroup(SpriteGroup, SpriteGroup, CollisionManager)</code></b> :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/PlayField.html" title="com.golden.gamedev.object.PlayField">PlayField</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void addCollisionGroup(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html" title="com.golden.gamedev.object.SpriteGroup">SpriteGroup</a> group1,
+                                 <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html" title="com.golden.gamedev.object.SpriteGroup">SpriteGroup</a> group2,
+                                 <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/CollisionManager.html" title="com.golden.gamedev.object.CollisionManager">CollisionManager</a> collisionGroup);</span>
+
+<span class="whereas">whereas :
+group1         = the first group registered for the collision check
+group2         = the second group registered for the collision check
+collisionGroup = the collision manager</span>
+
+
+<b>For example:</b>
+<span class="example">register collision between player shot group and enemy group</span>
+
+   PlayField         playfield;
+   SpriteGroup       PLAYER_SHOT_GROUP,
+                     ENEMY_GROUP;
+
+   CollisionManager  collisionType;
+
+
+   playfield.<span class="method">addCollisionGroup</span>(PLAYER_SHOT_GROUP, ENEMY_GROUP, collisionType);
+</pre></p>
+
+
+<h3>Full Example</h3>
+	<a class="example" href="src/Tutorial11.java">Tutorial11.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial11.java">view online</a>]
+
+<p>A complete example of how to use <code>PlayField</code> class to manage background, sprite groups, and collision detection :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+<span class="keyword">import</span> com.golden.gamedev.object.background.*;
+<span class="keyword">import</span> com.golden.gamedev.object.collision.*;
+
+
+<span class="keyword">public</span> class YourGame <span class="keyword">extends</span> Game {
+
+
+    PlayField    playfield;
+    Background   background;
+
+    SpriteGroup  PLAYER_GROUP,
+                 ENEMY_GROUP;
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        background = <span class="keyword">new</span><span class="method"> ColorBackground</span>(Color.BLUE, 1024, 768);
+        playfield = <span class="keyword">new</span><span class="method"> PlayField</span>(background);
+
+
+        PLAYER_GROUP = playfield.<span class="method">add</span>(<span class="keyword">new</span><span class="method"> SpriteGroup</span>("<span class="literal">Player Group</span>"));
+        ENEMY_GROUP  = playfield.<span class="method">add</span>(<span class="keyword">new</span><span class="method"> SpriteGroup</span>("<span class="literal">Enemy Group</span>"));
+
+        PLAYER_GROUP.<span class="method">add</span>(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+        PLAYER_GROUP.<span class="method">add</span>(<span class="keyword">new</span><span class="method"> Sprite(getImage</span>("<span class="literal">player.png</span>")));
+
+
+        playfield.<span class="method">addCollisionGroup</span>(PLAYER_GROUP, ENEMY_GROUP,
+                                    <span class="keyword">new</span><span class="method"> PlayerEnemyCollision</span>());
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        playfield.<span class="method">update</span>(elapsedTime);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        playfield.<span class="method">render</span>(g);
+    }
+
+
+    <span class="keyword">public</span> static <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+
+
+<span class="keyword">class</span> PlayerEnemyCollision <span class="keyword">extends</span> BasicCollisionGroup {
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> collided</span>(Sprite s1, Sprite s2) {
+        <span class="comment">// make both sprites to vanish!</span>
+        s1.<span class="method">setActive</span>(<span class="keyword">false</span>);
+        s2.<span class="method">setActive</span>(<span class="keyword">false</span>);
+    }
+
+}</pre>
+<u>Notice</u> : <b>Background and sprite do not need to update and render</b> anymore, <code>PlayField</code> is automatically update and render the background and all sprite groups inside it, also <b>the collision check does not need to call again</b>, <code>PlayField</code> automatically check for all collisions registered inside it.</p>
+
+
+<h3>The Similarities of All Sprite Management Approach</h3>
+
+<p><b>The similarities of every game objects</b> (<code>Sprite</code>, <code>SpriteGroup</code>, <code>PlayField</code>) are that every game objects are <b>need to do 3 things</b> :
+<ul>
+	<li><b>Attaching to a desired background</b>;</li>
+	<li><b>Updating</b>; and</li>
+	<li><b>Rendering</b> to the screen.</li>
+</ul>
+At <code>Sprite</code> level, each sprite need to be attached to a background, updated, and rendered one by one.<br />
+At <code>SpriteGroup</code> level, the sprites are grouped in a group, and only the group need to be attached to a background, updated, and rendered.<br />
+An at <code>PlayField</code> level, all sprite groups are placed in a play field that has a background in it and only this playfield need to be updated and rendered.<br />
+<img src="webstyle/tutorial10.gif" alt="sprite, sprite group, playfield" /></p>
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li><b><code>PlayField</code></b> is used to <b>collects and automate</b> all game objects.</li>
+
+	<li><code>PlayField</code> automate <b>background, sprite groups, and collision detection</b>.</li>
+
+	<li>Like <code>Sprite</code> and <code>SpriteGroup</code>, <code>PlayField</code> is need to be <b>updated</b> and <b>rendered</b>.</li>
+
+	<li>To <b>associate a background</b> into a playfield use <b><code>PlayField.setBackground(Background)</code></b>.</li>
+
+	<li>To <b>add a sprite group</b> into a playfield use <b><code>PlayField.addGroup(SpriteGroup)</code></b>.</li>
+
+	<li>To <b>register a collision detection</b> into a playfield use <b><code>PlayField.addCollisionGroup(SpriteGroup, SpriteGroup, CollisionManager)</code></b>.</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="../docs/com/golden/gamedev/object/PlayField.html">PlayField class</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td><a class="nextpage" href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">« Previous Page</a></td>
+	<td align="right"><a class="nextpage" href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">Next Page »</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 11 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

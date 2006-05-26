@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 10</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<h3>Tutorial 10</h3>
+<h1 style="margin-top: 0px">MISSING SOME COLLISIONS!?</h1>
+	<a class="source" href="src/GTGE/CollisionManager.java">CollisionManager.java</a> [<a class="source" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/GTGE/CollisionManager.java">view online</a>]
+
+<blockquote>This chapter will explain GTGE collision system to check collision between sprites.<br />
+Objective : Understand GTGE collision system, types of collision, and how to use it.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<p>As has been mentioned before, GTGE <b>collision system</b> is checking collision between <b>sprites in a group</b> againsts sprites in another group.</p>
+
+<p>For example :<br />
+In shooter game, there are 6 sprite groups : player group, player shot group, enemy group, enemy shot group, asteroid group, and bonus group.<br />
+Collision can be checked between : player group &lt;-&gt; enemy, enemy shot, asteroid, and bonus group; while enemy group &lt;-&gt; player and player shot group; etc.</p>
+
+<p>By using collision system based on group like this, managing collision implementation would be much easier. For example in above shooter game example, you could make the collision implementation like this : for player shot group &lt;-&gt; enemy group, set the collided sprite in enemy group to be destroyed (dead / inactive) and set the collided sprite in player shot group to vanish; while for collision between player group &lt;-&gt; bonus group, set player energy, score, or power to increase and set collided bonus to vanish.</p>
+
+<p>Besides of making collision implementation much easier, this kind of collision system also improve readability, improve collision check performance, etc.</p>
+
+<h3>The Basic Collision Detection</h3>
+
+<p>The foundation of collision system in GTGE is <b><code><a target="_blank" href="../docs/com/golden/gamedev/object/CollisionManager.html">CollisionManager</a></code></b> class. The <code>CollisionManager</code> class is the base class of every collision types in GTGE.</p>
+
+<p><b>How the <code>CollisionManager</code> class works</b> :
+<ol>
+	<li><b>Register the two collision groups</b> (groups to check its collision for one another) :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/CollisionManager.html" title="com.golden.gamedev.object.CollisionManager">CollisionManager</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setCollisionGroup(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html" title="com.golden.gamedev.object.SpriteGroup">SpriteGroup</a> group1,
+                                 <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/SpriteGroup.html" title="com.golden.gamedev.object.SpriteGroup">SpriteGroup</a> group2);</span>
+
+<span class="whereas">whereas :
+group1 = the first group registered for the collision check
+group2 = the second group registered for the collision check</span>
+
+
+<b>For example:</b>
+<span class="example">register collision check between player shoot group and enemy group</span>
+
+   SpriteGroup       PLAYER_SHOT_GROUP,
+                     ENEMY_GROUP;
+
+   CollisionManager  collisionType;
+
+
+   collisionType.<span class="method">setCollisionGroup</span>(PLAYER_SHOT_GROUP, ENEMY_GROUP);
+</pre></li>
+
+	<li><b>Checking for the actual collision</b> :<br />
+	How the collision check is delegated to its subclass.
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/CollisionManager.html" title="com.golden.gamedev.object.CollisionManager">CollisionManager</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public abstract void checkCollision();</span>
+
+
+<b>For example:</b>
+<span class="example">register and check for collision between player shoot group and enemy group</span>
+
+   SpriteGroup       PLAYER_SHOT_GROUP,
+                     ENEMY_GROUP;
+
+   CollisionManager  collisionType;
+
+
+   collisionType.<span class="method">setCollisionGroup</span>(PLAYER_SHOT_GROUP, ENEMY_GROUP);
+
+   collisionType.<span class="method">checkCollision</span>();
+</pre></li>
+</ol></p>
+
+<h3>Types of Collision</h3>
+
+<p>As has been mentioned above, <code>CollisionManager</code> delegates the collision check to its subclass. For that, GTGE provides five subclass of <code>CollisionManager</code> class (<b>collision types</b>) :
+<ul>
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/object/collision/BasicCollisionGroup.html">BasicCollisionGroup class</a></b><br />
+	The basic collision type, only check <b>whether collision is occured or not</b>.</li>
+
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/object/collision/CollisionGroup.html">CollisionGroup class</a></b><br />
+	Check whether collision is occured or not and provide some <b>information about the collision event</b>, such as <b>side of collision</b> and <b>sprite position before collision occured</b>.</li>
+
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/object/collision/PreciseCollisionGroup.html">PreciseCollisionGroup class</a></b><br />
+	<b>Sprite position before collision occured is calculated precisely</b>, that way the collided sprites can return right before the collision occured.</li>
+
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/object/collision/AdvanceCollisionGroup.html">AdvanceCollisionGroup class</a></b><br />
+	One-to-many collision type, this type of collision able to <b>check collision between one sprite to many sprites at once</b> accurately, for example in platformer game, this type of collision can calculate collision between player with many blocks.</li>
+
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/object/collision/CollisionBounds.html">CollisionBounds class</a></b><br />
+	Check <b>sprite collision with boundary</b>, for example bound sprite movement to the game background, when the sprite to out of bounds boundary, the collision event is fired.</li>
+</ul>
+</p>
+
+<p>Always <b>use appropriate collision type</b> for <b>optimum and efficient collision check</b> to improve game performance. For example if you only need to check whether collision occured without other collision info (like the collision side or sprite return position), then better use the <code>BasicCollisionGroup</code> collision type.</p>
+
+
+<h3>Collision Implementation</h3>
+
+<p>All above collision types <b>send collision event</b> to <b><code>collided(Sprite s1, Sprite s2)</code></b> function, where in this function <b>the collision implementation is worked out</b>. Whether the collided sprite is force to stop, or removed from the game, etc.
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/collision/BasicCollisionGroup.html" title="com.golden.gamedev.object.collision.BasicCollisionGroup">BasicCollisionGroup</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public abstract void collided(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a> s1,
+                                 <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a> s2);</span>
+
+<span class="whereas">whereas :
+s1 = the collided sprite from group 1
+s2 = the collided sprite from group 2
+</span>
+</pre>
+</p>
+
+
+<h3>Collision Check Initialization</h3>
+	<a class="example" href="src/Tutorial10.java">Tutorial10.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial10.java">view online</a>]
+
+<p>In order to <b>initialize and perform</b> collision check, the first thing is create the <b>collision prototype by subclassing appropriate collision type</b>. For example making collision prototype based on <code>BasicCollisionGroup</code> collision type to check collision between player shot group and enemy group :
+<pre>
+file :: PlayerShotToEnemyCollision.java
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+<span class="keyword">import</span> com.golden.gamedev.object.collision.*;
+
+
+<span class="keyword">public class</span> PlayerShotToEnemyCollision <span class="keyword">extends</span> BasicCollisionGroup {
+
+   <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> collided</span>(Sprite s1, Sprite s2) {
+      <span class="comment">// s1 = player shot sprite</span>
+      <span class="comment">// s2 = enemy sprite</span>
+
+      <span class="comment">// we make both of sprites to vanish!</span>
+      s1.<span class="method">setActive</span>(<span class="keyword">false</span>);
+      s2.<span class="method">setActive</span>(<span class="keyword">false</span>);
+   }
+
+}
+</pre>
+</p>
+
+<p>Above code is only the collision <b>prototype/blue print</b>, in order to check the collision, create a new object based on the prototype and register the collision groups into it :
+<pre>
+   SpriteGroup       PLAYER_SHOT_GROUP,
+                     ENEMY_GROUP;
+
+   CollisionManager  collisionType;
+
+
+   collisionType = <span class="keyword">new</span><span class="method"> PlayerShotToEnemyCollision</span>();
+
+   collisionType.<span class="method">setCollisionGroup</span>(PLAYER_SHOT_GROUP, ENEMY_GROUP);
+
+   collisionType.<span class="method">checkCollision</span>();
+</pre></p>
+
+<p>To use <b>other collision type</b>, for example <code>CollisionGroup</code>, only need to <b>change the <code>BasicCollisionGroup</code> to <code>CollisionGroup</code></b>. To see all functions the collision type provided (for example function to get the collided side), please see the collision type API documentation.</p>
+
+<h3>Pixel Perfect Collision</h3>
+
+<p><code>BasicCollisionGroup</code> class and its subclass support for <b>pixel perfect collision</b>. To use it simply set <b><code>pixelPerfectCollision</code></b> variable to <b><code>true</code></b> :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/collision/BasicCollisionGroup.html" title="com.golden.gamedev.object.collision.BasicCollisionGroup">BasicCollisionGroup</a>
+
+<b>Syntax:</b>
+   <span class="syntax"> boolean pixelPerfectCollision;</span>
+
+
+<b>For example:</b>
+<span class="example">turn on pixel perfect collision for
+collision between player and enemy in above example</span>
+
+   BasicCollisionGroup collisionType = <span class="keyword">new</span><span class="method"> PlayerShotToEnemyCollision</span>();
+   collisionType.<span class="method">pixelPerfectCollision</span> = <span class="keyword">true</span>;
+</pre>
+</p>
+
+
+<h3>Full Example</h3>
+
+<p>A complete example of how to use GTGE collision system using the most basic collision type (<code>BasicCollisionGroup</code> class) where pixel perfect collision is turned on :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+<span class="keyword">import</span> com.golden.gamedev.object.background.*;
+<span class="keyword">import</span> com.golden.gamedev.object.collision.*;
+
+
+<span class="keyword">public</span> class YourGame <span class="keyword">extends</span> Game {
+
+
+    Background   background;
+
+    SpriteGroup  PLAYER_SHOT_GROUP,
+    SpriteGroup  ENEMY_GROUP;
+
+    CollisionManager collisionType;
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        background = <span class="keyword">new</span><span class="method"> ColorBackground</span>(Color.BLUE, 640, 480);
+
+        PLAYER_SHOT_GROUP = <span class="keyword">new</span><span class="method"> SpriteGroup</span>("<span class="literal">Player Shot Group</span>");
+        ENEMY_GROUP = <span class="keyword">new</span><span class="method"> SpriteGroup</span>("<span class="literal">Enemy Group</span>");
+
+        collisionType = <span class="keyword">new</span><span class="method"> PlayerShotToEnemyCollision</span>();
+        collisionType.<span class="method">setCollisionGroup</span>(PLAYER_SHOT_GROUP, ENEMY_GROUP);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        background.<span class="method">update</span>(elapsedTime);
+
+        PLAYER_SHOT_GROUP.<span class="method">update</span>(elapsedTime);
+        ENEMY_GROUP.<span class="method">update</span>(elapsedTime);
+
+        collisionType.<span class="method">checkCollision</span>();
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        background.<span class="method">render</span>(g);
+
+        PLAYER_SHOT_GROUP.<span class="method">render</span>(g);
+        ENEMY_GROUP.<span class="method">render</span>(g);
+    }
+
+
+    <span class="keyword">public</span> static <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+
+<span class="keyword">class</span> PlayerShotToEnemyCollision <span class="keyword">extends</span> BasicCollisionGroup {
+
+    <span class="keyword">public</span><span class="method"> PlayerShotToEnemyCollision</span>() {
+	pixelPerfectCollision = true;
+    }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> collided</span>(Sprite s1, Sprite s2) {
+        <span class="comment">// s1 = player shot sprite</span>
+        <span class="comment">// s2 = enemy sprite</span>
+
+        <span class="comment">// make both sprites to vanish!</span>
+        s1.<span class="method">setActive</span>(<span class="keyword">false</span>);
+        s2.<span class="method">setActive</span>(<span class="keyword">false</span>);
+    }
+
+}</pre></p>
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li>The <b>collision system</b> in GTGE is <b>checking collision between members of two sprite groups</b>.</li>
+
+	<li><b><code>CollisionManager</code> class</b> is the base GTGE collision system, where its main task is registering the collision groups using <b><code>setCollisionGroup(SpriteGroup, SpriteGroup)</code></b>, and checking the actual collision using <b><code>checkCollision()</code></b>.</li>
+
+	<li>There are 5 collision types in GTGE (subclass of <code>CollisionManager</code> class) : <b><code>BasicCollisionGroup</code></b>, <b><code>CollisionGroup</code></b>, <b><code>PreciseCollisionGroup</code></b>, <b><code>AdvanceCollisionGroup</code></b>, dan <b><code>CollisionBounds</code></b>. Always use appropriate collision type for optimum collision check to improve game performance.</li>
+
+	<li>To <b>initialize</b> collision detection, <b>subclass the appropriate collision type</b>, instantiate new object based on the class, register the collision groups into it, and check for collision by calling <code>checkCollision()</code> function.</li>
+
+	<li>To <b>turn on pixel perfect collision</b>, simply set <b><code>pixelPerfectCollision</code></b> variable to <b><code>true</code></b>.</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="../docs/com/golden/gamedev/object/CollisionManager.html">CollisionManager class</a>,
+			   <a target="_blank" href="../docs/com/golden/gamedev/object/collision/BasicCollisionGroup.html">BasicCollisionGroup class</a>,
+			   <a target="_blank" href="../docs/com/golden/gamedev/object/collision/package-summary.html">com.golden.gamedev.object.collision package</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td><a class="nextpage" href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">« Previous Page</a></td>
+	<td align="right"><a class="nextpage" href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">Next Page »</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 10 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

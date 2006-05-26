@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 12</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<h3>Tutorial 12</h3>
+<h1 style="margin-top: 0px">END OF TUTORIAL??</h1>
+
+<blockquote>This chapter explains other important things for game development.<br />
+Objective : Understand other GTGE components.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<h3>Game Distribution</h3>
+
+<p><b>Before distributing the game</b>, make sure this code has been added to the <code>Game</code> class <b><code>{ distribute = true; }</code></b> :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.Graphics2D;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.Game;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+    <b>{ distribute = true; }</b>
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() { }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) { }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) { }
+
+}
+</pre>
+<code>{ distribute = true; }</code> mark the game that the game is ready to distribute, thus GTGE will <b>remove fps counter</b>, and also <b>catch any unexpected error/bugs</b> from your game (if any) and <b>show it to the player</b> in GUI form and ask them to send it to your email.</p>
+
+<p>And for the usual way to distribute the game is by packing the game in <b>compressed JAR form</b> (similar like ZIP file format), and later can be processed in <b>Webstart</b>, <b>Applet</b>, etc. Use <a target="_blank" href="http://goldenstudios.or.id/products/utilities/jarmaker/">Jar Maker</a> utility to pack your game in JAR, Webstart, or Applet.</p>
+
+
+<h3>End of GTGE Tutorial</h3>
+
+<p>GTGE Tutorial has ended, but GTGE still has lots features that you could dig deeper in <b><a target="_blank" href="../docs/index.html">GTGE API Documentation</a></b>, such as :
+<ul>
+	<li>Bitmap font (font that using images).</li>
+	<li>Image manipulation.</li>
+	<li>Sprite rendering based on position/z-depth/etc.</li>
+	<li>Separate game entities (separate game title, option logic, from the real game logic).</li>
+	<li>ETC.</li>
+</ul>
+</p>
+
+<p>The GTGE API Documentation is easy to understand because in the header of <b>each class and package</b>, there is a <b>brief description</b> of what is the class or the package about and how to use it.</p>
+
+<p>Besides of developing GTGE library as the main engine to create games, we also develop <b>game tools to make your game development even easier</b> and develop some <b>add-ons to extend GTGE functional</b> (like add-ons for playing MP3 and OGG audio format) that you can download freely at <b><a target="_blank" href="http://goldenstudios.or.id/products/utilities/">game development utilities</a></b> section in our site.</p>
+
+<p>To make you more understand of <b>how GTGE game is actually created</b>, you could see <b>source code of games we made</b> with GTGE at <b><a target="_blank" href="http://goldenstudios.or.id/products/games/">game</a></b> section in our site (generally source code of games we made is available for public).</p>
+
+<p>For <b>*any* questions/troubles/features request/bugs report</b> that related with Java, GTGE, or even specific to your game, <b>can be asked in our <a target="_blank" href="http://goldenstudios.or.id/forum/">dedicated forum</a></b>, we will do our best to answer any questions!<br />
+And there are also some <b>articles and tutorials of making game</b> that come from us or other GTGE user in the forum, so be sure to visit it!</p>
+
+<p>Finally, we want this tutorial <b>as simple as possible!</b> easy to understand by novice and expert Java programmer. So if you feel this tutorial is hard or confusing, <b>drop me a line at <a href="mailto:pauwui@yahoo.com">pauwui@yahoo.com</a></b> and tell which part that confusing you, or which part that you feel difficult so we can simplify it a bit.<br />
+Or if you have other technique to make this tutorial even simpler, don't hesitate to contact us.<br />
+And note that English is not our primary language (hope you not recognized this much in this tutorial), if you find wrong vocab, grammar, structure, etc, please be kind by correcting it and send it to us.<br />
+<b><u>Thank you</u></b></p>
+
+<p>Till we meet again.......<br />
+&nbsp;&nbsp;&nbsp;Thank you for using Golden T Game Engine (GTGE) Frame Work</p>
+
+<p>Happy Coding! :-)</p>
+
+<p>&nbsp;</p>
+
+<p>Written by,<br />
+<br />
+<b>Paulus Tuerah<br />
+Golden T Game Engine Developer<br />
+<a href="http://goldenstudios.or.id">http://www.goldenstudios.or.id/</a></b></p>
+
+<hr />
+
+<h3>Very Important Note</h3>
+
+<p><b>Golden T Game Engine (GTGE)</b> is <b>freeware library!</b><br />
+You can <b>download</b>, <b>distribute</b>, and <b>sell any game</b> produced with GTGE commercially, <b>free of charge!</b> And even if you like to, you could put your game in our site Game Showcase and order us to sell it!</p>
+
+<p>There is only <b>one thing that you must remember to do</b>, you should <b>mention</b> that the game is <b>made using GTGE</b> and <b>provide direct link to GTGE official site</b> (www.goldenstudios.or.id). You could write it inside the game or in the web page where the game directly download / played, or other place that you think more appropriate. In other words <b>credits to us, Golden T Studios, must stay intact!</b></p>
+
+<p>If you feel GTGE is great and help you a lots, you could also <b>help us</b> to keep working on it and improve GTGE feature and quality in many way, from not cost you any penny to direct donation. Some of what you can do to help us are :
+<ul>
+	<li><b>Spread words</b> about GTGE to your friends, classmate, forum you visit, family :-) etc.</li>
+	<li>Actively in our <b><a target="_blank" href="http://goldenstudios.or.id/forum/">forum</a></b>.</li>
+	<li>Visit our <b>sponsor</b>.</li>
+	<li><b>Buy books or merchandise</b> from our sponsor (<a target="_blank" href="http://www.amazon.com/exec/obidos/redirect-home/goldentstudio-20">amazon affiliate site</a>).</li>
+	<li>Directly <b><a target="_blank" href="https://www.bitpass.com/donation/000007E3/donate/">donate</a></b> to our account, you could donate as small as $0.01.</li>
+	<li><b>Share your sales a bit for us</b>, whether you success selling game you made by GTGE.</li>
+	<li>ETC.</li>
+</ul>
+<b>Thanks for your support!</b></p>
+
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li>There are still <b>lots features of GTGE</b> that haven't covered in this tutorial, for complete things you can do with GTGE, please read <b>GTGE API Documentation</b>.</li>
+
+	<li>Add this code <b><code>{ distribute = true; }</code></b> in your game class, right when your game is ready to distribute.</li>
+
+	<li>Always <b>distribute</b> your game in <b>JAR form</b> (similar like ZIP format), use <b>JAR tool</b> that has been included in Java standard tool.</li>
+
+	<li><b>Visit our forum</b> to ask <b>*any* problems</b> with Java, GTGE, and your game.</li>
+
+	<li><b>GTGE</b> is <b>freeware library!</b> There are many ways you could do to help us, from not cost you any penny to direct donation. Please see our site FAQ section or in our forum for how you could help us to keep working and improving GTGE. (thanks!)</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="../docs/index.html">GTGE API Documentation</a>,
+			   <a target="_blank" href="http://goldenstudios.or.id/forum/">GTGE Forum</a>, <a target="_blank" href="http://goldenstudios.or.id/products/utilities/">Game Development Utilities</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td><a class="nextpage" href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">« Previous Page</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 12 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 8</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<h3>Tutorial 8</h3>
+<h1 style="margin-top: 0px">BACKGROUND</h1>
+	<a class="source" href="src/GTGE/Background.java">Background.java</a> [<a class="source" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/GTGE/Background.java">view online</a>]
+
+<blockquote>This chapter will expain what is background, its relation with sprite, how to initialize, and how to use it.<br />
+Objective : Understand what is background, its relation with sprite, and how to use it.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<h3>Background Description</h3>
+
+<p>As has been explained in previous chapter, <b>every sprites are located somewhere in the screen</b>. <b>Screen</b> in there actually is a <b>background</b> (<code><a target="_blank" href="../docs/com/golden/gamedev/object/Background.html">Background</a></code> class).<br />
+<img src="webstyle/tutorial8.gif" alt="background and sprite" /></p>
+
+<h3>Background Initialization</h3>
+
+<p><b>The basic background initialization</b> is really simple, only need to provide the width and the height of the background :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Background.html" title="com.golden.gamedev.object.Background">Background</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public Background(int w, int h);</span>
+
+<span class="whereas">whereas :
+w = width of the background
+h = height of the background</span>
+</pre>
+</p>
+
+<p>Similar to a sprite, <b>background also need to be updated and rendered</b> on each frame :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Background.html" title="com.golden.gamedev.object.Background">Background</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void update(long elapsedTime);
+   public void render(<a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/Graphics2D.html" title="java.awt.Graphics2D">Graphics2D</a> g);</span>
+
+<span class="whereas">whereas :
+elapsedTime = time elapsed since last updated
+              this value is taken from Game class
+g           = graphics object where the game is rendered</span>
+</pre></p>
+
+<h3>Sprite and Background</h3>
+	<a class="example" href="src/Tutorial8_1.java">Tutorial8_1.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial8_1.java">view online</a>]
+
+<h4>Associate Sprite with Background</h4>
+
+<p>A newly created sprite by default is located in an empty background. To <b>attach the sprite into a background</b> use <b><code>Sprite.setBackground(Background)</code></b> function :<br />
+<img src="webstyle/tutorial8_1.gif" alt="attaching sprite into a background diagram" />
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setBackground(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Background.html" title="com.golden.gamedev.object.Background">Background</a> backgr);</span>
+
+<span class="whereas">whereas :
+backgr = background where the sprite will be attach on</span>
+
+
+<b>For example:</b>
+<span class="example">attach several sprites into a background</span>
+
+   Background background;
+   Sprite spr1, spr2, spr3;
+
+   spr1.<span class="method">setBackground</span>(background);
+   spr2.<span class="method">setBackground</span>(background);
+   spr3.<span class="method">setBackground</span>(background);
+</pre>
+</p>
+
+<h4>Make a Sprite on the Center of Background ViewPort</h4>
+
+<p>To make a sprite right <b>on the center of background viewport</b> use :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Background.html" title="com.golden.gamedev.object.Background">Background</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setToCenter(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a> centered);</span>
+
+<span class="whereas">whereas :
+centered = sprite that will be in the center of background viewport</span>
+</pre>
+</p>
+
+<h3>Types of Background</h3>
+	<a class="example" href="src/Tutorial8_2.java">Tutorial8_2.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial8_2.java">view online</a>]
+
+<p>Available background types in GTGE :
+<ul>
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/object/background/ColorBackground.html">Color Background</a></b><br />
+	The basic background type, only <b>fill the screen / background with a color</b>.</li>
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/object/background/ImageBackground.html">Image Background</a></b><br />
+	Background is <b>filled with an image</b>.</li>
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/object/background/TileBackground.html">Tile Background</a></b><br />
+	Tile Background is <b>an arrangement of images</b> in a rectangular grid, like <b>floor tiles</b>.</li>
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/object/background/ParallaxBackground.html">Parallax Background</a></b><br />
+	Background that <b>make up from several backgrounds</b> (layers) whereas each background is moved smoothly, creating a parallax effect.</li>
+</ul>
+The backgrounds initialization can be read from its API documentation.</p>
+
+<p>Example :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+<span class="keyword">import</span> com.golden.gamedev.object.background.*;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+   Background  background;
+
+   Sprite      s1, s2, s3;
+
+
+   <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+       background = <span class="keyword">new</span><span class="method"> ColorBackground(Color.BLUE, 800, 600);
+
+       s1 = <span class="keyword">new</span><span class="method"> Sprite</span>(getImage</span>("<span class="literal">player.png</span>"));
+       s1.<span class="method">setBackground</span>(background);
+
+       s2 = <span class="keyword">new</span><span class="method"> Sprite</span>(getImage</span>("<span class="literal">player.png</span>"));
+       s2.<span class="method">setBackground</span>(background);
+
+       s3 = <span class="keyword">new</span><span class="method"> Sprite</span>(getImage</span>("<span class="literal">player.png</span>"));
+       s3.<span class="method">setBackground</span>(background);
+   }
+
+
+   <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+       background.<span class="method">update</span>(elapsedTime);
+
+       s1.<span class="method">update</span>(elapsedTime);
+       s2.<span class="method">update</span>(elapsedTime);
+       s3.<span class="method">update</span>(elapsedTime);
+   }
+
+
+   <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+       background.<span class="method">render</span>(g);
+
+       s1.<span class="method">render</span>(g);
+       s2.<span class="method">render</span>(g);
+       s3.<span class="method">render</span>(g);
+   }
+
+
+   <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+       GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+       game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+       game.<span class="method">start</span>();
+   }
+
+}
+</pre>
+</p>
+
+<h3>Changing Background ViewPort</h3>
+	<a class="example" href="src/Tutorial8_3.java">Tutorial8_3.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial8_3.java">view online</a>]
+
+<p>By default background viewport is as big as game size (occupy all the game area). For example if the game size is 640x480 then the viewport of the background will also as big as 640x480. <b>This viewport could be changed using</b> :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Background.html" title="com.golden.gamedev.object.Background">Background</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setClip(int x, int y, int width, int height);</span>
+
+<span class="whereas">whereas :
+x      = start x coordinate to render the background
+y      = start y coordinate to render the background
+width  = width of background viewport
+height = height of background viewport</span></pre>
+</p>
+
+<h3>Important Notice</h3>
+
+<p>The direct usage of sprite and background like above is the first approach of sprite management in GTGE.</p>
+
+<p>The important thing on this first approach is <b>don't forget to attach / associate each sprite with the desired background</b>.</p>
+
+<p>Next we will explain the next approach of sprite management in GTGE, sprites are grouped into groups.</p>
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li>Background is where the sprite lived, or in other words <b>every sprite is located somewhere in the background</b>.</li>
+
+	<li>Background in GTGE is represented by <b><code>Background</code> class</b>.</li>
+
+	<li>Every newly created sprite by default is attached in an empty background, to <b>attach / associate it to the desired background</b>, use <b><code>Sprite.setBackground(Background)</code></b>.</li>
+
+	<li>To make a sprite right <b>on the center of background viewport</b> use Background.setToCenter(Sprite)</code></b>.</li>
+
+	<li>There are four background types : <b>Color Background</b>, <b>Image Background</b>, <b>Tile Background</b>, and <b>Parallax Background</b>.</li>
+
+	<li><b>Background viewport</b> by default is as big as game size, to <b>change it</b> use <b><code>Background.setClip(x, y, width, height)</code></b>.</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="../docs/com/golden/gamedev/object/Background.html">Background class</a>,
+			   <a target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html">Sprite class</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td><a class="nextpage" href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">« Previous Page</a></td>
+	<td align="right"><a class="nextpage" href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">Next Page »</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 8 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

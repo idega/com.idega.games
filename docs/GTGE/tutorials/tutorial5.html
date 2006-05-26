@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 5</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<h3>Tutorial 5</h3>
+<h1 style="margin-top: 0px">CHOOSING GAME ENVIRONMENT</h1>
+
+<blockquote>This chapter will explain how to initialize and run a GTGE game.<br />
+Objective : Understand how to run a game by using all graphics environment provided by GTGE.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<p>To run the game skeleton we made in previous chapter, we must choose <b>graphics environment</b> where the game will be performed. This graphics environment is initialized by one of GTGE engine, the graphics engine.</p>
+
+<p>GTGE provides <b>three graphics environments</b> :
+<ul>
+	<li><b>Fullscreen Mode</b><br />
+	In this mode, the game will enter fullscreen mode by <b>changing the screen resolution</b> and <b>occupying the entire screen</b>. This is the mode that used by commercial games. Game performance and quality is much better in this mode.</li>
+
+	<li><b>Windowed Mode</b><br />
+	In this mode, the game is <b>reside in a window</b>, just like other common application. This mode is usually used to make a simple game or used only in development stage (when it's about to distribute the game, the game is changed to fullscreen mode).</li>
+
+	<li><b>Applet Mode</b><br />
+	The game is <b>embedded in a webpage</b>. This mode is perfect for direct play in your website for a small or demo game.</li>
+</ul>
+</p>
+
+<h3>Fullscreen and Windowed Mode</h3>
+
+<p>Use <b><code>setup(Game, Dimension, boolean)</code></b> and <b><code>start()</code></b> method from <b><code>GameLoader</code> class</b> to start a game in <b>fullscreen or windowed</b> mode :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/GameLoader.html" title="com.golden.gamedev.GameLoader">GameLoader</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setup(<a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a> game,
+                     <a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/Dimension.html" title="java.awt.Dimension">Dimension</a> d,
+                     boolean fullscreen);
+   public void start();</span>
+
+<span class="whereas">whereas :
+game       = the game (subclass of <code>Game</code> class)
+d          = the dimension of the game
+fullscreen = use fullscreen mode or not (windowed mode)</span>
+
+
+<b>For example:</b>
+<span class="example">initialize and run YourGame.java in 640x480 dimension, fullscreen mode</span>
+
+   GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+   game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">true</span>);
+   game.<span class="method">start</span>();
+</pre>
+</p>
+
+<p>The game skeleton run in 640x480, fullscreen mode :<br />
+	<a class="example" href="src/Tutorial5_1.java">Tutorial5_1.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial5_1.java">view online</a>]
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.Graphics2D;
+<span class="keyword">import</span> java.awt.Dimension;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.Game;
+<span class="keyword">import</span> com.golden.gamedev.GameLoader;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+ <span class="javadoc">/****************************************************************************/</span>
+ <span class="javadoc">/**************************** GAME SKELETON *********************************/</span>
+ <span class="javadoc">/****************************************************************************/</span>
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+    }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+    }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+    }
+
+
+ <span class="javadoc">/****************************************************************************/</span>
+ <span class="javadoc">/***************************** START-POINT **********************************/</span>
+ <span class="javadoc">/****************************************************************************/</span>
+
+    <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">true</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+</pre>
+This game skeleton can be compiled and run. It will show an empty game.<br />
+To change the graphics environment to windowed mode, change the <code>true</code> value to <code>false</code>, <code>game.setup(new YourGame(), new Dimension(640,480), <b>false</b>);</code> really simple isn't it?!<br />
+	<a class="example" href="src/Tutorial5_2.java">Tutorial5_2.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial5_2.java">view online</a>]
+</p>
+
+<h3>Applet Mode</h3>
+
+<p>To run the game in Applet environment, you need to subclass <code>GameLoader</code> class and <i>override</i> <code>createAppletGame()</code> method : <br />
+	<a class="example" href="src/Tutorial5_3.java">Tutorial5_3.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial5_3.java">view online</a>]
+<pre>
+file :: YourGameApplet.java
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.Game;
+<span class="keyword">import</span> com.golden.gamedev.GameLoader;
+
+
+<span class="keyword">public class</span> YourGameApplet <span class="keyword">extends</span> GameLoader {
+
+    <span class="keyword">protected</span> Game<span class="method"> createAppletGame</span>() {
+        <span class="keyword">return new</span> YourGame();
+    }
+
+}
+</pre>
+
+<p>To embed the game to your html page, add this <b>applet tag</b> :
+<pre>
+file :: webpage (.html,.php,...)
+
+<b>Syntax:</b>
+   <span class="keyword">&lt;applet</span> <span class="method">code=</span><span class="literal">"YourGameApplet.class"</span>
+           <span class="method">archive=</span><span class="literal">"[your_game_lib],[GTGE_lib]"</span>
+           <span class="method">width=</span><span class="literal">"[width]"</span> <span class="method">height=</span><span class="literal">"[height]"</span><span class="keyword">&gt;
+   &lt;/applet&gt;</span>
+
+<span class="whereas">whereas :
+your_game_lib   = the game jar (.jar)
+GTGE_lib        = the GTGE library (.jar)
+width           = the game width
+height          = the game height</span>
+
+
+<b>For example:</b>
+<span class="example">show YourGame.java in web page with 640x480 dimension using GTGE v0.2.0</span>
+
+   <span class="keyword">&lt;html&gt;
+   &lt;applet</span> <span class="method">code=</span><span class="literal">"YourGameApplet.class"</span>
+           <span class="method">archive=</span><span class="literal">"yourgamearchive.jar,golden_0_2_0.jar"</span>
+           <span class="method">width=</span><span class="literal">"640"</span> <span class="method">height=</span><span class="literal">"480"</span><span class="keyword">&gt;
+   &lt;/applet&gt;
+   &lt;/html&gt;</span>
+</pre>
+</p>
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li>GTGE provides three graphics environment, <b>fullscreen</b>, <b>windowed</b>, and <b>applet</b> mode.</li>
+	<li>Use <b><code>GameLoader</code> class</b> to initialize and run a game.</li>
+	<li>To start a game in <b>fullscreen</b> or <b>windowed</b> mode, use <b><code>GameLoader.setup(Game, Dimension, boolean)</code></b> and <b><code>GameLoader.start()</code></b> in application start point.</li>
+	<li>To play a game in <b>applet mode</b>, subclass <code>GameLoader</code> class and override <b><code>createAppletGame()</code></b> method to return the actual game.</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="../docs/com/golden/gamedev/GameLoader.html">GameLoader class</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td><a class="nextpage" href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">« Previous Page</a></td>
+	<td align="right"><a class="nextpage" href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">Next Page »</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 5 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

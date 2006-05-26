@@ -1,0 +1,525 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 7</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<h3>Preface</h3>
+
+<p>This chapter is the beginning of "Game Objects Tutorial". Before we dig further in this tutorial, to make you understand about this tutorial better, we will give you some intro about how actually GTGE manage objects in game.</p>
+
+<p><b>GTGE manage sprites in three approach</b> :<br />
+(as for the higher approach, the easier it will be to manage complex condition)
+<ul>
+	<li>The first approach is where <b>sprite is directly used in the game</b>, each sprite must be updated, rendered into screen one by one.</li>
+
+	<li>The second approach is where <b>all the sprites are grouped into groups</b>, and only those groups that need to be updated, and rendered to screen one by one.</li>
+
+	<li>The last approach is where all sprites, that have been grouped into groups, are put into a big <b>play field</b>. In this play field, <b>all things are working automatically</b> (the updating, rendering, collision, removing, etc).</li>
+</ul>
+</p>
+
+<p>This tutorial will explaining each approach step by step. Alright, let's start!</p>
+
+<p><u>Note</u> : Every code examples in this tutorial are assumed inside game class.</p>
+
+<h3>Tutorial 7</h3>
+<h1 style="margin-top: 0px">SPRITE</h1>
+	<a class="source" href="src/GTGE/Sprite.java">Sprite.java</a> [<a class="source" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/GTGE/Sprite.java">view online</a>]
+
+<blockquote>This chapter will explain what is sprite, when to use it, how to initialize it, and how to use it in game.<br />
+Objective : Understand sprite description and how to use it.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<h3>Sprite Description</h3>
+
+<p><b>Sprite</b>, in GTGE terminology, is used to describe <b>every objects</b> in game that has an <b>image</b> and has its own <b>characteristic</b>.</p>
+
+<p>You could imagine a sprite as an <b>image</b> that located somewhere <b>on the screen</b>, whereas this image could be <b>moving</b>, <b>animated</b>, and <b>has its own characteristic</b>.</p>
+
+<p>Sprite, in GTGE, is represented by <code><a target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html">Sprite</a></code> class that reside in <code>com.golden.gamedev.object</code> package.</p>
+
+<h3>Sprite Initialization</h3>
+	<a class="example" href="src/Tutorial7_1.java">Tutorial7_1.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial7_1.java">view online</a>]
+
+<p>Initialization of a sprite is as followed :
+<ul>
+	<li><b>Create new sprite object</b> :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public Sprite(<a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/image/BufferedImage.html" title="java.awt.image.BufferedImage">BufferedImage</a> image,
+                 double x,
+                 double y);</span>
+
+<span class="whereas">whereas :
+image = the sprite image
+x     = the sprite x coordinate
+y     = the sprite y coordinate</span>
+
+
+<b>For example:</b>
+<span class="example">create a sprite with image "player.png" and located on 100, 200 in screen</span>
+
+   BufferedImage image =<span class="method"> getImage</span>("<span class="literal">player.png</span>");
+   <span class="primitive">double</span> x = 100;
+   <span class="primitive">double</span> y = 200;
+
+   Sprite hero = <span class="keyword">new</span><span class="method"> Sprite</span>(image, x, y);
+</pre>
+	</li>
+
+
+	<li><b>Updating</b> the sprite :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void update(long elapsedTime);</span>
+
+<span class="whereas">whereas :
+elapsedTime = time elapsed since last update
+              this value is taken from Game class</span>
+</pre>
+	</li>
+
+
+	<li><b>Rendering</b> the sprite into screen :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void render(<a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/Graphics2D.html" title="java.awt.Graphics2D">Graphics2D</a> g);</span>
+
+<span class="whereas">whereas :
+g = graphics object where the game is rendered
+    this value is taken from Game class too</span>
+</pre>
+	</li>
+</ul>
+</p>
+
+<p>Example :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+<span class="keyword">import</span> java.awt.image.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+    Sprite  hero;
+
+
+ <span class="javadoc">/****************************************************************************/</span>
+ <span class="javadoc">/**************************** GAME SKELETON *********************************/</span>
+ <span class="javadoc">/****************************************************************************/</span>
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        BufferedImage image =<span class="method"> getImage</span>("<span class="literal">player.png</span>");
+        <span class="primitive">double</span> x = 100;
+        <span class="primitive">double</span> y = 200;
+
+        hero = <span class="keyword">new</span><span class="method"> Sprite</span>(image, x, y);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        hero.<span class="method">update</span>(elapsedTime);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        hero.<span class="method">render</span>(g);
+    }
+
+
+ <span class="javadoc">/****************************************************************************/</span>
+ <span class="javadoc">/***************************** START-POINT **********************************/</span>
+ <span class="javadoc">/****************************************************************************/</span>
+
+    <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+</pre>
+</p>
+
+<h3>Using The Sprite</h3>
+
+<h4>Set Sprite Location</h4>
+
+<p>To set sprite location into specified coordinate use :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setLocation(double xs, double ys);</span>
+
+<span class="whereas">whereas :
+xs = the sprite x coordinate
+ys = the sprite y coordinate</span>
+</pre>
+</p>
+
+<h4>Moving Sprite</h4>
+
+<p>There are 2 functions to move a sprite :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html" title="com.golden.gamedev.object.Sprite">Sprite</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setSpeed(double vx, double vy);
+   public void move(double dx, double dy);</span>
+
+<span class="whereas">whereas :
+vx = the sprite speed toward x-axis
+vy = the sprite speed toward y-axis
+dx = sprite delta x movement
+dy = sprite delta y movement</span>
+</pre>
+The difference between <code>setSpeed(double vx, double vy)</code> and <code>move(double dx, double dy)</code> is :<br />
+<code>setSpeed(double vx, double vy)</code> move sprite continously until you set the speed back to zero; while<br />
+<code>move(double dx, double dy)</code> move sprite instantly and stop.</p>
+
+<p>Example :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+<span class="keyword">import</span> java.awt.event.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+    Sprite  hero;
+
+
+ <span class="javadoc">/****************************************************************************/</span>
+ <span class="javadoc">/**************************** GAME SKELETON *********************************/</span>
+ <span class="javadoc">/****************************************************************************/</span>
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        hero = <span class="keyword">new</span><span class="method"> Sprite</span>(getImage</span>("<span class="literal">player.png</span>"), 100, 200);
+
+        hero.setLocation(50, 50);
+        hero.setSpeed(0.1, 0);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        hero.<span class="method">update</span>(elapsedTime);
+
+        if (keyDown(KeyEvent.VK_DOWN)) {
+           hero.move(0, 0.1*elapsedTime);
+        }
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        hero.<span class="method">render</span>(g);
+    }
+
+
+ <span class="javadoc">/****************************************************************************/</span>
+ <span class="javadoc">/***************************** START-POINT **********************************/</span>
+ <span class="javadoc">/****************************************************************************/</span>
+
+    <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+</pre>
+</p>
+
+<h3>Types of Sprite</h3>
+	<a class="example" href="src/Tutorial7_2.java">Tutorial7_2.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial7_2.java">view online</a>]
+
+<p>There are several types of sprites, one of them is <code><a target="_blank" href="../docs/com/golden/gamedev/object/AnimatedSprite.html">AnimatedSprite</a></code> class. <b><code>AnimatedSprite</code></b> is subclass of <code>Sprite</code> class <b>that able to animate</b>. This kind of sprite need an array of images to make up the sprite animation. Use image engine to cut an image into a good animation.</p>
+
+<p><code>AnimatedSprite</code> initialization is as followed :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/AnimatedSprite.html" title="com.golden.gamedev.object.AnimatedSprite">AnimatedSprite</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public AnimatedSprite(<a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/image/BufferedImage.html" title="java.awt.image.BufferedImage">BufferedImage</a>[] image,
+                         double x,
+                         double y);</span>
+
+<span class="whereas">whereas :
+image = an array of image for the sprite image
+x     = sprite x coordinate
+y     = sprite y coordinate</span>
+
+
+<b>For example:</b>
+<span class="example">create a sprite with image "player.png"
+that cutted into 4 columns 2 rows</span>
+
+   BufferedImage[] images =<span class="method"> getImages</span>("<span class="literal">player.png</span>", 4, 2);
+   <span class="primitive">double</span> x = 100;
+   <span class="primitive">double</span> y = 200;
+
+   AnimatedSprite hero = <span class="keyword">new</span><span class="method"> AnimatedSprite</span>(images, x, y);
+</pre>
+</p>
+
+<p>Example :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+    AnimatedSprite  hero;
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        hero = <span class="keyword">new</span><span class="method"> AnimatedSprite</span>(getImages</span>("<span class="literal">player.png</span>", 4, 2), 100, 200);
+
+        hero.<span class="method">setAnimate</span>(<span class="primitive">true</span>);
+        hero.<span class="method">setLoopAnim</span>(<span class="primitive">true</span>);
+    }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        hero.<span class="method">update</span>(elapsedTime);
+    }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        hero.<span class="method">render</span>(g);
+    }
+
+
+    <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+</pre>
+</p>
+
+<h3>Other Important Things</h3>
+	<a class="example" href="src/Tutorial7_3.java">Tutorial7_3.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial7_3.java">view online</a>]
+<br />
+	<a class="source" href="src/GTGE/Timer.java">Timer.java</a> [<a class="source" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/GTGE/Timer.java">view online</a>]
+
+<p>To make a game / sprite independent of game frame rate, always use <b><code><a target="_blank" href="../docs/com/golden/gamedev/object/Timer.html">Timer</a></code> class</b>. <code>Timer</code> class is a <b>real time counter</b> class.</p>
+
+<p>The <code>Timer</code> class initialization and how to use it :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/object/Timer.html" title="com.golden.gamedev.object.Timer">Timer</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public Timer(int delay);
+   public boolean action(long elapsedTime);</span>
+
+<span class="whereas">whereas :
+delay       = actual time in milliseconds (1 sec=1000 ms)
+elapsedTime = time elapsed since last update</span>
+</pre>
+</p>
+
+<p>Example: making a sprite to <b>fire every one second</b> :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+<span class="keyword">import</span> com.golden.gamedev.object.*;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+    Sprite  hero;
+
+    Timer   fireRate;
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        hero = <span class="keyword">new</span><span class="method"> Sprite</span>(getImage</span>("<span class="literal">player.png</span>"), 100, 200);
+
+        fireRate = <span class="keyword">new</span><span class="method"> Timer</span>(1000);
+    }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        hero.<span class="method">update</span>(elapsedTime);
+
+        <span class="keyword">if</span> (fireRate.<span class="method">action</span>(elapsedTime)) {
+           <span class="comment">// fire!!</span>
+           <span class="method">playSound</span>("<span class="literal">fire.wav</span>");
+        }
+    }
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        hero.<span class="method">render</span>(g);
+    }
+
+
+    <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+</pre>
+</p>
+
+<p><b><code>AnimatedSprite</code></b> also <b>use <code>Timer</code> class</b> for <b>controlling animation speed</b>, that way the sprite animation is independent of game frame rate.</p>
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li><b>Sprite</b> is <b>every objects</b> in game that has its own <b>image</b> and <b>characteristic</b>.</li>
+
+	<li>Sprite in GTGE is represented by <b><code>Sprite</code> class</b>.</li>
+
+	<li><b>Sprite initialization</b> consists of 3 steps, <b>create new sprite object</b>, <b>updating</b> the sprite, and <b>rendering</b> the sprite to screen.</li>
+
+	<li>To <b>set sprite location</b> in specified coordinate, use <b><code>Sprite.setLocation(x, y)</code></b>, and to <b>move</b> a sprite use <b><code>Sprite.move(dx, dy)</code></b> or <b><code>Sprite.setSpeed(vx, vy)</code></b>.</li>
+
+	<li><b><code>AnimatedSprite</code></b> class is a subclass of <code>Sprite</code> class that <b>can animate</b>.</li>
+
+	<li>To make a game / sprite independent of game frame rate, always use <b><code>Timer</code> class</b>.</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="../docs/com/golden/gamedev/object/Sprite.html">Sprite class</a>,
+			   <a target="_blank" href="../docs/com/golden/gamedev/object/AnimatedSprite.html">AnimatedSprite class</a>,
+			   <a target="_blank" href="../docs/com/golden/gamedev/object/Timer.html">Timer class</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td><a class="nextpage" href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">« Previous Page</a></td>
+	<td align="right"><a class="nextpage" href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">Next Page »</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 7 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

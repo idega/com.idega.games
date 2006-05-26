@@ -1,0 +1,14 @@
+com.golden.gamedev
+com.golden.gamedev.engine
+com.golden.gamedev.engine.audio
+com.golden.gamedev.engine.graphics
+com.golden.gamedev.engine.input
+com.golden.gamedev.engine.timer
+com.golden.gamedev.funbox
+com.golden.gamedev.object
+com.golden.gamedev.object.background
+com.golden.gamedev.object.background.abstraction
+com.golden.gamedev.object.collision
+com.golden.gamedev.object.font
+com.golden.gamedev.object.sprite
+com.golden.gamedev.util

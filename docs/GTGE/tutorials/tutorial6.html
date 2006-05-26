@@ -1,0 +1,543 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 6</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<h3>Tutorial 6</h3>
+<h1 style="margin-top: 0px">REVEALING THE ENGINES ABILITY</h1>
+
+<blockquote>This chapter will explain all GTGE engines and how to use it.<br />
+Objective : Know all GTGE engines, the purpose, and how to use it.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<p>After we have successfully initialize and run our game skeleton (an empty game) in <a href="tutorial5.html">previous chapter</a>, now it's time to utilize all GTGE engines to actually making a game!</p>
+
+<p>GTGE has <b>six game engines</b> :<br />
+(see <a target="_blank" href="../docs/com/golden/gamedev/engine/package-summary.html">com.golden.gamedev.engine</a> package)
+<ol>
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseGraphics.html">Graphics Engine</a></b><br />
+	Contains <b>functions</b> related with screen <b>graphics</b> :<br />
+	- Provide backbuffer where the game will be rendered.<br />
+	- Flipping or copying the content of the backbuffer into the screen.<br />
+	This engine also the one that <b>initialize game graphics environment</b>.<br />
+	<img src="webstyle/tutorial6.gif" alt="flipping operation" /></li>
+
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseInput.html">Input Engine</a></b><br />
+	Contains functions for <b>polling user input</b> from keyboard and mouse :<br />
+	- Detect for keyboard button pressed.<br />
+	- Detect for mouse button pressed.<br />
+	- Detect for mouse location in the game.</li>
+
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseAudio.html">Audio Engine</a></b><br />
+	Contains functions to <b>play audio sound</b> :<br />
+	- play multiple sounds simultaneously.<br />
+	- play sound exclusively.<br />
+	- play looping sound.</li>
+
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseTimer.html">Timer Engine</a></b><br />
+	Contains functions to <b>manage game frame rate</b>.</li>
+
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseIO.html">I/O File Engine</a></b><br />
+	Contains functions to get <b>File object</b>, <b>URL</b>, and <b>stream</b> from external resource.</li>
+
+	<li><b><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseLoader.html">Image Engine</a></b><br />
+	Contains functions to <b>load image</b> from a file with or without transparency (masking color).</li>
+</ol>
+</p>
+
+<h3>Using Game Engine Within The Game</h3>
+
+<p>From previous chapter we already understand that every game is a subclass of <code>Game</code> class. Now let we see how  we can use GTGE game engines right from <code>Game</code> class.</p>
+
+<p>First, let we see <b>a snippet of <code>Game</code> class</b> :
+<pre>
+<span class="keyword">public abstract class</span> Game {
+
+
+   <span class="keyword">public</span> BaseGraphics  bsGraphics;
+   <span class="keyword">public</span> BaseIO        bsIO;
+   <span class="keyword">public</span> BaseLoader    bsLoader;
+   <span class="keyword">public</span> BaseInput     bsInput;
+   <span class="keyword">public</span> BaseTimer     bsTimer;
+   <span class="keyword">public</span> BaseAudio     bsMusic;
+   <span class="keyword">public</span> BaseAudio     bsSound;
+
+
+   <span class="keyword">protected</span> <span class="primitive">void</span><span class="method"> initEngine</span>() {
+      <span class="comment">// game engines initilialization</span>
+      bsTimer   = <span class="keyword">new</span> .....
+      bsIO      = <span class="keyword">new</span> .....
+      .......
+   }
+
+}
+</pre>
+From there we can see, <b><code>Game</code> class initializes all the engines</b> that is <b>ready to use</b> by <code>Game</code> class and its subclass.</p>
+
+<p>And besides of provide engine object reference that can be directly use by the subclass of <code>Game</code> class, <code>Game</code> class also <b>wrap important functions of each engine</b> to make you even more comfortable. For example :
+<pre>
+<span class="keyword">public abstract class</span> Game {
+
+   <span class="keyword">public</span> BaseInput     bsInput;
+
+
+   <span class="keyword">public</span> <span class="primitive">int</span><span class="method"> getMouseX</span>() {
+      <span class="keyword">return</span> bsInput.<span class="method">getMouseX</span>();
+   }
+
+}
+</pre>
+We can see, <code>Game</code> class *directly* calls the engine's function, in this case input engine getMouseX() function. We use this kind of wrapper for easier to code and make you even more comfortable!</p>
+
+<p><img src="webstyle/tutorial6_1.gif" alt="Game class overview" /></p>
+
+<h3>GTGE Engine Ability</h3>
+
+<p>Now let's see all the engines' important functions, that usually has been wrapped inside <code>Game</code> class.</p>
+
+<p>	<a class="example" href="src/Tutorial6.java">Tutorial6.java</a> [<a class="example2" target="_blank" href="http://goldenstudios.or.id/products/showsrc/showsrc.php?src=../GTGE/tutorials/src/Tutorial6.java">view online</a>]
+</p>
+
+<h4><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseGraphics.html">Graphics Engine</a></h4>
+
+<p>Besides of setting graphics environment, providing backbuffer and flip it to primary screen, graphics engine also provide these functions :
+<ul>
+	<li>Provide the <b>width and height</b> of the game size :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public int getWidth();
+   public int getHeight();</span>
+</pre>
+	</li>
+</ul>
+</p>
+
+
+<h4><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseInput.html">Input Engine</a></h4>
+
+<p>GTGE Input Engine currently only support for keyboard and mouse (joystick not supported yet). The important functions of keyboard input are :
+<ul>
+	<li>Detect for <b>keyboard button</b> pressed :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public boolean keyDown(int keyCode);
+   public boolean keyPressed(int keyCode);</span>
+
+<span class="whereas">whereas :
+keyCode = constant value for keyboard button from java.awt.event.KeyEvent
+boolean = true, the button for keyCode is (being) pressed</span>
+
+
+<b>For example:</b>
+<span class="example">detect whether SPACE button is (being) pressed or not</span>
+
+   <span class="method">keyDown</span>(java.awt.event.KeyEvent.VK_SPACE);
+   <span class="method">keyPressed</span>(java.awt.event.KeyEvent.VK_SPACE);
+</pre>
+		The difference between <code>keyDown</code> and <code>keyPressed</code> is :<br />
+		<code>keyDown(int)</code> will return <code>true</code> value when the button is currently being pressed; while<br />
+		<code>keyPressed(int)</code> will return <code>true</code> value only when the button is pressed at first.
+	</li>
+</ul>
+</p>
+
+
+<p>And for the mouse input are :
+<ul>
+	<li>Detect for <b>mouse button</b> pressed :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public boolean click();
+   public boolean rightClick();</span>
+</pre>
+	</li>
+
+	<li>Detect for <b>mouse pointer location</b> in the game :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public int getMouseX();
+   public int getMouseY();</span>
+</pre>
+	</li>
+</ul>
+</p>
+
+
+<h4><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseAudio.html">Audio Engine</a></h4>
+
+<p>Audio engine is used for playing audio sound. The important audio functions wrapped by <code>Game</code> class :
+<ul>
+	<li>Play <b>music in loop</b> (.mid audio format) and play <b>sound effect once</b> (.wav audio format) :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public int playMusic(String audiofile);
+   public int playSound(String audiofile);</span>
+
+<span class="whereas">whereas :
+audiofile = the audio file to be played
+int       = slot where the audio played</span>
+
+
+<b>For example:</b>
+<span class="example">play "intro.mid" for music and play "fire.wav" for sound effect
+both resource reside in the game directory</span>
+
+   <span class="method">playMusic</span>("<span class="literal">intro.mid</span>");
+   <span class="method">playSound</span>("<span class="literal">fire.wav</span>");
+</pre>
+	</li>
+</ul>
+</p>
+
+
+<h4><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseTimer.html">Timer Engine</a></h4>
+
+<p>Wrapped timer engine functions :
+<ul>
+	<li><b>Sets game frame rate</b>, default value = 50 fps (frame per second) :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setFPS(int fps);</span>
+
+<span class="whereas">whereas :
+fps = requested frame per second</span>
+
+
+<b>For example:</b>
+<span class="example">sets game frame rate to 100 fps</span>
+
+   <span class="method">setFPS</span>(100);
+</pre>
+	</li>
+
+	<li><b>Gets game frame rate</b> :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public int getCurrentFPS();
+   public int getFPS();</span>
+</pre>
+		The difference between <code>getCurrentFPS()</code> and <code>getFPS()</code> is :<br />
+		<code>getCurrentFPS()</code> returns the actual frame per second the game can achieve; while<br />
+		<code>getFPS()</code> returns the requested game frame per second, that is set by <code>setFPS(int fps)</code>.
+	</li>
+</ul>
+</p>
+
+
+<h4><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseIO.html">I/O File Engine</a></h4>
+
+<p>Because of I/O file operation is rare to use, <code>Game</code> class <b>not wrapping any I/O file engine functions</b>. To use the I/O file engine functions, you could <b>directly use the I/O file engine object reference</b>. For example :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Misal:</b>
+<span class="example">getting URL object of "level.dat"</span>
+
+   java.net.URL url = bsIO.<span class="method">getURL</span>("<span class="literal">level.dat</span>");
+</pre>
+</p>
+
+
+<h4><a target="_blank" href="../docs/com/golden/gamedev/engine/BaseLoader.html">Image Engine</a></h4>
+
+<p>There are many image engine functions that wrapped by <code>Game</code> class, some of them are :
+<ul>
+	<li><b>Set masking color</b>, masking color is the color that will be treated as <b>transparent color</b> by every images, default value = <b><code>Color.MAGENTA</code></b> - RGB (255,0,255) :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public void setMaskColor(<a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/Color.html" title="java.awt.Color">Color</a> c);</span>
+
+<span class="whereas">whereas :
+c = the color that will be treated as transparent</span>
+
+
+<b>For example:</b>
+<span class="example">set green color as transparent color</span>
+
+   <span class="method">setMaskColor</span>(Color.GREEN);
+</pre>
+	</li>
+
+	<li><b>Load image</b> from png, gif, jpg image format :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public <a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/image/BufferedImage.html" title="java.awt.image.BufferedImage">BufferedImage</a> getImage(String imagefile);</span>
+
+<span class="whereas">whereas :
+imagefile = the image file to be loaded in png, gif, jpg image format</span>
+
+
+<b>For example:</b>
+<span class="example">load image from file "player.png"</span>
+
+   <span class="method">getImage</span>("<span class="literal">player.png</span>");
+</pre>
+	</li>
+
+	<li><b>Load dan cut image</b> into rows and columns :
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+<b>Syntax:</b>
+   <span class="syntax">public <a style="text-decoration: none;color: red" target="_blank" href="http://java.sun.com/j2se/1.4/docs/api/java/awt/image/BufferedImage.html" title="java.awt.image.BufferedImage">BufferedImage</a>[] getImages(String imagefile,
+                                    int col,
+                                    int row);</span>
+
+<span class="whereas">whereas :
+imagefile = the image file to be loaded in png, gif, jpg image format
+col       = cut the image into 'col' columns
+row       = cut the image into 'row' rows</span>
+
+
+<b>For example:</b>
+<span class="example">load image from file "player.png" and cut it into 4 columns 2 rows</span>
+
+   <span class="method">getImages</span>("<span class="literal">player.png</span>", 4, 2);
+</pre>
+	</li>
+</ul>
+</p>
+
+<h4>Note</h4>
+
+<p>For <b>the whole functions of the engines</b>, you could read it from <b>the engines' API documentation</b>. To use it, use <b>the engine object reference</b> inside the <code>Game</code> class.<br />
+For example : detect mouse movement using input engine
+<pre>
+class :: <a style="text-decoration: none;" target="_blank" href="../docs/com/golden/gamedev/Game.html" title="com.golden.gamedev.Game">Game</a>
+
+   <span class="comment">// input engine object reference = bsInput</span>
+   <span class="primitive">int</span> dx = bsInput.<span class="method">getMouseDX</span>();
+   <span class="primitive">int</span> dy = bsInput.<span class="method">getMouseDY</span>();
+</pre>
+</p>
+
+<h3>Comprehensive Use of Every Engine inside Game Class</h3>
+
+<p>Example of using all the engines in the game :
+<pre>
+file :: YourGame.java
+
+<span class="comment">// JFC</span>
+<span class="keyword">import</span> java.awt.*;
+<span class="keyword">import</span> java.awt.event.*;
+<span class="keyword">import</span> java.awt.image.*;
+<span class="keyword">import</span> java.net.*;
+
+<span class="comment">// GTGE</span>
+<span class="keyword">import</span> com.golden.gamedev.*;
+
+
+<span class="keyword">public class</span> YourGame <span class="keyword">extends</span> Game {
+
+
+ <span class="javadoc">/****************************************************************************/</span>
+ <span class="javadoc">/**************************** GAME SKELETON *********************************/</span>
+ <span class="javadoc">/****************************************************************************/</span>
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> initResources</span>() {
+        <span class="comment">// Image Engine</span>
+        BufferedImage image    =<span class="method"> getImage</span>("<span class="literal">image1.png</span>");
+        BufferedImage[] images =<span class="method"> getImages</span>("<span class="literal">image2.png</span>", 3, 1);
+
+
+        <span class="comment">// File I/O Engine</span>
+        URL url = bsIO.<span class="method">getURL</span>("<span class="literal">level.txt</span>");
+
+
+        <span class="comment">// Sound Music Engine</span>
+       <span class="method"> playMusic</span>("<span class="literal">music1.mid</span>");
+
+
+        <span class="comment">// Timer Engine</span>
+       <span class="method"> setFPS</span>(100);
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> update</span>(<span class="primitive">long</span> elapsedTime) {
+        <span class="comment">// Input Engine</span>
+        <span class="keyword">if</span><span class="method"> </span>(<span class="method">keyPressed</span>(KeyEvent.VK_SPACE)) {
+
+            <span class="comment">// Sound Engine</span>
+           <span class="method"> playSound</span>("<span class="literal">sound1.wav</span>");
+        }
+    }
+
+
+    <span class="keyword">public</span> <span class="primitive">void</span><span class="method"> render</span>(Graphics2D g) {
+        <span class="comment">// Graphics Engine</span>
+        g.<span class="method">setColor</span>(Color.LIGHT_GRAY);
+        g.<span class="method">fillRect</span>(0, 0,<span class="method"> getWidth</span>(),<span class="method"> getHeight</span>());
+    }
+
+
+ <span class="javadoc">/****************************************************************************/</span>
+ <span class="javadoc">/***************************** START-POINT **********************************/</span>
+ <span class="javadoc">/****************************************************************************/</span>
+
+    <span class="keyword">public static</span> <span class="primitive">void</span><span class="method"> main</span>(String[] args) {
+        GameLoader game = <span class="keyword">new</span><span class="method"> GameLoader</span>();
+        game.<span class="method">setup</span>(<span class="keyword">new</span><span class="method"> YourGame</span>(), <span class="keyword">new</span><span class="method"> Dimension</span>(640,480), <span class="keyword">false</span>);
+        game.<span class="method">start</span>();
+    }
+
+}
+</pre>
+</p>
+
+<h3>End of Foundation Tutorial</h3>
+
+<p><b>"Foundation Tutorial" is ended!</b> (chapter 1-6)<br />
+In these six chapters we have learnt all the <b>basic things</b> needed to create a game using Java and GTGE, from setting up Java SDK to run a game using all GTGE engines.</p>
+
+<p>As we told in the beginning of the tutorial, after you complete these 6 first chapters (foundation tutorial), you have <b>already able to create a complete game!</b> Because in these 6 chapters you have learnt all engines / equipments needed for making a game. Therefore the next tutorial is optional.</p>
+
+<p>You could make a game by :
+<ul>
+	<li>Load image with gif, png, jpg image format (using Image Engine);</li>
+	<li>Show the image into the screen (using Graphics Engine);</li>
+	<li>Detect user input to move the image (using Input Engine);</li>
+	<li>Play sound effect (using Audio Engine);</li>
+	<li>Read text file for level initialization or for saving player data (using I/O File Engine);</li>
+	<li>etc.</li>
+</ul>
+
+<p>Next we will enter the <b>"Game Objects Tutorial"</b>. This tutorial would be <b>more specific to objects in game</b>. And we hope by mastering the next tutorial, your <b>game creation</b> would be <b>much easier!</b></p>
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li>GTGE has <b>six game engines</b> : <b>Graphics Engine</b>, <b>Input Engine</b>, <b>Audio Engine</b>, <b>Timer Engine</b>, <b>I/O File Engine</b>, and <b>Image Engine</b>.</li>
+
+	<li><b><code>Game</code> class</b> (the superclass of every game) has <b>wrapped all the engines</b> by initializing and wrapping the engines inside the <code>Game</code> class body.</li>
+
+	<li>Besides of providing every engines object reference, <b><code>Game</code> class also wrapping important functions of each engine</b> by directly calling the engines' functions, the purpose is to make you even more comfortable to code.</li>
+
+	<li>For <b>the whole engines' functions</b>, you could read it from <b>the engine API documentation</b>.</li>
+
+	<li>This chapter is <b>the end of "Foundation Tutorial"</b>, you already could start <b>making the game from now!</b> But to make your <b>game creation much easier</b>, please continue to the next tutorial, <b>"Game Objects Tutorial"</b>.</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="../docs/com/golden/gamedev/engine/package-summary.html">com.golden.gamedev.engine Package</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td><a class="nextpage" href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">« Previous Page</a></td>
+	<td align="right"><a class="nextpage" href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">Next Page »</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 6 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

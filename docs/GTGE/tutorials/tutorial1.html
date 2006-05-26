@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Golden T Studios - GTGE Tutorial 1</title>
+<meta name="keywords" content="small and fast java game engine, 2D game engine, java game library, games, game tutorial, sprite library, game development, game tools, game utilities" />
+<!-- css, javascript -->
+<link rel="stylesheet" type="text/css" href="webstyle/tutorial.css" />
+<link rel="shortcut icon" href="webstyle/favicon.ico" />
+</head>
+
+<body>
+<table width="100%" style="padding: 0px; margin: 0px" cellpadding="0" cellspacing="0" bgcolor="#ffcccc" border="0"><tr><td
+background="webstyle/top_left.gif" width="20" height="18"></td><td
+background="webstyle/top.gif" height="18"></td><td
+background="webstyle/top_right.gif" width="20" height="18"></td></tr><tr><td
+background="webstyle/left.gif" width="20"></td><td
+bgcolor="#ffffff" style="padding: 15px" valign="top">
+
+<!-- CONTENTS -->
+<style type="text/css">
+<!--
+ol.chapter li, ol.chapter a:link, ol.chapter a:hover {
+	color: darkblue;
+	font-weight: bold;
+}
+ol.chapter a:visited {
+	color: #333333;
+	font-weight: bold;
+}
+ol.chapter div {
+	color: #000000;
+	font-weight: normal;
+	margin-left: 15px;
+	margin-top: 4px;
+}
+//-->
+</style>
+<h1>GOLDEN T GAME ENGINE</h1>
+<h2 style="margin-top: 0px">Game Programming <i>for</i> Java Programmer</h2>
+<hr width="385px" align="left" />
+
+<h4>Welcome to Golden T Game Engine (GTGE) Tutorial</h4>
+
+<h3>Introduction</h3>
+
+<p><b>Golden T Game Engine (GTGE)</b> is a <b>2D Game Library / Game SDK</b> (Software Development Kit) to create a high quality game in no time.<br />
+GTGE is a pack of Java API (<b>Java library</b>), means you will use Java programming language to create a game with GTGE.</p>
+
+<p><img style="float: right" src="webstyle/tutorial1.gif" alt="GTGE diagram" />GTGE is a <b>high level interface library</b>, means programmer no need to worry about low level routines anymore. GTGE try to hide (but not lock) those low level routines by placing some layers, thus making the call to those low level routines as easy as possible. GTGE give programmer a direct access to those low level functions in the easiest way.<br />
+We focus to create a game engine that really <b>easy to use</b> yet <b>flexible and robust</b> enough to create any type of games.</p>
+
+<p>In short, GTGE is <b>a collection of ready-to-use functions</b> for making games, such as functions to draw to the screen, keyboard and mouse polling, playing sound or music, etc. These functions that is called as <b>Game Engine</b>.</p>
+
+<p><b>GTGE features</b> could be seen (listed) on GTGE index page :<br />
+<a target="_blank" href="http://www.goldenstudios.or.id/products/GTGE/">http://www.goldenstudios.or.id/products/GTGE/</a></p>
+
+<p>And be sure to read GTGE <b>design standard</b> to understand our goal :<br />
+<a target="_blank" href="http://www.goldenstudios.or.id/products/GTGE/designstandard.php">http://www.goldenstudios.or.id/products/GTGE/designstandard.php</a></p>
+
+<p>Still not convinced to use GTGE? Have a question that you need to know and understand before decide to use GTGE or not?<br />
+You can ask it in our <a target="_blank" href="">guest room</a>.</p>
+
+<hr />
+
+<h3>Download</h3>
+
+<p>All GTGE components (library, documentation, tutorial) are bundled into one ZIP file that available to download at :<br />
+<small>[to download the latest GTGE version, please visit GTGE official site <a target="_blank" href="http://www.goldenstudios.or.id">http://www.goldenstudios.or.id</a>]</small>
+<ul>
+	<li><a href="http://www.goldenstudios.or.id/cgi-bin/files/GTGE/download.pl?file=GTGE_complete.zip">GTGE.ZIP</a></li>
+</ul>
+</p>
+
+<p>Use ZIP archive extractor such as <a target="_blank" href="http://www.winzip.com/">WinZip</a> to unpack the content of the zip file into a folder.<br />
+The created directory structure is as following :
+<table border="0" style="font-weight:bold;margin-left:20px" summary="">
+	<tr>
+		<td><nobr>[unpack_dir]</nobr></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><nobr>\ [GTGE]</nobr></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td><nobr>\ golden_x_x_x.jar</nobr></td>
+		<td><nobr>:&nbsp;&nbsp;GTGE library</nobr></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td valign="top"><nobr>\ CHANGELOG.html</nobr></td>
+		<td><nobr>:&nbsp;&nbsp;GTGE change log</nobr></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td><nobr>\ [docs]</nobr></td>
+		<td><nobr>:&nbsp;&nbsp;GTGE API documentation</nobr></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td><nobr>\ [tutorials]</nobr></td>
+		<td><nobr>:&nbsp;&nbsp;this tutorial</nobr></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td><nobr>&nbsp;&nbsp;&nbsp;&nbsp;\ [src]</nobr></td>
+		<td><nobr>:&nbsp;&nbsp;source code example of this tutorial</nobr></td>
+	</tr>
+</table>
+<small>whereas:<br />
+[xxx] = directory<br />
+xxx = file</small>
+</p>
+
+<p>And to unleash all GTGE features (OpenGL renderer, MP3 and OGG player, etc) download GTGE add-ons at :<br />
+<a target="_blank" href="http://goldenstudios.or.id/products/utilities/">http://www.goldenstudios.or.id/products/utilities/</a></p>
+
+<hr />
+
+<h3>Golden T Game Engine (GTGE) Tutorial</h3>
+
+<p>A <b>few notes</b> before you read this tutorial :
+<ul>
+	<li>This tutorial is divided into chapters, each chapter consist of <b>preface</b>, <b>content</b>, <b>summary</b>, and <b>reference</b>.</li>
+	<li>The <b>preface</b> contains <b>what is the chapter about</b> and <b>the objective of the chapter</b>.</li>
+	<li>The <b>content</b> covers <b>the chapter in detail</b>.</li>
+	<li>The <b>summary</b> contains <b>the conclusion</b> of the chapter.</li>
+	<li>The <b>reference</b> contains several <b>links</b> related with the chapter (links will be opened in new window).</li>
+	<li>And there is also <b>books/relevant links</b> related with the chapter's topic placed above the reference part<br />
+	(this part is only visible if your computer is connected to the <b>internet</b>).</li>
+	<li>If you read this tutorial <b>offline</b> (you read this from downloaded tutorial), every <b>links</b> in this tutorial <b>will try to open it by offline</b> too whenever possible.<br />
+	For example links to GTGE API documentation will be read relatively from this tutorial directory (../[docs]), while link to Java homepage will be opened directly from Java website.</li>
+	<li>Almost all chapters provide a <b>source code example</b> that placed under [src] directory.</li>
+</ul>
+</p>
+
+<p><b>Other notes</b> :
+<ul>
+	<li>This tutorial (<b>all contents</b>) is intended for <b>novice/newbie</b> that new to Java programming language or even new to programming field.</li>
+	<li>For anyone that has a <b>sufficient understanding about Java</b>, you can skip the content part and read only the <b>preface</b> and <b>summary</b> part, and take a look the <b>source code examples</b> (the content part is only for newbie).</li>
+	<li>For the <b>expert</b> one (has done some Java assignment before), you likely can understand how GTGE works only by looking the tutorial <b>source code examples</b>, the source code comes with complete comments to understand it, but still we recommend to read the preface and the summary part of this tutorial.</li>
+</ul>
+</p>
+
+<h3>Golden T Game Engine (GTGE) Tutorial Chapters</h3>
+
+<p>This tutorial consists of <b>12 chapters</b> :
+<ol type="I" class="chapter">
+	<li><a href="tutorial1.html">Preface (this chapter)</a>
+	<div>Covers about GTGE and <b>all things needed</b> to start using GTGE.</div></li>
+
+	<li><a href="tutorial2.html">Installation</a>
+	<div>Things <b>needed to be set</b> in order to run GTGE.</div></li>
+
+	<li><a href="tutorial3.html">GTGE API Overview</a>
+	<div><b>GTGE API overview</b>.</div></li>
+
+	<li><a href="tutorial4.html">Starting the Game</a>
+	<div><b>The first code</b> with GTGE.</div></li>
+
+	<li><a href="tutorial5.html">Choosing Game Environment</a>
+	<div>Picking the <b>game environment</b>, from windowed, fullscreen, or applet mode (game that embedded in a webpage).</div></li>
+
+	<li><a href="tutorial6.html">Revealing the Engines Ability</a>
+	<div>Covers all GTGE <b>game engines</b> and how to use it.</div></li>
+
+	<p style="color: #000000; font-weight: normal"><b>The first six chapters</b> is the tutorial part one, we call it <b><em>"Foundation Tutorial"</em></b>. Called foundation because the <b>game engine</b> (the core of GTGE) and <b>the basic of how to use GTGE</b> has been explained completely in these 6 chapters. Only by understanding this part, you <b>have able to create game</b> because you already have the engines (the basic equipment) needed to create the game in these 6 chapters.</p>
+
+	<p style="color: #000000; font-weight: normal"><b>The next six chapters</b> is GTGE solution to handle objects in game (sprite, background, collision), in game terminology it's called as sprite management and we call this part as <b><em>"Game Objects Tutorial"</em></b>. This part is optional, but by mastering this part, your game development will be <b>much easier</b>!</p>
+
+	<li><a href="tutorial7.html">Sprite</a>
+	<div>Explain <b>what is sprite and how to use it</b>.</div></li>
+
+	<li><a href="tutorial8.html">Background</a>
+	<div>How to use <b>background</b> in your game.</div></li>
+
+	<li><a href="tutorial9.html">Grouping Your Sprites</a>
+	<div><b>Grouping sprites</b> that have common behaviour.</div></li>
+
+	<li><a href="tutorial10.html">Missing Some Collisions!?</a>
+	<div>How to use built-in <b>collision system</b> in GTGE.</div></li>
+
+	<li><a href="tutorial11.html">Its Play Time!</a>
+	<div>Automate the game by placing all <b>game objects into a playfield</b>.</div></li>
+
+	<li><a href="tutorial12.html">End of Tutorial??</a>
+	<div><b>Other IMPORTANT things</b> need to be understand.</div></li>
+</ol>
+</p>
+
+<hr />
+
+<h3>Tutorial 1</h3>
+<h1 style="margin-top: 0px">PREFACE</h1>
+
+<blockquote>This block part contains the overview of the chapter.<br />
+This preface chapter will covers all things needed to start using GTGE, from downloading Java SDK, installation, setting, and the basic programming knowledge needed to use GTGE.<br />
+Objective : Understand what is required to use GTGE.</blockquote>
+
+<script type="text/javascript" language="Javascript"><!--
+function showContent() {
+	if (document.getElementById('content').style.display == 'none') {
+		document.getElementById('content').style.display = 'block';
+	} else {
+		document.getElementById('content').style.display = 'none';
+	}
+}
+// --></script>
+<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+<div id="content">
+<hr />
+
+<p>There are <b>two things</b> (only one is required) needed in order to use GTGE :
+<ol>
+	<li><b>Java SDK</b> (Software Development Kit) version 1.4 or later.<br />
+	Because GTGE is built on top of Java programming language, or for exactly you will use Java to create game by using GTGE library, thus you need Java SDK to create Java application.<br />
+	Java SDK can be <b>downloaded</b> freely from <a target="_blank" href="http://java.sun.com/j2se/">http://java.sun.com/j2se/</a>.<br />
+	<u>Java Installation</u>: after Java SDK has been downloaded and installed (by running the auto installer), the next thing to do is <b>setting system path and classpath</b>.<br />
+	Click Windows [start] menu (left bottom of your screen), open [run], then type "sysedit" to edit <u>autoexec.bat</u> file (start -&gt; run -&gt; type "sysedit").<br />
+	Add this line at the bottom of the autoexec.bat :<br />
+<pre>
+file :: autoexec.bat
+
+   <span class="syntax">PATH=[java_installed_dir]\BIN;%PATH%
+   SET CLASSPATH=[java_installed_dir]\LIB\TOOLS.JAR;.;%CLASSPATH%</span>
+
+<span class="whereas">whereas :
+[java_installed_dir] = directory where you install Java
+%PATH%, %CLASSPATH%  = system path, classpath the system has previously</span>
+
+
+<b>For example:</b>
+<span class="example">Java is installed on c:\j2sdk1.4.1</span>
+
+   PATH=C:\J2SDK1.4.1\BIN;%PATH%
+   SET CLASSPATH=C:\J2SDK1.4.1\LIB\TOOLS.JAR;.;%CLASSPATH%
+</pre>
+	</li>
+
+	<li><b>Java IDE</b> (Integrated Development Environment).<br />
+	For <b>saving you lots time and troubles</b>, we recommend you to take an IDE to work with, but this is <b>optional</b>, you could still type and edit Java source code by using any text editor such as NotePad or TextPad.<br />
+	For a decent Java IDE, we recommend GEL (<a target="_blank" href="http://www.gexperts.com/">http://www.gexperts.com/</a>) a light, fast, native executable Java IDE for Windows OS.</li>
+</ol>
+</p>
+
+<p>Troubles installing Java SDK? Ask it in our dedicated <a target="_blank" href="http://goldenstudios.or.id/forum/index.php?showforum=7">forum</a>.<br />
+Any questions related with Java, GTGE, and specific to your game can be asked there. We will do our best to answer any questions!<br />
+And all questions will be likely to get answered within a day (24 hours).</p>
+
+<p>After you have met all things needed to run Java/GTGE, you need at least these <b>2 basic knowledges</b> to be able to use GTGE library :
+<ol>
+	<li><b>Java Programming Language Syntax</b>.<br />
+	Tutorial for Java Syntax is under construction, visit <a target="_blank" href="http://goldenstudios.or.id/forum/index.php?showforum=16">our forum</a> to see the newest update.</li>
+	<li><b>Object Oriented Programming (OOP) in Java</b>.<br />
+	Tutorial for Java OOP is under construction, visit <a target="_blank" href="http://goldenstudios.or.id/forum/index.php?showforum=16">our forum</a> to see the newest update.</li>
+</ol>
+</p>
+
+	<div align="right"><small><a href="javascript:showContent()">collapse/expand</a></small></div>
+</div>
+<hr />
+
+<p><b><u>Summary</u> :</b>
+<ul>
+	<li>GTGE is a <b>Java library</b> to create 2D game.</b>
+	<li>In order to <b>run GTGE</b> you need at least <b>Java SDK</b> and <b>Java IDE</b> optionally.</li>
+	<li>In order to <b>use GTGE</b> you need to understand <b>Java Syntax</b> and <b>Object Oriented Programming</b> (OOP).</li>
+</ul>
+</p>
+
+
+<p>
+<script type="text/javascript"><!--
+google_ad_client = "pub-8240742718872820";
+google_alternate_ad_url = "http://goldenstudios.or.id/products/games/bin/amazonads.php";
+google_ad_width = 468;
+google_ad_height = 60;
+google_ad_format = "468x60_as";
+google_ad_channel ="7844728614";
+google_color_border = "084079";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "FFFFFE";
+google_color_text = "000000";
+//--></script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</p>
+
+
+<p>Reference : <a target="_blank" href="http://java.sun.com/j2se/">Java Download</a>,
+			   <a target="_blank" href="http://java.sun.com/j2se/1.4.2/install-windows.html">Java Installation</a>,
+			   <a target="_blank" href="http://java.sun.com/docs/index.html">Java Documentation</a>,
+			   <a target="_blank" href="http://java.sun.com/docs/books/tutorial">Java Tutorial</a>,
+			   <a target="_blank" href="http://www.gexperts.com/">GEL Java IDE</a></p>
+
+<table width="96%" class="navpage" align="center" summary="">
+<tr>
+	<td style="padding-bottom: 8px">
+		<a href="tutorial1.html" onmouseover="window.status='Preface';return true" onmouseout="window.status=''">1</a>
+		<a href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">2</a>
+		<a href="tutorial3.html" onmouseover="window.status='GTGE API Overview';return true" onmouseout="window.status=''">3</a>
+		<a href="tutorial4.html" onmouseover="window.status='Starting the Game';return true" onmouseout="window.status=''">4</a>
+		<a href="tutorial5.html" onmouseover="window.status='Choosing Game Environment';return true" onmouseout="window.status=''">5</a>
+		<a href="tutorial6.html" onmouseover="window.status='Revealing the Engines Ability';return true" onmouseout="window.status=''">6</a>
+		<a href="tutorial7.html" onmouseover="window.status='Sprite';return true" onmouseout="window.status=''">7</a>
+		<a href="tutorial8.html" onmouseover="window.status='Background';return true" onmouseout="window.status=''">8</a>
+		<a href="tutorial9.html" onmouseover="window.status='Grouping Your Sprites';return true" onmouseout="window.status=''">9</a>
+		<a href="tutorial10.html" onmouseover="window.status='Missing Some Collisions!?';return true" onmouseout="window.status=''">10</a>
+		<a href="tutorial11.html" onmouseover="window.status='Its Play Time!';return true" onmouseout="window.status=''">11</a>
+		<a href="tutorial12.html" onmouseover="window.status='End of Tutorial??';return true" onmouseout="window.status=''">12</a>
+	</td>
+</tr>
+
+<tr>
+	<td align="right"><a class="nextpage" href="tutorial2.html" onmouseover="window.status='Installation';return true" onmouseout="window.status=''">Next Page »</a></td>
+</tr>
+</table>
+<!-- END-CONTENTS -->
+</div>
+
+<!-- FOOTER -->
+</td><td
+background="webstyle/right.gif" width="20"></td></tr><tr><td
+background="webstyle/bottom_left.gif" width="20" height="20"></td><td
+background="webstyle/bottom.gif" height="20"></td><td
+background="webstyle/bottom_right.gif" width="20" height="20"></td></tr></table>
+
+<table width="100%">
+<tr>
+	<td align="left" style="padding-left: 10px">
+		<small class="copyright">Copyright © 2003-2005 Golden T Studios. All rights reserved. Use is subject to <a target="_blank" href="http://creativecommons.org/licenses/by/2.0/">license terms</a>.<br />
+		<a class="copyright" target="_blank" href="http://www.goldenstudios.or.id/">GoldenStudios.or.id</a></small>
+	</td>
+
+	<td align="right" valign="top" style="padding-right: 5px">
+		<span style="color: #666666">Page 1 of 12</span>
+	</td>
+</tr>
+</table>
+<!-- END OF FOOTER -->
+</body>
+
+</html>
+<!-- END -->

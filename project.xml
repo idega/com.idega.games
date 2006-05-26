@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <extend>${base.project.dir}/base-dependencies.xml</extend>
+  <name>idegaWeb Games</name>
+  <artifactId>com.idega.graphics</artifactId>
+  <!--currentVersion>1.0</currentVersion-->
+  <currentVersion>1.0-SNAPSHOT</currentVersion>
+  <inceptionYear>2006</inceptionYear>
+  <shortDescription>idegaWeb Games</shortDescription>
+  <versions>
+  </versions>
+  <branches/>
+  <developers>
+    <developer>
+      <id>eiki</id>
+      <name>Eirikur Hrafnsson</name>
+      <email>eiki@idega.is</email>
+      <organization>idega software</organization>
+      <roles/>
+    </developer>
+  </developers>
+  <dependencies> 
+    <!-- GTGE dependencies start -->
+      <dependency>
+      <groupId>gtge</groupId>
+      <artifactId>golden</artifactId>
+      <version>0.2.3</version>
+      <type>jar</type>
+      <url>http://jtidy.sourceforge.net</url>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency>
+    <dependency>
+      <groupId>gtge</groupId>
+      <artifactId>goldengui</artifactId>
+      <version>0.1.0</version>
+      <type>jar</type>
+      <url>http://jtidy.sourceforge.net</url>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency>
+    <!-- GTGE dependencies end -->
+    
+    
+  </dependencies>
+</project>

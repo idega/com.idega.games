@@ -1,0 +1,127 @@
+@charset "iso-8859-1";
+<!--
+/****** START basic settings ******/
+
+body, table {
+	font: 12px verdana, tahoma, arial, sans-serif;
+}
+body {
+	margin: 15px;
+	background-color: #ffcccc;
+}
+div.body { margin: 30px; }
+
+h1,h2,h3,h4,h5,h6 { line-height: normal; margin-top: 30px; }
+h1 { font-family: serif; font-size: 30px; }
+h2 { font-size: 135%; }
+h3 { font-size: 110%; }
+h4 { font-size: 100%; }
+h5 { font-size: 80%; }
+h6 { font-size: 60%; }
+
+/****** END basic settings ******/
+
+/****** START code settings ******/
+.syntax { 
+	font-size: 105%;
+	color: #000080; 
+}
+.whereas { 
+	font-size: 80%; 
+	color: #333333;
+}
+.javadoc{
+	color: #008000; 
+	font-style: italic;
+}
+.blockcomment{
+	color: #008000;
+	font-style: italic;
+}
+.comment{
+	color: #008000;
+	font-style: italic;
+}
+.literal{
+	color: #008080;
+}
+.keyword{
+	color: #0000FF;
+}
+.primitive{
+	color: #0000FF;
+}
+.method{
+	color: #002566;
+}
+.linenum{
+	color: #000000; 
+}
+span.example {
+	color: #ff0000;
+}
+a.example2:link, a.example2:visited {
+	color: #000080;
+	text-decoration: none;
+}
+a.example2:hover {
+	text-decoration: underline;
+}
+pre {
+	font-size: 10pt;
+	background-color: #CCCCCC;
+	padding-top: 12px;
+	padding-bottom: 30px;
+	padding-right: 30px;
+	padding-left: 15px;
+	margin-left: 50px;
+	width: 80%;
+}
+code {
+	color: #333333;
+}
+/****** END code settings ******/
+
+a.example:link, a.example:visited, a.example:hover {
+}
+
+a.source:link, a.source:visited {
+	color: navy;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.source:hover {
+	border-bottom: 1px dashed;
+}
+
+li { margin-bottom: 10px; }
+
+blockquote { 
+	margin-top: 35px; 
+	font-size: 11px; 
+}
+
+/* navigation */
+table.navpage { border: 0px; margin-bottom: 40px; }
+table.navpage a:link { color: blue; text-decoration: none; }
+table.navpage a:visited { color: #002288; text-decoration: none; }
+table.navpage a:hover { background-color: #082EA2; color: white; }
+table.navpage span { background-color: #999900; color: black; border: 2px solid #999900; }
+table.navpage a.nextpage:link {
+	color: blue;
+	border-bottom: 1px dashed;
+	text-decoration: none;
+}
+table.navpage a.nextpage:visited {
+	color: #002288;
+	border-bottom: 1px dashed;
+	text-decoration: none;
+}
+table.navpage a.nextpage:hover {
+	background-color: #FFFFFF;
+	border-bottom: 0px;
+	text-decoration: none;
+}
+/* end-navigation */
+
+// -->
