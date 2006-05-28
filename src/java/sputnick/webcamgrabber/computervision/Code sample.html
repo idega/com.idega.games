@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Code sample</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<pre>//This code will track the reddest pixel in the picture 
+
+PixelSource ps = new PixelSource(320,240);  //this creates the main object
+while(true){
+ int worldRecord = 0; //most red thing
+
+ ps.grabFrame(); //grab a frame
+ for (int row = 0; row &lt; kHeight; row++){ //REPEAT FOR EACH ROW OF PIXELS
+   for (int column = 0; column &lt; kWidth; column++){ //REPEAT FOR EACH PIXEL IN THE ROW
+   	int[] rgb = ps.getPixel(column,row);  //get the color of this pixel
+    if (rgb[0] &gt; worldRecord) {  //if it is redder than the last red one
+   		x = column;  //note the postion
+   		y = row;
+   		worldRecord = rgb[0] ;  //make this the new redness to beat
+   	}
+   }//END FOR EACH PIXEL IN A ROW
+  }//END FOR EACH ROW OF PIXELS
+}
+ps.killSession();
+</pre>
+<p>Format of Pixels Data<br>
+  Images are usually described using a long list of numbers describing the color 
+  of each pixel. There are as many methods of formatting that list as there are 
+  image file formats. With Quicktime for Java we are going to recieve an int array 
+  variable with one item for each pixel. The hard thing is that the red, green, 
+  blue and alpha values are all &quot;packed&quot; into that one int. One of the 
+  main thing that the PixelSource class does for you is &quot;unpacking&quot; 
+  these ints in setPixel() and getPixel() and delivering the rgb separated in 
+  a nice three element array. There are times where, especially for increased 
+  speed when you may want to pull the idividual values out of the int yourself 
+  which will entail some masking and shifting. </p>
+</body>
+</html>

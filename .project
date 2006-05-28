@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <projectDescription>
-  <name>com.idega.games</name>
+  <name>com.idega.graphics</name>
   <comment>
   </comment>
   <projects>
+    <project>com.idega.core</project>
     <project>com.idega.block.web2.0</project>
   </projects>
   <buildSpec>

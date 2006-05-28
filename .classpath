@@ -5,6 +5,8 @@
   </classpathentry>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
   </classpathentry>
+  <classpathentry kind="src" path="/com.idega.core">
+  </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/gtge/jars/golden-0.2.3.jar">
   </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/gtge/jars/goldengui-0.1.0.jar">

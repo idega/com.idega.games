@@ -8,7 +8,8 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-
+import vxp.QTLivePixelSource;
+import vxp.VideoListener;
 import com.golden.gamedev.Game;
 import com.golden.gamedev.GameLoader;
 import com.golden.gamedev.object.Background;
@@ -24,8 +25,12 @@ import com.golden.gamedev.object.collision.BasicCollisionGroup;
  * 
  * Objective: show how to use playfield to automate all things!
  */
-public class BlackJack extends Game {
+public class BlackJack extends Game implements VideoListener{
 
+	//uncomment this when ready to ship!
+	{distribute = true;}
+	
+	
 	PlayField playfield; // the game playfield
 	Background background;
 //	SpriteGroup PLAYER_GROUP;
@@ -44,7 +49,9 @@ public class BlackJack extends Game {
 	
 	int nextCardCounter = 0;
 	
-
+	int width = 800;//640;
+	int height = 600;//480;
+		
 	BufferedImage[] cards = new BufferedImage[65];
 	
 	BufferedImage[] leafs = new BufferedImage[13];
@@ -52,22 +59,37 @@ public class BlackJack extends Game {
 	BufferedImage[] hearts = new BufferedImage[13];
 	BufferedImage[] spades = new BufferedImage[13];
 	BufferedImage[] jokersAndBack = new BufferedImage[13];
+	
+	QTLivePixelSource ps;
+	BufferedImage currentFrameImage;
+	int videoWidth = 320;//160;//320, 640
+	int videoHeight = 240;//120;//240,480
+	boolean videoInBackground = false;
+	
+	
+	protected Sprite videoSprite;
 
 	/** ************************************************************************* */
 	/** ************************** GAME SKELETON ******************************** */
 	/** ************************************************************************* */
 	public void initResources() {
+		
+	
 		// create the game playfield
 		playfield = new PlayField();
 		// associate the playfield with a background
-		background = new ImageBackground(getImage("resources/cards/BarroomBJBackground.png"), 640, 480);
+		background = new ImageBackground(getImage("resources/cards/BarroomBJBackground.png"), width, height);
 		playfield.setBackground(background);
 		// create our plane sprite
 //		loadModernCardImages();
 
 		PLAYER_CARDS = new SpriteGroup("Player");
 		playfield.addGroup(PLAYER_CARDS);
-
+		
+		videoSprite = new Sprite(width-videoWidth,0);
+		playfield.add(videoSprite);
+		
+		
 		loadCardImages();
 		newGame(true);
 //		Collections.shuffle(Arrays.asList(cards));
@@ -79,6 +101,15 @@ public class BlackJack extends Game {
 //		plane.setLoopAnim(true);
 		
 //		playfield.add(plane);
+		
+		try {
+			ps = new QTLivePixelSource(videoWidth, videoHeight, 100);
+			ps.addVideoListener(this);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.print("Failed to initialize video, most likely there is no camera or it is in use by another application");
+		}
 		
 
 		addCard(getNextCard());
@@ -288,6 +319,29 @@ public class BlackJack extends Game {
 			addCard(getNextCard());
 			addCard(getNextCard());
 		}
+		if (keyPressed(KeyEvent.VK_R)) {
+			// HIT
+			newGame(true);
+			addCard(getNextCard());
+			addCard(getNextCard());
+		}
+		
+		if (keyPressed(KeyEvent.VK_B)) {
+			// HIT
+			videoInBackground = !videoInBackground;
+			
+			if(videoInBackground){
+				videoSprite.setActive(false);
+				playfield.setBackground(new ImageBackground(ps.getImage(), width, height));
+			}
+			else{
+				videoSprite.setActive(true);
+				playfield.setBackground(background);
+			}
+			
+			
+		}
+		
 //		background.setToCenter(plane);
 	}
 	
@@ -372,9 +426,15 @@ public class BlackJack extends Game {
 	/** ************************************************************************* */
 	public static void main(String[] args) {
 		GameLoader game = new GameLoader();
-		game.setup(new BlackJack(), new Dimension(640, 480), false);
+		game.setup(new BlackJack(), new Dimension(800, 600), false);
 		game.setName("{iwrb} BlackJack v.01a");
 		game.start();
+	}
+
+	public void newFrame() {
+		ps.grabFrame(); 
+		//playfield.setBackground(new ImageBackground(ps.getImage(), width, height));
+		videoSprite.setImage(ps.getImage());
 	}
 }
 

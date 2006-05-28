@@ -21,13 +21,24 @@
     </developer>
   </developers>
   <dependencies> 
+  	<dependency>
+      <groupId>bundles</groupId>
+      <artifactId>com.idega.core</artifactId>
+      <version>SNAPSHOT</version>
+      <type>jar</type>
+      <url>http://www.idega.com/</url>
+      <properties>
+        <eclipse.dependency>true</eclipse.dependency>
+      </properties>
+    </dependency>
+    
     <!-- GTGE dependencies start -->
       <dependency>
       <groupId>gtge</groupId>
       <artifactId>golden</artifactId>
       <version>0.2.3</version>
       <type>jar</type>
-      <url>http://jtidy.sourceforge.net</url>
+      <url>http://goldenstudios.or.id/products/GTGE/index.php</url>
       <properties>
         <idegaweb.bundle.include>true</idegaweb.bundle.include>
       </properties>
@@ -37,12 +48,25 @@
       <artifactId>goldengui</artifactId>
       <version>0.1.0</version>
       <type>jar</type>
-      <url>http://jtidy.sourceforge.net</url>
+      <url>http://goldenstudios.or.id/products/GTGE/index.php</url>
       <properties>
         <idegaweb.bundle.include>true</idegaweb.bundle.include>
       </properties>
     </dependency>
     <!-- GTGE dependencies end -->
+   	
+   	<!-- VBP, video by the pixel dependency, http://itp.nyu.edu/~dbo3/, start -->
+    <!-- NOW COMPILING OUR OWN VERSION, when finished create a new one on nobel dependency>
+      <groupId>vbp</groupId>
+      <artifactId>vxp</artifactId>
+      <version>1.0</version>
+      <type>jar</type>
+      <url>http://itp.nyu.edu/~dbo3/</url>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency -->
+ 	<!-- VBP, video by the pixel dependency end -->
     
     
   </dependencies>
