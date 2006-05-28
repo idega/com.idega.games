@@ -3,7 +3,7 @@
 <project>
   <extend>${base.project.dir}/base-dependencies.xml</extend>
   <name>idegaWeb Games</name>
-  <artifactId>com.idega.graphics</artifactId>
+  <artifactId>com.idega.games</artifactId>
   <!--currentVersion>1.0</currentVersion-->
   <currentVersion>1.0-SNAPSHOT</currentVersion>
   <inceptionYear>2006</inceptionYear>
