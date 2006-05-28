@@ -335,8 +335,9 @@ public class BlackJack extends Game implements VideoListener{
 				playfield.setBackground(new ImageBackground(ps.getImage(), width, height));
 			}
 			else{
-				videoSprite.setActive(true);
 				playfield.setBackground(background);
+				videoSprite.setActive(true);
+				playfield.add(videoSprite);
 			}
 			
 			
@@ -407,6 +408,7 @@ public class BlackJack extends Game implements VideoListener{
 		playfield.render(g);
 		// draw info text
 		font.drawString(g, "H KEY : HIT ME !!", 10, 10);
+		font.drawString(g, "B KEY : VIDEO TOGGLE!", 10, 50);
 		int total = getTotalValue();
 		font.drawString(g, "TOTAL : "+total+"", 10, 30);
 		if (total > 21) {
