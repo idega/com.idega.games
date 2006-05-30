@@ -143,7 +143,7 @@ public abstract class PixelSource {
 	}
 
 	/**
-	 * Gives you the video image in the form of a bufferedImage.
+	 * Gives you the current video image in the form of a bufferedImage.
 	 */
 	public BufferedImage getImage() {
 		raster.setDataElements(0, 0, vidWidth, kHeight, newPixels);
@@ -155,14 +155,28 @@ public abstract class PixelSource {
 	 * Gives you the video image in the form of a NEW bufferedImage (probably a little slower than getImage)
 	 * It does not affect the image gotten from getImage so they can be called at the same time
 	 */
-	public BufferedImage getImage(int[] pixis) {
+	public BufferedImage getImage(int[] pixelsARGB) {
 		BufferedImage newImage = new BufferedImage(vidWidth, kHeight, BufferedImage.TYPE_INT_ARGB);
 		WritableRaster newRaster = newImage.getRaster();
-		newRaster.setDataElements(0, 0, vidWidth, kHeight, pixis);
-		newImage.setData(raster);
-		return image;
+		newRaster.setDataElements(0, 0, vidWidth, kHeight, pixelsARGB);
+		newImage.setData(newRaster);
+		return newImage;
 	}
 
+	/**
+	 * Gives you the video image in the form of a NEW bufferedImage (probably a little slower than getImage)
+	 * It does not affect the image gotten from getImage so they can be called at the same time.
+	 * WARNING creating a BufferedImage of the type TYPE_4BYTE_ABGR may be slower the int type, not sure how much!
+	 */
+	public BufferedImage getImage(byte[] pixelsABGR) {
+		BufferedImage newImage = new BufferedImage(vidWidth, kHeight, BufferedImage.TYPE_4BYTE_ABGR);
+		WritableRaster newRaster = newImage.getRaster();
+		newRaster.setDataElements(0, 0, vidWidth, kHeight, pixelsABGR);
+		newImage.setData(newRaster);
+		return newImage;
+	}
+	
+	
 	/**
 	 * Puts a the video image into an image supplied by you.
 	 * 

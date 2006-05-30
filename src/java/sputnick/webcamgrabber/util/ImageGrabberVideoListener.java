@@ -1,6 +1,6 @@
 /*
- * $Id: ImageGrabberVideoListener.java,v 1.1 2006/05/28 18:57:00 eiki Exp $ Created on
- * May 28, 2006
+ * $Id: ImageGrabberVideoListener.java,v 1.2 2006/05/30 13:44:08 eiki Exp $
+ * Created on May 28, 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
  * 
@@ -51,7 +51,8 @@ public class ImageGrabberVideoListener implements VideoListener {
 
 	protected void grabImage() {
 		String filePathAndName = System.getProperty("user.home") + "/Sites/images/grabbedImage.gif";
-		encode(ps.getImage(ps.grabFrameToArray()), filePathAndName);
+		int[] pixelArray = ps.grabFrameToArray();
+		encode(ps.getImage(pixelArray), filePathAndName);
 		// uploadToServerByFTP("darwin.idega.is","~/Sites/images","eiki.jpg","eiki","p1par",filePathAndName);
 	}
 

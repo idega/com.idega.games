@@ -29,16 +29,12 @@ import com.golden.gamedev.object.collision.BasicCollisionGroup;
 public class BlackJack extends Game implements VideoListener {
 
 	// uncomment this when ready to ship!
-	{
-		distribute = true;
-	}
+	// {distribute = true;}
 	PlayField playfield; // the game playfield
 	Background background;
 	SpriteGroup PLAYER_CARDS;
 	SpriteGroup DEALER_CARDS;
-	
 	Map playerTotals = new HashMap();
-	
 	// Timer moveTimer; // to set enemy behaviour
 	// // for moving left to right, right to left
 	// ProjectileEnemyCollision2 collision;
@@ -55,10 +51,11 @@ public class BlackJack extends Game implements VideoListener {
 	BufferedImage[] jokersAndBack = new BufferedImage[13];
 	QTLivePixelSource ps;
 	BufferedImage currentFrameImage;
-	int videoWidth = 320;// 160;//320, 640
-	int videoHeight = 240;// 120;//240,480
+	int videoWidth = 256;// 160;//320, 640//256
+	int videoHeight = 192;// 120;//240,480//192
 	boolean videoInBackground = false;
 	protected Sprite videoSprite;
+	boolean firstTime = true;
 
 	/** ************************************************************************* */
 	/** ************************** GAME SKELETON ******************************** */
@@ -89,6 +86,7 @@ public class BlackJack extends Game implements VideoListener {
 		try {
 			ps = new QTLivePixelSource(videoWidth, videoHeight, 100);
 			ps.addVideoListener(this);
+			ps.videoSettings();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -337,7 +335,7 @@ public class BlackJack extends Game implements VideoListener {
 		}
 		// background.setToCenter(plane);
 	}
-	
+
 	protected int updatePlayerTotalCardValue(SpriteGroup cardGroup) {
 		String playerName = cardGroup.getName();
 		int total = 0;
@@ -367,17 +365,13 @@ public class BlackJack extends Game implements VideoListener {
 			}
 		}
 		System.out.println("Counter the total ... to be " + total);
-
 		playerTotals.put(playerName, new Integer(total));
-	
-		
 		return total;
-		
 	}
 
 	protected int getPlayerTotalCardValue(SpriteGroup cardGroup) {
 		String playerName = cardGroup.getName();
-		return ((Integer)playerTotals.get(playerName)).intValue();
+		return ((Integer) playerTotals.get(playerName)).intValue();
 	}
 
 	protected void newGame(boolean shuffle) {
@@ -449,9 +443,37 @@ public class BlackJack extends Game implements VideoListener {
 
 	public void newFrame() {
 		ps.grabFrame();
-		// playfield.setBackground(new ImageBackground(ps.getImage(), width,
-		// height));
 		videoSprite.setImage(ps.getImage());
+		// Timer timer = new Timer();
+		// timer.start();
+		//		
+		// int[] originalArray = ps.getPixelArray();
+		// byte[] temp =
+		// PixelUtil.convertARGBto4ByteABGR(originalArray);
+		// PixelUtil.compressToFile(temp, "compressedImage",
+		// "/Users/eiki/Desktop/temp/");
+		// byte[] compressed = PixelUtil.compress(temp);
+		// byte[] pixels = PixelUtil.compress(originalArray);
+		// timer.stop();
+		// System.out.println("Compressing array took:
+		// "+timer.getTimeString());
+		// int[] inflatedOriginalArray =
+		// PixelUtil.convert4ByteABGRToARGB(PixelUtil.uncompress(compressed));
+		// videoSprite.setImage(ps.getImage(inflatedOriginalArray));
+		// timer.reset();
+		// timer.start();
+		// byte[] uncompressedArray = PixelUtil.uncompress(pixels);
+		// int[] inflatedOriginalArray =
+		// PixelUtil.convert4ByteABGRToARGB(uncompressedArray);
+		//				
+		//				
+		// videoSprite.setImage(ps.getImage(inflatedOriginalArray));
+		// videoSprite.setImage(ps.getImage(ps.getPixelArray()));
+		// playfield.add(videoSprite);
+		//				
+		// timer.stop();
+		// System.out.println("Getting and setting image took:
+		// "+timer.getTimeString());
 	}
 }
 
