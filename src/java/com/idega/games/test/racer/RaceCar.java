@@ -1,5 +1,5 @@
 /*
- * $Id: RaceCar.java,v 1.1 2006/05/31 19:19:33 eiki Exp $ Created on May 31, 2006
+ * $Id: RaceCar.java,v 1.2 2006/05/31 19:21:25 eiki Exp $ Created on May 31, 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
  * 
@@ -15,22 +15,22 @@ import com.golden.gamedev.object.Sprite;
 /**
  * 
  * FROM http://www.goldenstudios.or.id/forum/showthread.php?tid=1063 Example in
- * the update of the Game class: [code] .... shipControl.update();
+ * the update of the Game class: [code] .... raceCarControl.update();
  * 
  * if(keyDown(java.awt.event.KeyEvent.VK_A) || keyDown
- * (java.awt.event.KeyEvent.VK_LEFT)) { shipControl.left(); }
+ * (java.awt.event.KeyEvent.VK_LEFT)) { raceCarControl.left(); }
  * if(keyDown(java.awt.event.KeyEvent.VK_D) || keyDown
- * (java.awt.event.KeyEvent.VK_RIGHT)) { shipControl.right(); } if(keyDown
+ * (java.awt.event.KeyEvent.VK_RIGHT)) { raceCarControl.right(); } if(keyDown
  * (java.awt.event.KeyEvent.VK_W) || keyDown (java.awt.event.KeyEvent.VK_UP)) {
- * shipControl.up (); } if(keyDown (java.awt.event.KeyEvent.VK_SPACE)) {
- * shipControl.brake (); }
+ * raceCarControl.up (); } if(keyDown (java.awt.event.KeyEvent.VK_SPACE)) {
+ * raceCarControl.brake (); }
  * 
- * shipControl.noKey();
+ * raceCarControl.noKey();
  * 
- * Last modified: $Date: 2006/05/31 19:19:33 $ by $Author: eiki $
+ * Last modified: $Date: 2006/05/31 19:21:25 $ by $Author: eiki $
  * 
  * @author <a href="mailto:eiki@idega.com">eiki</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RaceCar extends Sprite {
 
