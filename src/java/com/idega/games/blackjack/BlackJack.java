@@ -12,7 +12,8 @@ import java.util.Map;
 import vxp.QTLivePixelSource;
 import vxp.VideoListener;
 import com.golden.gamedev.Game;
-import com.golden.gamedev.OpenGLGameLoader;
+import com.golden.gamedev.GameLoader;
+import com.golden.gamedev.funbox.GameSettings;
 import com.golden.gamedev.object.Background;
 import com.golden.gamedev.object.GameFont;
 import com.golden.gamedev.object.PlayField;
@@ -71,10 +72,10 @@ public class BlackJack extends Game implements VideoListener {
 		DEALER_CARDS = new SpriteGroup("Dealer");
 		playfield.addGroup(DEALER_CARDS);
 		videoSprite = new Sprite(getWidth() - videoWidth, 0);
-		
-		//videoSprite = new Sprite(0, 0);
-		
+		// eiki test remove
+		Sprite videoSprite2 = new Sprite(getWidth() - videoWidth, videoHeight + 5);
 		playfield.add(videoSprite);
+		playfield.add(videoSprite2);
 		loadCardImages();
 		newGame(true);
 		// Collections.shuffle(Arrays.asList(cards));
@@ -88,7 +89,9 @@ public class BlackJack extends Game implements VideoListener {
 			ps = new QTLivePixelSource(videoWidth, videoHeight, 100);
 			ps.addVideoListener(this);
 			ps.grabFrame();
-			videoSprite.setImage(ps.getImage());
+			BufferedImage video = ps.getImage();
+			videoSprite.setImage(video);
+			videoSprite2.setImage(video);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -256,8 +259,6 @@ public class BlackJack extends Game implements VideoListener {
 		// collision.checkCollision();
 		// playfield update all things and check for collision
 		playfield.update(elapsedTime);
-		
-		
 		// enemy sprite movement timer
 		// if (moveTimer.action(elapsedTime)) {
 		// reverse all enemies' speed
@@ -414,8 +415,6 @@ public class BlackJack extends Game implements VideoListener {
 		// ENEMY_GROUP.render(g);
 		// PROJECTILE_GROUP.render(g);
 		playfield.render(g);
-
-		
 		// draw info text
 		int totalPlayer = getPlayerTotalCardValue(PLAYER_CARDS);
 		font.drawString(g, "H KEY : HIT ME !!", 10, 10);
@@ -441,37 +440,60 @@ public class BlackJack extends Game implements VideoListener {
 	/** *************************** START-POINT ********************************* */
 	/** ************************************************************************* */
 	public static void main(String[] args) {
-//		GameLoader game = new GameLoader();
-		  // pick the graphics engine you like
+		// GameLoader game = new GameLoader();
+		// pick the graphics engine you like
+		// OpenGLGameLoader game = new OpenGLGameLoader();
+		// init game with OpenGL LWJGL fullscreen mode
+		// 640x480 screen resolution
+		// game.setupLWJGL(new BlackJack(), new Dimension(640, 480), false);
+		// init game with OpenGL JOGL fullscreen mode
+		// 800x600 screen resolution
+		// game.setupJOGL(new BlackJack(), new Dimension(800, 600), false);
+		// init game with Java2D fullscreen mode
+		// 800x600 screen resolution
+		// game.setup(new BlackJack(), new Dimension(640,480), false);
+		// game.setName("{iwrb} BlackJack v.01a");
+		// game.start();
 		
-		OpenGLGameLoader game = new OpenGLGameLoader();
+		GameSettings settings = new GameSettings() {
 
-        // init game with OpenGL LWJGL fullscreen mode
-        // 640x480 screen resolution
-       //game.setupLWJGL(new BlackJack(), new Dimension(640, 480), false);
-		
+			public void start() {
+				// here goes the usual game initialization
+				GameLoader game = new GameLoader();
+				game.setup(new BlackJack() {
 
-        // init game with OpenGL JOGL fullscreen mode
-        // 800x600 screen resolution
-        //game.setupJOGL(new BlackJack(), new Dimension(800, 600), false);
+					protected void initEngine() {
+						super.initEngine();
+						// set active sound base on user setting
+						bsSound.setActive(sound.isSelected());
+						bsMusic.setActive(sound.isSelected());
+					}
+				}, new Dimension(640, 480), fullscreen.isSelected(), bufferstrategy.isSelected());
+				game.start();
+			}
 
-        // init game with Java2D fullscreen mode
-        // 800x600 screen resolution
-        game.setup(new BlackJack(), new Dimension(640,480), false);
-
-      
-        game.setName("{iwrb} BlackJack v.01a");
-		game.start();
-		
-		
+			// example removing bufferstrategy option from the list
+			// then adding new option to use OpenGL or not
+//			JCheckBox opengl;
+//
+//			protected JPanel initSettings() {
+//				JPanel pane = super.initSettings();
+//				// remove bufferstrategy option
+//				pane.remove(bufferstrategy);
+//				// add opengl option
+//				opengl = new JCheckBox("OpenGL", true);
+//				pane.add(opengl, 0);
+//			}
+		};
 	}
 
 	public void newFrame() {
 		ps.grabFrame();
-		//No need to set the image again since PixelSource.getImage() changes the same image
+		// No need to set the image again since PixelSource.getImage() changes
+		// the same image
+		// TODO rendering the image might be faster if we use VolatileImage and
+		// render it separately in the render or paint method
 		ps.getImage();
-		
-		
 		// Timer timer = new Timer();
 		// timer.start();
 		//		
