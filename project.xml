@@ -45,6 +45,16 @@
     </dependency>
     <dependency>
       <groupId>gtge</groupId>
+      <artifactId>goldenaddons</artifactId>
+      <version>0.2.3</version>
+      <type>jar</type>
+      <url>http://goldenstudios.or.id/products/GTGE/index.php</url>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency>
+    <dependency>
+      <groupId>gtge</groupId>
       <artifactId>goldengui</artifactId>
       <version>0.1.0</version>
       <type>jar</type>
@@ -53,7 +63,32 @@
         <idegaweb.bundle.include>true</idegaweb.bundle.include>
       </properties>
     </dependency>
+   	<dependency>
+      <groupId>gtge</groupId>
+      <artifactId>andyPSystem</artifactId>
+      <version>1.1</version>
+      <type>jar</type>
+      <url>http://goldenstudios.or.id/products/GTGE/index.php</url>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency>
     <!-- GTGE dependencies end -->
+    
+   <!-- JGN, java game networking dependencies start -->
+    <dependency>
+      <groupId>jgn</groupId>
+      <artifactId>javagamenetworking</artifactId>
+      <version>1.0.5</version>
+      <type>jar</type>
+      <url>https://javagamenetworking.dev.java.net/</url>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency>
+    <!-- JGN dependencies end -->
+    
+    
    	
    	<!-- VBP, video by the pixel dependency, http://itp.nyu.edu/~dbo3/, start -->
     <!-- NOW COMPILING OUR OWN VERSION, when finished create a new one on nobel dependency>

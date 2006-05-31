@@ -1,5 +1,5 @@
 /*
- * $Id: PixelUtil.java,v 1.1 2006/05/30 13:44:08 eiki Exp $ Created on May 29, 2006
+ * $Id: PixelUtil.java,v 1.2 2006/05/31 17:15:36 eiki Exp $ Created on May 29, 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
  * 
@@ -29,6 +29,7 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.Inflater;
+import quicktime.app.image.QTImageProducer;
 import com.idega.util.FileUtil;
 
 /**
@@ -452,6 +453,7 @@ public class PixelUtil {
 	}
 
 	public static byte[] compress(byte[] pixelByteArray) {
+		
 		// protected static Deflater compressor = new Deflater();
 		Deflater compressor = new Deflater();
 		compressor.setLevel(Deflater.BEST_COMPRESSION);

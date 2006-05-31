@@ -12,14 +12,13 @@ import java.util.Map;
 import vxp.QTLivePixelSource;
 import vxp.VideoListener;
 import com.golden.gamedev.Game;
-import com.golden.gamedev.GameLoader;
+import com.golden.gamedev.OpenGLGameLoader;
 import com.golden.gamedev.object.Background;
 import com.golden.gamedev.object.GameFont;
 import com.golden.gamedev.object.PlayField;
 import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.SpriteGroup;
 import com.golden.gamedev.object.background.ImageBackground;
-import com.golden.gamedev.object.collision.BasicCollisionGroup;
 
 /**
  * It's time to play!
@@ -50,7 +49,6 @@ public class BlackJack extends Game implements VideoListener {
 	BufferedImage[] spades = new BufferedImage[13];
 	BufferedImage[] jokersAndBack = new BufferedImage[13];
 	QTLivePixelSource ps;
-	BufferedImage currentFrameImage;
 	int videoWidth = 256;// 160;//320, 640//256
 	int videoHeight = 192;// 120;//240,480//192
 	boolean videoInBackground = false;
@@ -72,7 +70,10 @@ public class BlackJack extends Game implements VideoListener {
 		playfield.addGroup(PLAYER_CARDS);
 		DEALER_CARDS = new SpriteGroup("Dealer");
 		playfield.addGroup(DEALER_CARDS);
-		videoSprite = new Sprite(width - videoWidth, 0);
+		videoSprite = new Sprite(getWidth() - videoWidth, 0);
+		
+		//videoSprite = new Sprite(0, 0);
+		
 		playfield.add(videoSprite);
 		loadCardImages();
 		newGame(true);
@@ -86,7 +87,8 @@ public class BlackJack extends Game implements VideoListener {
 		try {
 			ps = new QTLivePixelSource(videoWidth, videoHeight, 100);
 			ps.addVideoListener(this);
-			ps.videoSettings();
+			ps.grabFrame();
+			videoSprite.setImage(ps.getImage());
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -254,6 +256,8 @@ public class BlackJack extends Game implements VideoListener {
 		// collision.checkCollision();
 		// playfield update all things and check for collision
 		playfield.update(elapsedTime);
+		
+		
 		// enemy sprite movement timer
 		// if (moveTimer.action(elapsedTime)) {
 		// reverse all enemies' speed
@@ -410,6 +414,8 @@ public class BlackJack extends Game implements VideoListener {
 		// ENEMY_GROUP.render(g);
 		// PROJECTILE_GROUP.render(g);
 		playfield.render(g);
+
+		
 		// draw info text
 		int totalPlayer = getPlayerTotalCardValue(PLAYER_CARDS);
 		font.drawString(g, "H KEY : HIT ME !!", 10, 10);
@@ -435,15 +441,37 @@ public class BlackJack extends Game implements VideoListener {
 	/** *************************** START-POINT ********************************* */
 	/** ************************************************************************* */
 	public static void main(String[] args) {
-		GameLoader game = new GameLoader();
-		game.setup(new BlackJack(), new Dimension(800, 600), false);
-		game.setName("{iwrb} BlackJack v.01a");
+//		GameLoader game = new GameLoader();
+		  // pick the graphics engine you like
+		
+		OpenGLGameLoader game = new OpenGLGameLoader();
+
+        // init game with OpenGL LWJGL fullscreen mode
+        // 640x480 screen resolution
+       //game.setupLWJGL(new BlackJack(), new Dimension(640, 480), false);
+		
+
+        // init game with OpenGL JOGL fullscreen mode
+        // 800x600 screen resolution
+        //game.setupJOGL(new BlackJack(), new Dimension(800, 600), false);
+
+        // init game with Java2D fullscreen mode
+        // 800x600 screen resolution
+        game.setup(new BlackJack(), new Dimension(640,480), false);
+
+      
+        game.setName("{iwrb} BlackJack v.01a");
 		game.start();
+		
+		
 	}
 
 	public void newFrame() {
 		ps.grabFrame();
-		videoSprite.setImage(ps.getImage());
+		//No need to set the image again since PixelSource.getImage() changes the same image
+		ps.getImage();
+		
+		
 		// Timer timer = new Timer();
 		// timer.start();
 		//		
@@ -474,35 +502,5 @@ public class BlackJack extends Game implements VideoListener {
 		// timer.stop();
 		// System.out.println("Getting and setting image took:
 		// "+timer.getTimeString());
-	}
-}
-
-class ProjectileEnemyCollision2 extends BasicCollisionGroup {
-
-	BlackJack owner;
-
-	public ProjectileEnemyCollision2(BlackJack owner) {
-		this.owner = owner; // set the game owner
-		// we use this for getting image and
-		// adding explosion to playfield
-	}
-
-	// when projectiles (in group a) collided with enemy (in group b)
-	// what to do?
-	public void collided(Sprite s1, Sprite s2) {
-		// we kill/remove both sprite!
-		// s1.setActive(false); // the projectile is set to non-active
-		// s2.setActive(false); // the enemy is set to non-active
-		// show explosion on the center of the exploded enemy
-		// we use VolatileSprite -> sprite that animates once and vanishes
-		// afterward
-		// BufferedImage[] images = owner.getImages("resources/explosion.png",
-		// 7, 1);
-		// VolatileSprite explosion = new VolatileSprite(images, s2.getX(),
-		// s2.getY());
-		// directly add to playfield without using SpriteGroup
-		// the sprite is added into a reserved extra sprite group in playfield
-		// extra sprite group is used especially for animation effects in game
-		// owner.playfield.add(explosion);
 	}
 }

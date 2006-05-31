@@ -1,0 +1,7 @@
+com.golden.gamedev
+com.golden.gamedev.engine
+com.golden.gamedev.engine.audio
+com.golden.gamedev.engine.graphics
+com.golden.gamedev.engine.jogl
+com.golden.gamedev.engine.lwjgl
+com.golden.gamedev.engine.timer

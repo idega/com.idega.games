@@ -9,7 +9,13 @@
   </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/gtge/jars/golden-0.2.3.jar">
   </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/gtge/jars/goldenaddons-0.2.3.jar">
+  </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/gtge/jars/goldengui-0.1.0.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/gtge/jars/andyPSystem-1.1.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/jgn/jars/javagamenetworking-1.0.5.jar">
   </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/servletapi/jars/servletapi-2.4.jar">
   </classpathentry>
