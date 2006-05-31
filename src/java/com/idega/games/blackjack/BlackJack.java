@@ -74,8 +74,7 @@ public class BlackJack extends Game implements VideoListener {
 		videoSprite = new Sprite(getWidth() - videoWidth, 0);
 		// eiki test remove
 		Sprite videoSprite2 = new Sprite(getWidth() - videoWidth, videoHeight + 5);
-		playfield.add(videoSprite);
-		playfield.add(videoSprite2);
+		
 		loadCardImages();
 		newGame(true);
 		// Collections.shuffle(Arrays.asList(cards));
@@ -92,10 +91,13 @@ public class BlackJack extends Game implements VideoListener {
 			BufferedImage video = ps.getImage();
 			videoSprite.setImage(video);
 			videoSprite2.setImage(video);
+			playfield.add(videoSprite);
+			playfield.add(videoSprite2);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			System.out.print("Failed to initialize video, most likely there is no camera or it is in use by another application");
+			
 		}
 		dealOneCardToDealer(getNextCard());
 		dealOneCardToPlayer(getNextCard());
