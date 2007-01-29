@@ -122,8 +122,9 @@ public abstract class PixelSource {
 	 * the format of the pixels. You usually don't have to worry about this.
 	 */
 	public void setImageType() {
-		// GraphicsCofiguration gc = mirror.getGraphicsConfiguration();
-		// image = gc.createCompatibleImage(vidWidth, kHeight);
+//		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
+//		image = gc.createCompatibleImage(vidWidth, kHeight);
 		image = new BufferedImage(vidWidth, kHeight, BufferedImage.TYPE_INT_ARGB);
 		raster = image.getRaster();
 	}
@@ -136,8 +137,9 @@ public abstract class PixelSource {
 	 *            BufferedImage.TYPE_INT_RGB.
 	 */
 	public void setImageType(int type) {
-		// GraphicsCofiguration gc = mirror.getGraphicsConfiguration();
-		// image = gc.createCompatibleImage(vidWidth, kHeight);
+//		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//		GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
+//		image = gc.createCompatibleImage(vidWidth, kHeight);
 		image = new BufferedImage(vidWidth, kHeight, type);
 		raster = image.getRaster();
 	}
@@ -148,12 +150,17 @@ public abstract class PixelSource {
 	public BufferedImage getImage() {
 		raster.setDataElements(0, 0, vidWidth, kHeight, newPixels);
 		image.setData(raster);
+		//set RGB is much slower here than the raster method and will cause problems if you
+		//are replacing the data outside a paint(g) method. The raster method is more reliable in that case
+//		image.setRGB(0, 0, vidWidth, kHeight, newPixels, 0, vidWidth);
 		return image;
 	}
 
 	/**
 	 * Gives you the video image in the form of a NEW bufferedImage (probably a little slower than getImage)
-	 * It does not affect the image gotten from getImage so they can be called at the same time
+	 * It does not affect the image gotten from getImage so they can be called at the same time.
+	 * You could also just get the array copy and create a BufferedImage with GraphicsConfiguration.createCompatibleImage<br>
+	 * and then use image.setRGB or get the raster and write to that like this method does but without the need to create a new BufferedImage all the time 
 	 */
 	public BufferedImage getImage(int[] pixelsARGB) {
 		BufferedImage newImage = new BufferedImage(vidWidth, kHeight, BufferedImage.TYPE_INT_ARGB);
@@ -172,6 +179,19 @@ public abstract class PixelSource {
 		BufferedImage newImage = new BufferedImage(vidWidth, kHeight, BufferedImage.TYPE_4BYTE_ABGR);
 		WritableRaster newRaster = newImage.getRaster();
 		newRaster.setDataElements(0, 0, vidWidth, kHeight, pixelsABGR);
+		newImage.setData(newRaster);
+		return newImage;
+	}
+	
+	/**
+	 * Gives you the video image in the form of a NEW bufferedImage of type RGB (probably a little slower than getImage)
+	 * from an array of RGB ints (NO ALPHA)
+	 * It does not affect the image gotten from getImage so they can be called at the same time.
+	 */
+	public BufferedImage getImageRGB(int[] pixelsRGB) {
+		BufferedImage newImage = new BufferedImage(vidWidth, kHeight, BufferedImage.TYPE_INT_RGB);
+		WritableRaster newRaster = newImage.getRaster();
+		newRaster.setDataElements(0, 0, vidWidth, kHeight, pixelsRGB);
 		newImage.setData(newRaster);
 		return newImage;
 	}
@@ -224,8 +244,7 @@ public abstract class PixelSource {
 	 *         the b in 3
 	 */
 	public int[] getPixel(int x, int y) {
-		//This could perhaps be faster if already packed/unpacked like the background stuff, Eiki
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		int[] rgb = new int[4];
 		rgb[redPosition] = ((newPixels[offset] >>> 16) & 0xff);
 		rgb[greenPosition] = ((newPixels[offset] >>> 8) & 0xff);
@@ -247,7 +266,7 @@ public abstract class PixelSource {
 	// return rgb;
 	// }
 	public int[] getPixelBrightness(int x, int y) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		int[] bw = new int[2];
 		bw[0] = offset;
 		bw[1] = (newPixels[offset] & 0xff);
@@ -288,13 +307,23 @@ public abstract class PixelSource {
 	 *         Blue in 3
 	 */
 	public int[] getPixel(int[] inArray, int x, int y) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		int[] rgb = new int[4];
 		rgb[redPosition] = ((inArray[offset] >>> 16) & 0xff);
 		rgb[greenPosition] = ((inArray[offset] >>> 8) & 0xff);
 		rgb[bluePosition] = ((inArray[offset]) & 0xff);
 		rgb[0] = offset;
 		return rgb;
+	}
+
+	/**
+	 * @param x
+	 * @param y
+	 * @return The offset of the pixel in the int array.
+	 */
+	public int getPixelOffset(int x, int y) {
+		int offset = y * vidWidth + x;
+		return offset;
 	}
 
 	/**
@@ -353,7 +382,7 @@ public abstract class PixelSource {
 	 * @param alpha
 	 */
 	public void setPixel(int x, int y, int red, int green, int blue, int alpha) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		newPixels[offset] = (red << redShift) + (green << greenShift) + (blue << blueShift) + (alpha << alphaShift); // this
 		// makes
 		// the
@@ -373,7 +402,7 @@ public abstract class PixelSource {
 	 * @param alpha
 	 */
 	public void setPixel(int[] inputArray, int x, int y, int red, int green, int blue, int alpha) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		inputArray[offset] = (red << redShift) + (green << greenShift) + (blue << blueShift) + (alpha << alphaShift); // this
 		// makes
 		// the
@@ -412,7 +441,7 @@ public abstract class PixelSource {
 	 * @param alpha
 	 */
 	public void setPixel(int inputArray[], int x, int y, int alpha) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		inputArray[offset] = inputArray[offset] + (alpha << alphaShift);
 	}
 
@@ -424,7 +453,7 @@ public abstract class PixelSource {
 	 * @param alpha
 	 */
 	public void setPixel(int x, int y, int alpha) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		newPixels[offset] = newPixels[offset] + (alpha << alphaShift);
 	}
 
@@ -535,19 +564,19 @@ public abstract class PixelSource {
 	}
 
 	public float[] getPixelHSB(int inArray[], int x, int y) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		return Color.RGBtoHSB((inArray[offset] & redMask) >>> redShift, (inArray[offset] & greenMask) >>> greenShift,
 				(inArray[offset] & blueMask) >>> blueShift, null);
 	}
 
 	public float[] getPixelHSB(int x, int y) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		return Color.RGBtoHSB((newPixels[offset] & redMask) >>> redShift,
 				(newPixels[offset] & greenMask) >>> greenShift, (newPixels[offset] & blueMask) >>> blueShift, null);
 	}
 
 	public int[] getBackGroundPixelSlow(int x, int y) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		int rgb[] = new int[4];
 		rgb[redPosition] = (background[offset] & redMask) >>> redShift;
 		rgb[greenPosition] = (background[offset] & greenMask) >>> greenShift;
@@ -557,7 +586,7 @@ public abstract class PixelSource {
 	}
 
 	public float[] getBackGroundPixelHSBSlow(int x, int y) {
-		int offset = y * vidWidth + x;
+		int offset = getPixelOffset(x, y);
 		return Color.RGBtoHSB((background[offset] & redMask) >>> redShift,
 				(background[offset] & greenMask) >>> greenShift, (background[offset] & blueMask) >>> blueShift, null);
 	}
@@ -586,7 +615,7 @@ public abstract class PixelSource {
 	public void unpackBackground() {
 		for (int k = 0; k < kHeight; k++) {
 			for (int i = 0; i < kWidth; i++) {
-				int offset = k * vidWidth + i;
+				int offset = getPixelOffset(i, k);
 				bbackground[offset][redPosition] = (background[offset] & redMask) >>> redShift;
 				bbackground[offset][greenPosition] = (background[offset] & greenMask) >>> greenShift;
 				bbackground[offset][bluePosition] = (background[offset] & blueMask) >>> blueShift;
@@ -598,7 +627,7 @@ public abstract class PixelSource {
 	public void unpackBackgroundNormalized() {
 		for (int k = 0; k < kHeight; k++) {
 			for (int i = 0; i < kWidth; i++) {
-				int offset = k * vidWidth + i;
+				int offset = getPixelOffset(i, k);
 				int r = (background[offset] & redMask) >>> redShift;
 				int g = (background[offset] & greenMask) >>> greenShift;
 				int b = (background[offset] & blueMask) >>> blueShift;

@@ -86,8 +86,29 @@
         <idegaweb.bundle.include>true</idegaweb.bundle.include>
       </properties>
     </dependency>
+        <!-- Eclipse compiler to speed up JGN -->
+    <dependency>
+      <groupId>org.eclipse.jdt</groupId>
+      <artifactId>core</artifactId>
+      <version>3.2.0.658</version>
+      <type>jar</type>
+      <url>http://eclipse.org</url>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency>
     <!-- JGN dependencies end -->
     
+    <dependency>
+      <groupId>gif-plugin.dev.java.net</groupId>
+      <artifactId>gif-plugin</artifactId>
+      <version>0.1</version>
+      <type>jar</type>
+      <url>http://gif-plugin.dev.java.net</url>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency>
     
    	
    	<!-- VBP, video by the pixel dependency, http://itp.nyu.edu/~dbo3/, start -->
@@ -100,7 +121,7 @@
       <properties>
         <idegaweb.bundle.include>true</idegaweb.bundle.include>
       </properties>
-    </dependency -->
+    </dependency --> 
  	<!-- VBP, video by the pixel dependency end -->
     
     

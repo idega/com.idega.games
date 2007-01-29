@@ -87,12 +87,13 @@ public class BlackJack extends Game implements VideoListener {
 		try {
 			ps = new QTLivePixelSource(videoWidth, videoHeight, 100);
 			ps.addVideoListener(this);
+			
 			ps.grabFrame();
 			BufferedImage video = ps.getImage();
 			videoSprite.setImage(video);
-			videoSprite2.setImage(video);
+			//videoSprite2.setImage(video);
 			playfield.add(videoSprite);
-			playfield.add(videoSprite2);
+			//playfield.add(videoSprite2);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

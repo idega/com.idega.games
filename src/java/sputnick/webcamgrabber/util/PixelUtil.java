@@ -1,5 +1,6 @@
 /*
- * $Id: PixelUtil.java,v 1.2 2006/05/31 17:15:36 eiki Exp $ Created on May 29, 2006
+ * $Id: PixelUtil.java,v 1.3 2007/01/29 09:08:46 eiki Exp $ Created on May 29,
+ * 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
  * 
@@ -13,7 +14,10 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.awt.image.LookupOp;
+import java.awt.image.LookupTable;
 import java.awt.image.PixelGrabber;
+import java.awt.image.ShortLookupTable;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,7 +33,8 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.Inflater;
-import quicktime.app.image.QTImageProducer;
+import javax.imageio.ImageIO;
+import nl.loremipsum.gif.filters.NeuQuantQuantizerOP;
 import com.idega.util.FileUtil;
 
 /**
@@ -270,6 +275,57 @@ public class PixelUtil {
 	}
 
 	/**
+	 * Convert pixels from java default ARGB int format to 3byte array in RGB
+	 * format.
+	 * 
+	 * @param jpixels
+	 * @return
+	 */
+	public static byte[] convertARGBto3ByteRGB(int[] aRGBPixels) {
+		byte[] bytes = new byte[aRGBPixels.length * 3]; // will hold pixels as
+		// RGB bytes
+		int j = 0;
+		int pixel;
+		for (int i = 0; i < aRGBPixels.length; i++) {
+			pixel = aRGBPixels[i];
+			// fill in bytes in RGB order
+			if (pixel != 0) {
+				bytes[j + 0] = (byte) (pixel >> 16);
+				bytes[j + 1] = (byte) (pixel >> 8);
+				bytes[j + 2] = (byte) pixel;
+			}
+			j += 3;
+		}
+		return bytes;
+	}
+	
+	/**
+	 * Convert pixels from java default ARGB int format to 4byte array in ARGB
+	 * format.
+	 * 
+	 * @param jpixels
+	 * @return
+	 */
+	public static byte[] convertARGBto4ByteARGB(int[] aRGBPixels) {
+		byte[] bytes = new byte[aRGBPixels.length * 4]; // will hold pixels as
+		// RGB bytes
+		int j = 0;
+		int pixel;
+		for (int i = 0; i < aRGBPixels.length; i++) {
+			pixel = aRGBPixels[i];
+			// fill in bytes in ARGB order
+			if (pixel != 0) {
+				bytes[j + 0] = (byte) (pixel >> 24);
+				bytes[j + 1] = (byte) (pixel >> 16);
+				bytes[j + 2] = (byte) (pixel >> 8);
+				bytes[j + 3] = (byte) pixel;
+			}
+			j += 3;
+		}
+		return bytes;
+	}
+
+	/**
 	 * Converts a byte array of pixels in AGBR format to int array of ARGB
 	 * format
 	 * 
@@ -453,7 +509,6 @@ public class PixelUtil {
 	}
 
 	public static byte[] compress(byte[] pixelByteArray) {
-		
 		// protected static Deflater compressor = new Deflater();
 		Deflater compressor = new Deflater();
 		compressor.setLevel(Deflater.BEST_COMPRESSION);
@@ -480,14 +535,37 @@ public class PixelUtil {
 		return compressedData;
 	}
 
+	public static void bytesToFile(byte[] pixelByteArray, String fileName, String path) {
+		compressToFile(pixelByteArray, fileName, path, false, false);
+	}
+
 	public static void compressToFile(byte[] pixelByteArray, String fileName, String path) {
+		compressToFile(pixelByteArray, fileName, path, true, false);
+	}
+
+	public static void compressToFileFast(byte[] pixelByteArray, String fileName, String path) {
+		compressToFile(pixelByteArray, fileName, path, true, true);
+	}
+
+	public static void compressToFile(byte[] pixelByteArray, String fileName, String path, boolean compress,
+			boolean fastCompress) {
 		// protected static Deflater compressor = new Deflater();
 		File file;
 		try {
 			file = FileUtil.getFileAndCreateIfNotExists(path, fileName);
 			FileOutputStream fileOut = new FileOutputStream(file);
 			Deflater compressor = new Deflater();
-			compressor.setLevel(Deflater.BEST_COMPRESSION);
+			if (compress) {
+				if (fastCompress) {
+					compressor.setLevel(Deflater.BEST_SPEED);
+				}
+				else {
+					compressor.setLevel(Deflater.BEST_COMPRESSION);
+				}
+			}
+			else {
+				compressor.setLevel(Deflater.NO_COMPRESSION);
+			}
 			compressor.setStrategy(Deflater.DEFAULT_STRATEGY);
 			// Give the compressor the data to compress
 			compressor.setInput(pixelByteArray);
@@ -573,7 +651,7 @@ public class PixelUtil {
 	public static void compressGzipToFile(byte[] byteIn, String fileName, String path) {
 		File file;
 		try {
-			long t1 = System.currentTimeMillis();
+			// long t1 = System.currentTimeMillis();
 			file = FileUtil.getFileAndCreateIfNotExists(path, fileName);
 			FileOutputStream fileOut = new FileOutputStream(file);
 			ByteArrayInputStream bais = new ByteArrayInputStream(byteIn);
@@ -593,8 +671,8 @@ public class PixelUtil {
 			}
 			in.close();
 			gzos.close();
-			long t2 = System.currentTimeMillis();
-			System.out.println(t2 - t1);
+			// long t2 = System.currentTimeMillis();
+			// System.out.println(t2 - t1);
 		}
 		catch (IOException io) {
 			io.printStackTrace();
@@ -624,4 +702,118 @@ public class PixelUtil {
 	public static final byte[] makeByte4FromInt(int i) {
 		return new byte[] { (byte) (i >> 24), (byte) (i >> 16), (byte) (i >> 8), (byte) i };
 	}
+
+	public static final int makeIntARGBAFromByte3RGB(byte[] b) {
+		return (255 << 24) | (b[0] & 0xff) << 16 | (b[1] & 0xff) << 8 | (b[2] & 0xff);
+	}
+
+	public static final byte[] makeByte3RGBFromIntARGB(int i) {
+		return new byte[] { (byte) (i >> 16), (byte) (i >> 8), (byte) i };
+	}
+
+	/**
+	 * Converts the int pixel array to a suitable tree array for use with
+	 * Quantizer
+	 * 
+	 * @param pixelArray
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public static int[][] convertToRGBTreeArray(int[] pixelArray, int width, int height) {
+		int pixels[][] = new int[width][height];
+		for (int x = width; x-- > 0;) {
+			for (int y = height; y-- > 0;) {
+				pixels[x][y] = pixelArray[y * width + x];
+			}
+		}
+		return pixels;
+	}
+
+	/**
+	 * Uses Quantizer to convert the image array to an image array of 256 colors
+	 * 
+	 * @param pixelArray
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public static int[] convertPixelArrayTo256ColorPixelArray(int[] pixelArray, int width, int height) {
+		return Quantize.quantizeImage(PixelUtil.convertToRGBTreeArray(pixelArray, width, height), 256);
+	}
+
+	/**
+	 * Create the filter to execute a threshold setting on the color component
+	 * values.
+	 */
+	public static BufferedImage thresholdFilter(int threshholdLevel, BufferedImage image) {
+		short[] threshold = new short[256];
+		for (int i = threshholdLevel; i < 256; i++)
+			threshold[i] = (short) i;
+		LookupTable threshold_table = new ShortLookupTable(0, threshold);
+		LookupOp threshold_op = new LookupOp(threshold_table, null);
+		return threshold_op.filter(image, image);
+	}
+
+	public static byte[] encodeImageToPNGByteArray(BufferedImage image) {
+		try {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ImageIO.write(image, "png", bos);
+			return bos.toByteArray();
+		}
+		catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param argbPixels
+	 * @param width
+	 * @param height
+	 * @param interlaced
+	 * @param colorDepth
+	 * @return
+	 */
+	public static byte[] encodePixelsToGifByteArray(BufferedImage image){
+		try {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			new NeuQuantQuantizerOP().filter(image, image);
+			ImageIO.write(image, "gif", bos);
+			return bos.toByteArray();
+		}
+		catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
+		return null;
+		
+	}
+	
+	/**
+	 * SLOW SHIT
+	 * @param image
+	 * @param pathAndFileName
+	 */
+	public static void encodePixelsToGif(BufferedImage image, String pathAndFileName) {
+		try {
+			new NeuQuantQuantizerOP().filter(image, image);
+			ImageIO.write(image, "gif", new File(pathAndFileName));
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
+	}
+
+	public static void encodePNG(BufferedImage image, String pathAndFileName) {
+		try {
+			ImageIO.write(image, "png", new File(pathAndFileName));
+		}
+		catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
+	}
+
+
 }

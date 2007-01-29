@@ -1,5 +1,5 @@
 /*
- * $Id: ImageGrabberVideoListener.java,v 1.2 2006/05/30 13:44:08 eiki Exp $
+ * $Id: ImageGrabberVideoListener.java,v 1.3 2007/01/29 09:08:45 eiki Exp $
  * Created on May 28, 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -9,9 +9,6 @@
  */
 package sputnick.webcamgrabber.util;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
 import vxp.PixelSource;
 import vxp.VideoListener;
 
@@ -52,16 +49,8 @@ public class ImageGrabberVideoListener implements VideoListener {
 	protected void grabImage() {
 		String filePathAndName = System.getProperty("user.home") + "/Sites/images/grabbedImage.gif";
 		int[] pixelArray = ps.grabFrameToArray();
-		encode(ps.getImage(pixelArray), filePathAndName);
+		PixelUtil.encodePNG(ps.getImage(pixelArray), filePathAndName);
 		// uploadToServerByFTP("darwin.idega.is","~/Sites/images","eiki.jpg","eiki","p1par",filePathAndName);
 	}
 
-	public void encode(BufferedImage image, String pathAndFileName) {
-		try {
-			ImageIO.write(image, "png", new File(pathAndFileName));
-		}
-		catch (Exception e) {
-			e.printStackTrace(System.err);
-		}
-	}
 }
